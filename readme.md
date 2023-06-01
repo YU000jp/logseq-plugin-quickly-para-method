@@ -1,10 +1,10 @@
-# Logseq Plugin: Template for TypeScript
+# Logseq Plugin: Quickly Page-tags and PARA method
 
 - Development stage 👷🚧
 
-[![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-template-typescript)](https://github.com/YU000jp/logseq-plugin-template-typescript/releases)
-[![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-template-typescript?color=blue)](https://github.com/YU000jp/logseq-plugin-template-typescript/LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-template-typescript/total.svg)](https://github.com/YU000jp/logseq-plugin-template-typescript/releases)
+[![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-page-tags)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/releases)
+[![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-page-tags?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-page-tags/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/releases)
 Published 2023
 
 ---
@@ -25,7 +25,7 @@ Published 2023
 
 - Press [`---`] on the top right toolbar to open [`Plugins`]
 - Select marketplace
-- Type '` `' in the search field, select it from the search results and install
+- Type `quickly` in the search field, select it from the search results and install
 
 ### Usage
 

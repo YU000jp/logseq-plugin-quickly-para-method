@@ -1,12 +1,12 @@
 {
-    "name": "logseq-plugin-template-typescript",
-    "description": "A template for Logseq plugin written in TypeScript",
-    "repository": "https://github.com/YU000jp/logseq-plugin-template-typescript.git",
+    "name": "logseq-plugin-quickly-page-tags",
+    "description": "",
+    "repository": "https://github.com/YU000jp/logseq-plugin-quickly-page-tags.git",
     "author": "YU000jp",
     "license": "MIT",
     "logseq": {
-        "id": "template-typescript",
-        "title": "Template TypeScript",
+        "id": "quickly-page-tags",
+        "title": "Quickly Page Tags and PARA method",
         "icon": "./icon.svg",
         "main": "./dist/index.html"
     },
