@@ -21,7 +21,9 @@
     },
     "dependencies": {
         "@logseq/libs": "^0.0.15",
-        "logseq-l10n": "^0.2.0"
+        "date-fns": "^2.30.0",
+        "logseq-l10n": "^0.2.0",
+        "sweetalert2": "^11.7.10"
     },
     "devDependencies": {
         "@semantic-release/changelog": "^6.0.3",
