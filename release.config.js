@@ -1,5 +1,5 @@
 
-var PLUGIN_NAME = 'logseq-plugin-quickly-page-tags'
+var PLUGIN_NAME = 'logseq-plugin-quickly-para-method'
 
 module.exports = {
     branches: ['main'],
