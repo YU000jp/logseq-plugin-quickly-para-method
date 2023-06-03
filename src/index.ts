@@ -1,5 +1,5 @@
 import '@logseq/libs'; //https://plugins-doc.logseq.com/
-import { AppUserConfigs, PageEntity, SettingSchemaDesc,BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
+import { AppUserConfigs, PageEntity, SettingSchemaDesc, BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
 import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
 import ja from "./translations/ja.json";
 import Swal from 'sweetalert2'; //https://sweetalert2.github.io/
@@ -148,6 +148,8 @@ const main = () => {
       }).finally(() => {
         logseq.hideMainUI();
       });
+    } else {
+      logseq.UI.showMsg("Failed (Can not get the current page)", "error");
     }
   });
 
@@ -207,11 +209,13 @@ async function addProperties(addProperty: string | undefined, addType: string) {
     const editBlockUUID: string | undefined = await updateProperties(addProperty, "tags", getCurrent.properties, addType, firstBlockUUID);
     if (editBlockUUID) {
       if ((addType === "Select" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {//指定されたPARAページに日付とリンクをつける
-        const {preferredDateFormat} = await logseq.App.getUserConfigs() as AppUserConfigs;
+        const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
         await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.name + "]]") }, 300);
       }
       logseq.UI.showMsg(`add ${addProperty} to tags`, "info");
     }
+  }else{
+    logseq.UI.showMsg(`Failed (Can not get the current page)`, "error");
   }
 }
 
