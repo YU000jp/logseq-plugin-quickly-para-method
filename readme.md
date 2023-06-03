@@ -48,6 +48,10 @@ Published 2023
 - [@logseq/libs](https://logseq.github.io/plugins/)
 - [logseq-l10n](https://github.com/sethyuan/logseq-l10n)
 
+### Logseq plugin
+
+- [Add PARA Properties Into Page](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
+
 ### Icon
 
 - [icooon-mono.com](https://icooon-mono.com/)
