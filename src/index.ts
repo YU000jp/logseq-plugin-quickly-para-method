@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'; //https://sweetalert2.github.io/
 import { format } from 'date-fns';
 let background;
 let color;
+let processing: Boolean = false;
 
 /* main */
 const main = () => {
@@ -32,136 +33,238 @@ const main = () => {
       const rootStyles = getComputedStyle(root);
       background = rootStyles.getPropertyValue("--ls-block-properties-background-color") || "#ffffff";
       color = rootStyles.getPropertyValue("--ls-primary-text-color") || "#000000";
+      setTimeout(() => {
+        const inner = document.getElementById("inner") as HTMLDivElement;
+        inner!.style.background = background;
+        inner!.style.color = color;
+      }, 100);
     }
   };
   rootThemeColor();
-  logseq.App.onThemeModeChanged(() => { rootThemeColor(); });
+  logseq.App.onThemeModeChanged(() => {
+    rootThemeColor();
+  });
   //end
 
-  logseq.App.registerPageMenuItem("🎨 Add to Projects", () => {
-    addProperties("Projects", "PARA");
-  });
-  logseq.App.registerPageMenuItem("🏠 Add to Areas of responsibility", () => {
-    addProperties("Areas of responsibility", "PARA");
-  });
-  logseq.App.registerPageMenuItem("🌍 Add to Resources", () => {
-    addProperties("Resources", "PARA");
-  });
-  logseq.App.registerPageMenuItem("🧹 Add to Archives", () => {
-    addProperties("Archives", "PARA");
-  });
-  logseq.App.registerPageMenuItem("🧺 Add a page-tag by select list", () => {
-    addProperties("", "Select");
-  });
 
-  //New Project Page
-  logseq.App.registerPageMenuItem("🧑‍💻 create New Project", async () => {
-    //dialog
-    logseq.showMainUI();
-    await Swal.fire({
-      title: 'Create new project page',
-      text: '',
-      input: 'text',
-      inputPlaceholder: 'Edit here',
-      inputValue: ``,
-      showCancelButton: true,
-      color: color,
-      background: background,
-    }).then(async (answer) => {
-      if (answer) {
-        let { value: text } = answer;
-        if (text) {
-          const obj = await logseq.Editor.getPage(text) as PageEntity | null;//ページチェック
-          if (obj === null) {//ページが存在しない
-            const createPage = await logseq.Editor.createPage(text, "", { createFirstBlock: false, redirect: true });
-            if (createPage) {
-              const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-              await RecodeDateToPage(preferredDateFormat, "Projects", " [[" + createPage.name + "]]");
-              const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags: "Projects" } });
-              if (prepend) {
-                await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
-                  await setTimeout(async function () {
-                    //ページプロパティを配列として読み込ませる処理
-                    await logseq.Editor.insertAtEditingCursor(",");
-                    await logseq.Editor.openInRightSidebar(createPage.uuid);
-                    logseq.UI.showMsg("The page is created");
-                  }, 200);
-                });
-              }
-            }
-          } else {//ページが存在していた場合
-            logseq.Editor.openInRightSidebar(text);
-            logseq.UI.showMsg("The Page already exists", "warning");
-          }
-        }
+  const app = document.getElementById('app') as HTMLDivElement;
+  const container = document.createElement('div') as HTMLDivElement;
+  container.id = 'inner';
+  container.innerHTML = `
+<ul id="displayPARA">
+<h4 id="thisPage"></h4>
+<h3>The PARA method</h3>
+<li id="Projects">🎨 Add to [[Projects]]</li>
+<li id="AreasOfResponsibility">🏠 Add to [[Areas of responsibility]]</li>
+<li id="Resources">🌍 Add to [[Resources]]</li>
+<li id="Archives">🧹 Add to [[Archives]]</li>
+</ul>
+<hr/>
+<ul>
+<h3>Others</h3>
+<li id="Select">🧺 Add a page-tag by using the selection list</li>
+<li id="ChildPage">🧒 Create the Child Page (namespaces)</li>
+<li id="NewProject">🧑‍💻 Create a page as New Project</li>
+</ul>
+<hr/>
+<ul>
+<li><button id="PARAcloseButton">Close</button></li>
+<li><small><a id="PARAsettingButton">(Plugin Settings)</a></small></li>
+</ul>
+<style>
+div#app {
+  z-index: -1;
+}
+div#inner {
+  position: fixed;
+  right:0;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 11;
+}
 
-      } else {//cancel
-        logseq.UI.showMsg("Cancel", "warning");
+div#inner ul li {
+  list-style: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+div#inner ul li:hover {
+  text-decoration: underline;
+}
+</style>
+`;
+  app.appendChild(container);
+
+  logseq.provideModel({
+    async openPARA() {
+      const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
+      if (getPage) {
+        document.getElementById('displayPARA')!.style.display = "block";
+        document.getElementById('ChildPage')!.style.display = "block";
+        document.getElementById('Select')!.style.display = "block";
+        document.getElementById('thisPage')!.innerHTML = `[[${getPage.originalName}]]`;
+      } else {
+        document.getElementById('displayPARA')!.style.display = "none";
+        document.getElementById('ChildPage')!.style.display = "none";
+        document.getElementById('Select')!.style.display = "none";
       }
-    }).finally(() => {
-      logseq.hideMainUI();
-    });
-  });
-
-  //New child page
-  logseq.App.registerPageMenuItem("🧒 create child page (for hierarchy)", async () => {
-    const currentPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
-    if (currentPage) {
-      //dialog
-      logseq.showMainUI();
-      await Swal.fire({
-        title: 'Create a child page',
-        text: 'Edit following the current page name and slash.',
-        input: 'text',
-        inputPlaceholder: 'Edit here',
-        inputValue: `${currentPage.name}/`,
-        showCancelButton: true,
-        color,
-        background,
-      }).then(async ({ value }) => {
-        if (value) {
-          let text = value;
-          if (text.endsWith("/")) {
-            text = text.slice(0, -1);
-          }
-          if (text === `${currentPage.name}/`) {//ページ名が変更されていない
-            logseq.UI.showMsg("Failed", "error");
-          } else {
-            const obj = await logseq.Editor.getPage(text) as PageEntity | null;//ページチェック
-            if (obj === null) {//ページが存在しない
-              const createPage = await logseq.Editor.createPage(text, "", { createFirstBlock: false, redirect: false });
-              if (createPage) {
-                const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-                //const ChildPageTitle = createPage.name.replace(`${currentPage.name}/`, "")
-                await RecodeDateToPage(preferredDateFormat, currentPage.name, " [[" + createPage.name + "]]");
-                logseq.Editor.openInRightSidebar(createPage.uuid);
-                logseq.UI.showMsg("The page is created");
-              }
-            } else {//ページが存在していた場合
-              logseq.Editor.openInRightSidebar(text);
-              logseq.UI.showMsg("The Page already exists", "warning");
-            }
-          }
-        } else {//cancel
-          logseq.UI.showMsg("Cancel", "warning");
-        }
-      }).finally(() => {
+      const rect = await logseq.App.queryElementRect('#openPARAbutton') as DOMRectReadOnly;
+      const inner = document.getElementById('inner') as HTMLDivElement;
+      inner.style.top = `${rect.top + 30}px`;
+      (document.getElementById('PARAcloseButton') as HTMLButtonElement)!.addEventListener('click', () => {
         logseq.hideMainUI();
       });
-    } else {
-      logseq.UI.showMsg("Failed (Can not get the current page)", "error");
-    }
+      (document.getElementById('Projects') as HTMLLIElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        addProperties("Projects", "PARA");
+      });
+      (document.getElementById('AreasOfResponsibility') as HTMLLIElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        addProperties("Areas of responsibility", "PARA");
+      });
+      (document.getElementById('Resources') as HTMLLIElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        addProperties("Resources", "PARA");
+      });
+      (document.getElementById('Archives') as HTMLLIElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        addProperties("Archives", "PARA");
+      });
+      (document.getElementById('Select') as HTMLLIElement)!.addEventListener('click', () => {
+        addProperties("", "Select");
+      });
+      (document.getElementById('ChildPage') as HTMLLIElement)!.addEventListener('click', () => {
+        createChildPage();
+      });
+      (document.getElementById('NewProject') as HTMLLIElement)!.addEventListener('click', () => {
+        createNewProject();
+      });
+      (document.getElementById('PARAsettingButton') as HTMLAnchorElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        logseq.showSettingsUI();
+      });
+      logseq.showMainUI();
+    },
   });
 
-  //TODO:
-  //設定変更を行った場合の処理
+  // external button on toolbar
+  logseq.App.registerUIItem('toolbar', {
+    key: 'openPARA', template: `<div title="Organize this page using the PARA Method" data-on-click="openPARA" style="font-size:20px" id="openPARAbutton" data-rect>🔥</div>`,
+  });
 
 
 };/* end_main */
 
 
-async function addProperties(addProperty: string | undefined, addType: string) {
+async function createNewProject() {
+  if (processing === true) return;
+  processing = true;
+  await Swal.fire({
+    title: 'Create new project page',
+    text: '',
+    input: 'text',
+    inputPlaceholder: 'Edit here',
+    inputValue: ``,
+    showCancelButton: true,
+    color: color,
+    background: background,
+  }).then(async (answer) => {
+    if (answer) {
+      let { value: text } = answer;
+      if (text) {
+        const obj = await logseq.Editor.getPage(text) as PageEntity | null; //ページチェック
+        if (obj === null) { //ページが存在しない
+          const createPage = await logseq.Editor.createPage(text, "", { createFirstBlock: false, redirect: true });
+          if (createPage) {
+            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
+            await RecodeDateToPage(preferredDateFormat, "Projects", " [[" + createPage.originalName + "]]");
+            const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags: "Projects" } });
+            if (prepend) {
+              await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
+                await setTimeout(async function () {
+                  //ページプロパティを配列として読み込ませる処理
+                  await logseq.Editor.insertAtEditingCursor(",");
+                  await logseq.Editor.openInRightSidebar(createPage.uuid);
+                  logseq.UI.showMsg("The page is created");
+                }, 200);
+              });
+            }
+          }
+        } else { //ページが存在していた場合
+          logseq.Editor.openInRightSidebar(text);
+          logseq.UI.showMsg("The Page already exists", "warning");
+        }
+      }
 
+    } else { //cancel
+      logseq.UI.showMsg("Cancel", "warning");
+    }
+  }).finally(() => {
+    logseq.hideMainUI();
+    processing = false;
+  });
+
+}
+
+async function createChildPage() {
+  if (processing === true) return;
+  processing = true;
+  const currentPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
+  if (currentPage) {
+    //dialog
+    await Swal.fire({
+      title: 'Create a child page',
+      text: 'Edit following the current page name and slash.',
+      input: 'text',
+      inputPlaceholder: 'Edit here',
+      inputValue: `${currentPage.originalName}/`,
+      showCancelButton: true,
+      color,
+      background,
+    }).then(async ({ value }) => {
+      if (value) {
+        let text = value;
+        if (text.endsWith("/")) {
+          text = text.slice(0, -1);
+        }
+        if (text === `${currentPage.originalName}/`) { //ページ名が変更されていない
+          logseq.UI.showMsg("Failed", "error");
+        } else {
+          const obj = await logseq.Editor.getPage(text) as PageEntity | null; //ページチェック
+          if (obj === null) { //ページが存在しない
+            const createPage = await logseq.Editor.createPage(text, "", { createFirstBlock: false, redirect: false });
+            if (createPage) {
+              const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
+              //const ChildPageTitle = createPage.name.replace(`${currentPage.name}/`, "")
+              await RecodeDateToPage(preferredDateFormat, currentPage.name, " [[" + createPage.originalName + "]]");
+              logseq.Editor.openInRightSidebar(createPage.uuid);
+              logseq.UI.showMsg("The page is created");
+            }
+          } else { //ページが存在していた場合
+            logseq.Editor.openInRightSidebar(text);
+            logseq.UI.showMsg("The Page already exists", "warning");
+          }
+        }
+      } else { //cancel
+        logseq.UI.showMsg("Cancel", "warning");
+      }
+    }).finally(() => {
+      logseq.hideMainUI();
+      processing = false;
+    });
+  } else {
+    logseq.UI.showMsg("Failed (Can not get the current page)", "warning");
+    processing = false;
+  }
+
+}
+
+async function addProperties(addProperty: string | undefined, addType: string) {
+  if (processing === true) return;
+  processing = true;
   //リスト選択モード
   if (addType === "Select") {
     let SettingSelectionList = logseq.settings?.SelectionList || "";
@@ -176,7 +279,6 @@ async function addProperties(addProperty: string | undefined, addType: string) {
       }
     }
     //dialog
-    logseq.showMainUI();
     await Swal.fire({
       text: 'Page-tags selection list',
       input: 'select',
@@ -197,6 +299,7 @@ async function addProperties(addProperty: string | undefined, addType: string) {
     });
   }
   if (addProperty === "") {
+    processing = false;
     return logseq.UI.showMsg(`Cancel`, "warning");//cancel
   }
   const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null;
@@ -210,13 +313,14 @@ async function addProperties(addProperty: string | undefined, addType: string) {
     if (editBlockUUID) {
       if ((addType === "Select" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {//指定されたPARAページに日付とリンクをつける
         const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-        await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.name + "]]") }, 300);
+        await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300);
       }
       logseq.UI.showMsg(`add ${addProperty} to tags`, "info");
     }
-  }else{
-    logseq.UI.showMsg(`Failed (Can not get the current page)`, "error");
+  } else {
+    logseq.UI.showMsg(`Failed (Can not get the current page)`, "warning");
   }
+  processing = false;
 }
 
 
@@ -235,9 +339,8 @@ async function updateProperties(addProperty: string, targetProperty: string, Pag
   let deleteArray = ['Projects', 'Resources', 'Areas of responsibility', 'Archives'];
   if (typeof PageProperties === "object" && PageProperties !== null) {//ページプロパティが存在した場合
     for (const [key, value] of Object.entries(PageProperties)) {//オブジェクトのキーに値がない場合は削除
-      if (!value) {
-        delete PageProperties[key];
-      }
+      if (!value) delete PageProperties[key];
+
     }
     if (addType === "PARA") {
       deleteArray = deleteArray.filter(element => element !== addProperty);//PARA: 一致するもの以外のリスト
@@ -257,17 +360,23 @@ async function updateProperties(addProperty: string, targetProperty: string, Pag
   } else {//ページプロパティが存在しない
     const prependProperties = {};
     prependProperties[targetProperty] = addProperty;
-    await logseq.Editor.insertBlock(firstBlockUUID, "", { properties: prependProperties, sibling: true, before: true, isPageBlock: true, focus: true }).then((prepend) => {
-      if (prepend) {
-        logseq.Editor.moveBlock(prepend.uuid, firstBlockUUID, { before: true, children: true });
-        editBlockUUID = prepend.uuid;
-      }
-    });
-
+    const prepend = await logseq.Editor.insertBlock(firstBlockUUID, "", { properties: prependProperties, sibling: true, before: true, isPageBlock: true, focus: true });
+    if (prepend) {
+      await logseq.Editor.moveBlock(prepend.uuid, firstBlockUUID, { before: true, children: true });
+      editBlockUUID = prepend.uuid;
+    }
   }
   await logseq.Editor.editBlock(editBlockUUID);
-  await setTimeout(function () {
+  setTimeout(function () {
     logseq.Editor.insertAtEditingCursor(",");//ページプロパティを配列として読み込ませる処理
+    setTimeout(async function () {
+      const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null;
+      if (property) {
+        //propertyから「,」をすべて取り除く
+        property.replace(/,/g, "");
+        await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property);
+      }
+    }, 200);
   }, 200);
   return editBlockUUID;
 }
@@ -286,7 +395,7 @@ const settingsTemplate: SettingSchemaDesc[] = [
   {
     key: "SelectionList",
     type: "string",
-    default: `Index,`,
+    default: "Index,ReadLATER,",
     title: "Use page-tags selection list",
     description: `Entry page titles separated by commas(,).`,
   },
