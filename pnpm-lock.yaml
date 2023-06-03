@@ -1039,9 +1039,9 @@ packages:
     resolution: {integrity: sha512-MazrFNx4plbLsGl+LFesMo96eIXkFgEtaKbnNpdh4aQ0VM10aoylFsTYP1AEjkeoRNZiiPe3T6Gl2Hr8dJWdlQ==}
     dev: true
 
-  /@octokit/plugin-paginate-rest@6.1.2(@octokit/core@4.2.1):
-    resolution: {integrity: sha512-qhrmtQeHU/IivxucOV1bbI/xZyC/iOBhclokv7Sut5vnejAIAEXVcGQeRpQlU39E0WwK9lNvJHphHri/DB6lbQ==}
-    engines: {node: '>= 14'}
+  /@octokit/plugin-paginate-rest@7.0.0(@octokit/core@4.2.1):
+    resolution: {integrity: sha512-NNm6DlYBEyKs9OZvy2Ax9YKn7e0/G7js+/I80icBTHUf6kB/nfaZkdXOF1Z32OaB+LDH6GIYpdYC3Bm3vwX5Ow==}
+    engines: {node: '>= 18'}
     peerDependencies:
       '@octokit/core': '>=4'
     dependencies:
@@ -1050,9 +1050,9 @@ packages:
       '@octokit/types': 9.2.3
     dev: true
 
-  /@octokit/plugin-retry@4.1.6(@octokit/core@4.2.1):
-    resolution: {integrity: sha512-obkYzIgEC75r8+9Pnfiiqy3y/x1bc3QLE5B7qvv9wi9Kj0R5tGQFC6QMBg1154WQ9lAVypuQDGyp3hNpp15gQQ==}
-    engines: {node: '>= 14'}
+  /@octokit/plugin-retry@5.0.0(@octokit/core@4.2.1):
+    resolution: {integrity: sha512-mfON7q30NLdivuJktZuSP6I4/WPMjc/bcoxcHEWXd4esedHTqQpp3OUq2NzD2+M+J6o33zYDtJTl4qtRYh8HQQ==}
+    engines: {node: '>= 18'}
     peerDependencies:
       '@octokit/core': '>=3'
     dependencies:
@@ -1198,15 +1198,15 @@ packages:
       - supports-color
     dev: true
 
-  /@semantic-release/github@9.0.0(semantic-release@21.0.3):
-    resolution: {integrity: sha512-ZAZTB6RGhyVHRzzXJW9Hjj4Yxagx4Lx6NqXk0AbOtIIH/mKEIwqSTYZR3iTm/KOy4/Bm5oQXIcwJ+p4+SkNWPg==}
+  /@semantic-release/github@9.0.2(semantic-release@21.0.3):
+    resolution: {integrity: sha512-FDwR9Tkz14MR/HF6srbHDuqLPUI0GmPgn4tkjfPi45/1oZedqEXC3TqSHK3+ykJmWj1sXgs94zwGI10VR5o6kg==}
     engines: {node: '>=18'}
     peerDependencies:
       semantic-release: '>=20.1.0'
     dependencies:
       '@octokit/core': 4.2.1
-      '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.1)
-      '@octokit/plugin-retry': 4.1.6(@octokit/core@4.2.1)
+      '@octokit/plugin-paginate-rest': 7.0.0(@octokit/core@4.2.1)
+      '@octokit/plugin-retry': 5.0.0(@octokit/core@4.2.1)
       '@octokit/plugin-throttling': 6.0.0(@octokit/core@4.2.1)
       '@semantic-release/error': 3.0.0
       aggregate-error: 4.0.1
@@ -1633,7 +1633,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001492
+      caniuse-lite: 1.0.30001494
       electron-to-chromium: 1.4.419
       node-releases: 2.0.12
       update-browserslist-db: 1.0.11(browserslist@4.21.7)
@@ -1685,8 +1685,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /caniuse-lite@1.0.30001492:
-    resolution: {integrity: sha512-2efF8SAZwgAX1FJr87KWhvuJxnGJKOnctQa8xLOskAXNXq8oiuqgl6u1kk3fFpsp3GgvzlRjiK1sl63hNtFADw==}
+  /caniuse-lite@1.0.30001494:
+    resolution: {integrity: sha512-sY2B5Qyl46ZzfYDegrl8GBCzdawSLT4ThM9b9F+aDYUrAG2zCOyMbd2Tq34mS1g4ZKBfjRlzOohQMxx28x6wJg==}
     dev: true
 
   /cardinal@2.1.1:
@@ -4400,7 +4400,7 @@ packages:
     dependencies:
       '@semantic-release/commit-analyzer': 10.0.0(semantic-release@21.0.3)
       '@semantic-release/error': 3.0.0
-      '@semantic-release/github': 9.0.0(semantic-release@21.0.3)
+      '@semantic-release/github': 9.0.2(semantic-release@21.0.3)
       '@semantic-release/npm': 10.0.3(semantic-release@21.0.3)
       '@semantic-release/release-notes-generator': 11.0.2(semantic-release@21.0.3)
       aggregate-error: 4.0.1
