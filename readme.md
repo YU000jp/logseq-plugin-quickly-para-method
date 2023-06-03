@@ -17,6 +17,9 @@ Published 2023
 
 ## Demo
 
+![](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/06631c5f-2875-47b7-9e35-6833af67e6ea)
+
+
 ---
 
 ## Getting Started
