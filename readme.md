@@ -1,10 +1,10 @@
-# Logseq Plugin: Quickly Page-tags and PARA method
+# Logseq Plugin: Quickly PARA Method
 
 - Development stage 👷🚧
 
-[![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-page-tags)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/releases)
-[![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-page-tags?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-page-tags/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-page-tags/releases)
+[![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
+[![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 Published 2023
 
 ---
@@ -35,17 +35,11 @@ Published 2023
 
 ## Showcase / Questions / Ideas / Help
 
-Go to the [discussion](./discussions) tab to ask and find this kind of things.
+> Go to the [discussion](./discussions) tab to ask and find this kind of things.
 
-## My plugins
+## Author
 
-- [Show Weekday and Week-number](https://github.com/YU000jp/logseq-plugin-show-weekday-and-week-number)
-- [Weekdays and Holidays (Templates)](https://github.com/YU000jp/logseq-plugin-weekdays-and-weekends)
-- [Sticky Popup](https://github.com/YU000jp/logseq-plugin-sticky-popup)
-- [SomeMenuExtender](https://github.com/YU000jp/logseq-plugin-some-menu-extender)
-- [Column Layout (UI)](https://github.com/YU000jp/Logseq-column-Layout)
-- [Panel Coloring (Color)](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-- [Page-tags and Hierarchy (UI)](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+- GitHub: [YU000jp](https://github.com/YU000jp)
 
 ## Prior art & Credit
 
@@ -57,3 +51,7 @@ Go to the [discussion](./discussions) tab to ask and find this kind of things.
 ### Icon
 
 - [icooon-mono.com](https://icooon-mono.com/)
+
+---
+
+<a href="https://www.buymeacoffee.com/yu000japan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="🍌Buy Me A Coffee" style="height: 42px;width: 152px" ></a>
