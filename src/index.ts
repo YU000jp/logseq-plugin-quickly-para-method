@@ -16,11 +16,11 @@ const main = () => {
   //   } finally {
   /* user settings */
   if (!logseq.settings) {
-    createPageFor("Projects", "🎨", true);
+    createPageFor("Projects", "✈️", true);
     createPageFor("Areas of responsibility", "🏠", true);
     createPageFor("Resources", "🌍", true);
     createPageFor("Archives", "🧹", true);
-    createPageFor("Inbox", "✉️", false);
+    createPageFor("Inbox", "📧", false);
   }
   logseq.useSettingsSchema(settingsTemplate);
   if (!logseq.settings) {
@@ -62,10 +62,10 @@ const main = () => {
 <h4 id="thisPage" title="current page name"></h4>
 <hr/>
 <h2 title="Organize this page using the PARA Method">Set page-tags property</h2>
-<li id="Inbox">to ✉️[[Inbox]]</li>
+<li id="Inbox">to 📧[[Inbox]]</li>
 <li id="Select">User Selection List</li>
 <h3>The PARA method</h3>
-<li id="Projects">to 🎨[[Projects]]</li>
+<li id="Projects">to ✈️[[Projects]]</li>
 <li id="AreasOfResponsibility">to 🏠[[Areas of responsibility]]</li>
 <li id="Resources">to 🌍[[Resources]]</li>
 <li id="Archives">to 🧹[[Archives]]</li>
@@ -75,7 +75,7 @@ const main = () => {
 <h2>Shortcut menu</h2>
 <h3>Create new page</h3>
 <li id="ChildPage">🧒 The Child Page (namespaces)</li>
-<li id="NewPageInbox">to ✉️[[Inbox]]</li>
+<li id="NewPageInbox">to 📧[[Inbox]]</li>
 <li id="NewProject" title="As New Project">to 🎨[[Projects]]</li>
 </ul>
 <hr/>
