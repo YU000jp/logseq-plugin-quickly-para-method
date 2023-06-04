@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.0...v1.0.1) (2023-06-04)
+
+
+### Bug Fixes
+
+* **Icon:** Change icons ([00f7a14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/00f7a14e827654960b64c112f9ba19cba9bd292c))
+
 # 1.0.0 (2023-06-04)
 
 
