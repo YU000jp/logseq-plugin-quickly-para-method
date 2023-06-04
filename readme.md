@@ -26,7 +26,7 @@
 ### Install from Logseq Marketplace (Coming👷🚧)
 
 - Press [`---`] on the top right toolbar to open [`Plugins`]
-- Select marketplace
+- Select `Marketplace`
 - Type `PARA` in the search field, select it from the search results and install
 
 ### Usage
@@ -37,7 +37,7 @@
 
 ## Showcase / Questions / Ideas / Help
 
-> Go to the [discussion](./discussions) tab to ask and find this kind of things.
+> Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
 
 ## Author
 
