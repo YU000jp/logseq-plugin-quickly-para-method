@@ -420,7 +420,7 @@ async function updateProperties(addProperty: string, targetProperty: string, Pag
 const settingsTemplate: SettingSchemaDesc[] = [
   {
     key: "switchPARArecodeDate",
-    title: "Record today's date on the PARA page when adding",
+    title: "Record today's date and the link to the first block of the PARA page",
     type: "boolean",
     default: true,
     description: "",
@@ -429,12 +429,12 @@ const settingsTemplate: SettingSchemaDesc[] = [
     key: "SelectionList",
     type: "string",
     default: "Index,ReadLATER,",
-    title: "Use page-tags selection list",
-    description: `Entry page titles separated by commas(,).`,
+    title: "Use page-tags Selection List",
+    description: `Entry page titles separated by commas(,)`,
   },
   {
     key: "switchRecodeDate",
-    title: "Add today's date to the first block of the page",
+    title: "Record today's date and the link to the first block of the page",
     type: "boolean",
     default: false,
     description: "",
