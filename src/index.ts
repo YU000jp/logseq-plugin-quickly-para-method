@@ -1,7 +1,7 @@
 import '@logseq/libs'; //https://plugins-doc.logseq.com/
 import { AppUserConfigs, PageEntity, SettingSchemaDesc, BlockEntity } from '@logseq/libs/dist/LSPlugin.user';
-import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
-import ja from "./translations/ja.json";
+//import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+//import ja from "./translations/ja.json";
 import Swal from 'sweetalert2'; //https://sweetalert2.github.io/
 import { format } from 'date-fns';
 let background;
@@ -10,20 +10,27 @@ let processing: Boolean = false;
 
 /* main */
 const main = () => {
-  (async () => {
-    try {
-      await l10nSetup({ builtinTranslations: { ja } });
-    } finally {
-      /* user settings */
-      logseq.useSettingsSchema(settingsTemplate);
-      if (!logseq.settings) {
-        setTimeout(() => {
-          logseq.showSettingsUI();
-        }
-          , 300);
-      }
+  //(async () => {
+  //   try {
+  //     await l10nSetup({ builtinTranslations: { ja } });
+  //   } finally {
+  /* user settings */
+  if (!logseq.settings) {
+    createPageFor("Projects", "🎨", true);
+    createPageFor("Areas of responsibility", "🏠", true);
+    createPageFor("Resources", "🌍", true);
+    createPageFor("Archives", "🧹", true);
+    createPageFor("Inbox", "✉️", false);
+  }
+  logseq.useSettingsSchema(settingsTemplate);
+  if (!logseq.settings) {
+    setTimeout(() => {
+      logseq.showSettingsUI();
     }
-  })();
+      , 300);
+  }
+  //   }
+  //})();
 
   //get theme color (For SweetAlert2)
   //checkboxなどはCSSで上書きする必要あり
@@ -52,24 +59,30 @@ const main = () => {
   container.id = 'inner';
   container.innerHTML = `
 <ul id="displayPARA">
-<h4 id="thisPage"></h4>
+<h4 id="thisPage" title="current page name"></h4>
+<hr/>
+<h2 title="Organize this page using the PARA Method">Set page-tags property</h2>
+<li id="Inbox">to ✉️[[Inbox]]</li>
+<li id="Select">User Selection List</li>
 <h3>The PARA method</h3>
-<li id="Projects">🎨 Add to [[Projects]]</li>
-<li id="AreasOfResponsibility">🏠 Add to [[Areas of responsibility]]</li>
-<li id="Resources">🌍 Add to [[Resources]]</li>
-<li id="Archives">🧹 Add to [[Archives]]</li>
+<li id="Projects">to 🎨[[Projects]]</li>
+<li id="AreasOfResponsibility">to 🏠[[Areas of responsibility]]</li>
+<li id="Resources">to 🌍[[Resources]]</li>
+<li id="Archives">to 🧹[[Archives]]</li>
 </ul>
 <hr/>
 <ul>
-<h3>Others</h3>
-<li id="Select">🧺 Add a page-tag by using the selection list</li>
-<li id="ChildPage">🧒 Create the Child Page (namespaces)</li>
-<li id="NewProject">🧑‍💻 Create a page as New Project</li>
+<h2>Shortcut menu</h2>
+<h3>Create new page</h3>
+<li id="ChildPage">🧒 The Child Page (namespaces)</li>
+<li id="NewPageInbox">to ✉️[[Inbox]]</li>
+<li id="NewProject" title="As New Project">to 🎨[[Projects]]</li>
 </ul>
 <hr/>
 <ul>
 <li><button id="PARAcloseButton">Close</button></li>
-<li><small><a id="PARAsettingButton">(Plugin Settings)</a></small></li>
+<li><small><a id="PARAsettingButton">Plugin Settings</a></small></li>
+<h4>⚓ Quickly PARA method Plugin</h4>
 </ul>
 <style>
 div#app {
@@ -77,22 +90,25 @@ div#app {
 }
 div#inner {
   position: fixed;
-  right:0;
+  right: 10px;
   border: 1px solid #eaeaea;
   border-radius: 4px;
   padding: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 11;
 }
-
 div#inner ul li {
   list-style: none;
   padding: 4px 8px;
   cursor: pointer;
 }
-
 div#inner ul li:hover {
   text-decoration: underline;
+}
+button#PARAcloseButton {
+  font-size: 1.2em;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 </style>
 `;
@@ -117,6 +133,10 @@ div#inner ul li:hover {
       (document.getElementById('PARAcloseButton') as HTMLButtonElement)!.addEventListener('click', () => {
         logseq.hideMainUI();
       });
+      (document.getElementById('Inbox') as HTMLLIElement)!.addEventListener('click', () => {
+        logseq.hideMainUI();
+        addProperties("Inbox", "");
+      });
       (document.getElementById('Projects') as HTMLLIElement)!.addEventListener('click', () => {
         logseq.hideMainUI();
         addProperties("Projects", "PARA");
@@ -140,7 +160,10 @@ div#inner ul li:hover {
         createChildPage();
       });
       (document.getElementById('NewProject') as HTMLLIElement)!.addEventListener('click', () => {
-        createNewProject();
+        createNewPageAs('Create new project page', "Projects");
+      });
+      (document.getElementById('NewPageInbox') as HTMLLIElement)!.addEventListener('click', () => {
+        createNewPageAs("Create new page to Inbox", "Inbox");
       });
       (document.getElementById('PARAsettingButton') as HTMLAnchorElement)!.addEventListener('click', () => {
         logseq.hideMainUI();
@@ -152,19 +175,29 @@ div#inner ul li:hover {
 
   // external button on toolbar
   logseq.App.registerUIItem('toolbar', {
-    key: 'openPARA', template: `<div title="Organize this page using the PARA Method" data-on-click="openPARA" style="font-size:20px" id="openPARAbutton" data-rect>🔥</div>`,
+    key: 'openPARA', template: `<div title="Open the menu for Quickly PARA Method Plugin" data-on-click="openPARA" style="font-size:20px" id="openPARAbutton" data-rect>⚓</div>`,
   });
 
 
 };/* end_main */
 
 
-async function createNewProject() {
+async function createPageFor(name: string, icon: string, para: boolean) {
+  const getPage = await logseq.Editor.getPage(name) as PageEntity | null;
+  if (getPage === null) {
+    if (para === true) {
+      logseq.Editor.createPage(name, { icon, tags: "The PARA Method" }, { createFirstBlock: true, });
+    } else {
+      logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, });
+    }
+  }
+}
+
+async function createNewPageAs(title: string, tags: string) {
   if (processing === true) return;
   processing = true;
   await Swal.fire({
-    title: 'Create new project page',
-    text: '',
+    title,
     input: 'text',
     inputPlaceholder: 'Edit here',
     inputValue: ``,
@@ -180,15 +213,15 @@ async function createNewProject() {
           const createPage = await logseq.Editor.createPage(text, "", { createFirstBlock: false, redirect: true });
           if (createPage) {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-            await RecodeDateToPage(preferredDateFormat, "Projects", " [[" + createPage.originalName + "]]");
-            const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags: "Projects" } });
+            await RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]");
+            const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags } });
             if (prepend) {
               await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
-                await setTimeout(async function () {
+                await setTimeout(function () {
                   //ページプロパティを配列として読み込ませる処理
-                  await logseq.Editor.insertAtEditingCursor(",");
-                  await logseq.Editor.openInRightSidebar(createPage.uuid);
-                  logseq.UI.showMsg("The page is created");
+                  logseq.Editor.insertAtEditingCursor(",");
+                  logseq.Editor.openInRightSidebar(createPage.uuid);
+                  logseq.UI.showMsg("Create a new page", "success");
                 }, 200);
               });
             }
@@ -280,10 +313,10 @@ async function addProperties(addProperty: string | undefined, addType: string) {
     }
     //dialog
     await Swal.fire({
-      text: 'Page-tags selection list',
+      title: 'Page-tags Selection list',
       input: 'select',
       inputOptions: SelectionListObj,
-      inputPlaceholder: 'Select a page-tag (Add to page-tags property of the page)',
+      inputPlaceholder: 'Select a page-tag',
       showCancelButton: true,
       color,
       background,
@@ -311,7 +344,7 @@ async function addProperties(addProperty: string | undefined, addType: string) {
     const firstBlockUUID: string = getCurrentTree[0].uuid;
     const editBlockUUID: string | undefined = await updateProperties(addProperty, "tags", getCurrent.properties, addType, firstBlockUUID);
     if (editBlockUUID) {
-      if ((addType === "Select" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {//指定されたPARAページに日付とリンクをつける
+      if (((addType === "Select" || addType === "") && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {//指定されたPARAページに日付とリンクをつける
         const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
         await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300);
       }
