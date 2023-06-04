@@ -62,9 +62,9 @@
 - [@logseq/libs](https://logseq.github.io/plugins/)
 - [logseq-l10n](https://github.com/sethyuan/logseq-l10n)
 
-### Logseq plugin
+### Logseq-plugin
 
-- [Add PARA Properties Into Page](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
+- [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
 
 ### Icon
 
