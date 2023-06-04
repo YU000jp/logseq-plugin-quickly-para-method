@@ -4,6 +4,8 @@
 
 > Development stage 👷🚧
 
+> This plugin still has room for improvement. Please let me know if you encounter any issues or have any ideas for enhancement.
+
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
 [![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
@@ -13,9 +15,11 @@
 
 ## Features
 
-### Feature A
+### Set page-tgas property to the page for the PARA Method
 
-### Feature B
+### Use User Selection List
+
+- Quickly add as page-tags property to current page
 
 ## Demo
 
@@ -31,9 +35,11 @@
 - Select `Marketplace`
 - Type `PARA` in the search field, select it from the search results and install
 
+   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/f5d9db3a-3022-49ca-a42c-10328b6312f9)
+
 ### Usage
 
-- 
+- Open the menu on click the top toolbar button `⚓`
 
 ---
 
