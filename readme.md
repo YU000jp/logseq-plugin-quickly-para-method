@@ -1,6 +1,8 @@
 # Logseq Plugin: Quickly PARA Method
 
-- Development stage 👷🚧
+- This plugin is designed to provide workflows for the PARA method. It quickly adds page-tags property.
+
+> Development stage 👷🚧
 
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
