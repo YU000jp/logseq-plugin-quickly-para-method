@@ -361,7 +361,7 @@ async function RecodeDateToPage(userDateFormat, ToPageName, pushPageLink) {
   const blocks = await logseq.Editor.getPageBlocksTree(ToPageName) as BlockEntity[];
   if (blocks) {
     //PARAページの先頭行の下に追記
-    const content = format(new Date(), userDateFormat) + pushPageLink;
+    const content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink;
     await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false });
   }
 }
@@ -370,47 +370,55 @@ async function RecodeDateToPage(userDateFormat, ToPageName, pushPageLink) {
 async function updateProperties(addProperty: string, targetProperty: string, PageProperties, addType: string, firstBlockUUID: string) {
   let editBlockUUID;
   let deleteArray = ['Projects', 'Resources', 'Areas of responsibility', 'Archives'];
-  if (typeof PageProperties === "object" && PageProperties !== null) {//ページプロパティが存在した場合
-    for (const [key, value] of Object.entries(PageProperties)) {//オブジェクトのキーに値がない場合は削除
-      if (!value) delete PageProperties[key];
+  if (PageProperties !== null) {
+    if (typeof PageProperties === "object") {//ページプロパティが存在した場合
+      for (const [key, value] of Object.entries(PageProperties)) {//オブジェクトのキーに値がない場合は削除
+        if (!value) delete PageProperties[key];
 
-    }
-    if (addType === "PARA") {
-      deleteArray = deleteArray.filter(element => element !== addProperty);//PARA: 一致するもの以外のリスト
-    }
-    let PropertiesArray = PageProperties[targetProperty] || [];
-    if (PropertiesArray) {
+      }
       if (addType === "PARA") {
-        PropertiesArray = PropertiesArray.filter(property => !deleteArray.includes(property));//PARA: タグの重複削除
+        deleteArray = deleteArray.filter(element => element !== addProperty);//PARA: 一致するもの以外のリスト
       }
-      PropertiesArray = [...PropertiesArray, addProperty];
-    } else {
-      PropertiesArray = [addProperty];
-    }
-    PropertiesArray = [...new Set(PropertiesArray)];//タグの重複削除
-    await logseq.Editor.upsertBlockProperty(firstBlockUUID, targetProperty, PropertiesArray);
-    editBlockUUID = firstBlockUUID;
-  } else {//ページプロパティが存在しない
-    const prependProperties = {};
-    prependProperties[targetProperty] = addProperty;
-    const prepend = await logseq.Editor.insertBlock(firstBlockUUID, "", { properties: prependProperties, sibling: true, before: true, isPageBlock: true, focus: true });
-    if (prepend) {
-      await logseq.Editor.moveBlock(prepend.uuid, firstBlockUUID, { before: true, children: true });
-      editBlockUUID = prepend.uuid;
-    }
-  }
-  await logseq.Editor.editBlock(editBlockUUID);
-  setTimeout(function () {
-    logseq.Editor.insertAtEditingCursor(",");//ページプロパティを配列として読み込ませる処理
-    setTimeout(async function () {
-      const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null;
-      if (property) {
-        //propertyから「,」をすべて取り除く
-        property.replace(/,/g, "");
-        await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property);
+      let PropertiesArray = PageProperties[targetProperty] || [];
+      if (PropertiesArray) {
+        if (addType === "PARA") {
+          PropertiesArray = PropertiesArray.filter(property => !deleteArray.includes(property));//PARA: タグの重複削除
+        }
+        PropertiesArray = [...PropertiesArray, addProperty];
+      } else {
+        PropertiesArray = [addProperty];
       }
+      PropertiesArray = [...new Set(PropertiesArray)];//タグの重複削除
+      await logseq.Editor.upsertBlockProperty(firstBlockUUID, targetProperty, PropertiesArray);
+      editBlockUUID = firstBlockUUID;
+    } else {//ページプロパティが存在しない
+      const prependProperties = {};
+      prependProperties[targetProperty] = addProperty;
+      const prepend = await logseq.Editor.insertBlock(firstBlockUUID, "", { properties: prependProperties, sibling: true, before: true, isPageBlock: true, focus: true });
+      if (prepend) {
+        await logseq.Editor.moveBlock(prepend.uuid, firstBlockUUID, { before: true, children: true });
+        editBlockUUID = prepend.uuid;
+      }
+    }
+    await logseq.Editor.editBlock(editBlockUUID);
+    setTimeout(function () {
+      logseq.Editor.insertAtEditingCursor(",");//ページプロパティを配列として読み込ませる処理
+      setTimeout(async function () {
+        const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null;
+        if (property) {
+          //propertyから「,」をすべて取り除く
+          property.replace(/,/g, "");
+          await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property);
+          let tagsProperty = await logseq.Editor.getBlockProperty(editBlockUUID, "tags") as string | null;
+          if (tagsProperty) {
+            //tagsPropertyの最後に「,」を追加
+            await logseq.Editor.upsertBlockProperty(editBlockUUID, "tags", tagsProperty);
+            logseq.Editor.insertAtEditingCursor(",");//ページプロパティを配列として読み込ませる処理
+          }
+        }
+      }, 200);
     }, 200);
-  }, 200);
+  }
   return editBlockUUID;
 }
 
