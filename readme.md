@@ -15,7 +15,7 @@
 
 ## Features
 
-### Set page-tgas property to the page for the PARA Method
+### Set page-tags property to the page for the PARA Method
 
 ### Use User Selection List
 
