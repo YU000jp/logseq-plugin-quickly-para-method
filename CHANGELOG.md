@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.2...v1.1.0) (2023-06-07)
+
+
+### Features
+
+* **plugin settings:** Add `Use a DONE marker when recordings on the Archives page` ([e668d03](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/e668d030c78391970fba6f960987bfe3940165a6))
+
 ## [1.0.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.1...v1.0.2) (2023-06-07)
 
 
