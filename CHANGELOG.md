@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.1...v1.0.2) (2023-06-07)
+
+
+### Bug Fixes
+
+* **bug:** recode the date (link) & set page-tags property ([388aba8](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/388aba8e5f9c950605df3dfb80809af10acc59b5))
+
 ## [1.0.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.0...v1.0.1) (2023-06-04)
 
 
