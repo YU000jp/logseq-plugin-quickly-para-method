@@ -357,11 +357,16 @@ async function addProperties(addProperty: string | undefined, addType: string) {
 }
 
 
-async function RecodeDateToPage(userDateFormat, ToPageName, pushPageLink) {
-  const blocks = await logseq.Editor.getPageBlocksTree(ToPageName) as BlockEntity[];
+async function RecodeDateToPage(userDateFormat, targetPageName, pushPageLink) {
+  const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[];
   if (blocks) {
     //PARAページの先頭行の下に追記
-    const content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink;
+    let content;
+    if (logseq.settings!.archivesDone === true && targetPageName === "Archives") {
+      content = "DONE [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink;
+    } else {
+      content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink;
+    }
     await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false });
   }
 }
@@ -443,6 +448,13 @@ const settingsTemplate: SettingSchemaDesc[] = [
   {
     key: "switchRecodeDate",
     title: "Record today's date and the link to the first block of the page",
+    type: "boolean",
+    default: false,
+    description: "",
+  },
+  {
+    key: "archivesDone",
+    title: "Use a DONE marker when recording on the Archives page",
     type: "boolean",
     default: false,
     description: "",
