@@ -42,7 +42,7 @@
    - `false`
 - Use page-tags Selection List: text
    > Entry page titles separated by commas(,)
-   - `Index,ReadLATER,` default
+   - `Index,` default
 
 - Record today's date and the link to the first block of the page
    - `true`
