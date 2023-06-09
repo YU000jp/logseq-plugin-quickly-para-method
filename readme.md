@@ -13,11 +13,17 @@
 
 ---
 
+## Link
+
+- About `the PARA Method`
+
+   1. [PARA Method Workflowy guide](https://workflowy.com/systems/para-method/)
+
 ## Feature
 
-### Set page-tags property from the menu
+- Set page-tags property from the menu
 
-![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/06631c5f-2875-47b7-9e35-6833af67e6ea)
+   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/06631c5f-2875-47b7-9e35-6833af67e6ea)
 
 ---
 
@@ -60,10 +66,6 @@
 ## Author
 
 - GitHub: [YU000jp](https://github.com/YU000jp)
-
-## Link
-
-- [PARA Method Workflowy guide](https://workflowy.com/systems/para-method/)
 
 ## Prior art & Credit
 
