@@ -35,6 +35,22 @@
 
 - Open the menu on click the top toolbar button `⚓`
 
+### Plugin Settings
+
+- Record today's date and the link to the first block of the PARA page: boolean
+   - `true` default
+   - `false`
+- Use page-tags Selection List: text
+   > Entry page titles separated by commas(,)
+   - `Index,ReadLATER,` default
+
+- Record today's date and the link to the first block of the page
+   - `true`
+   - `false` default
+- Use a DONE marker when recording on the Archives page
+   - `true`
+   - `false` default
+
 ---
 
 ## Showcase / Questions / Ideas / Help
