@@ -69,11 +69,6 @@
 
 ## Prior art & Credit
 
-### Library
-
-- [@logseq/libs](https://logseq.github.io/plugins/)
-- [logseq-l10n](https://github.com/sethyuan/logseq-l10n)
-
 ### Logseq-plugin
 
 - [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
