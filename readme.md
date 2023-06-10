@@ -23,7 +23,7 @@
 
 - Set page-tags property from the menu
 
-   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/06631c5f-2875-47b7-9e35-6833af67e6ea)
+   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
 
 ---
 
