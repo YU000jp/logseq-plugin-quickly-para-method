@@ -15,7 +15,7 @@
 
 ## Link
 
-- About `the PARA Method`
+- About `The PARA Method`
 
    1. [PARA Method Workflowy guide](https://workflowy.com/systems/para-method/)
 
