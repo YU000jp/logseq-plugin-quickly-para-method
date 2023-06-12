@@ -7,7 +7,7 @@
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
 [![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
- <!-- Published 2023/06/10 -->
+ Published 2023/06/12
 
 ---
 
@@ -27,13 +27,13 @@
 
 ## Getting Started
 
-### Install from Logseq Marketplace (Coming👷🚧)
+### Install from Logseq Marketplace
 
 - Press [`---`] on the top right toolbar to open [`Plugins`]
 - Select `Marketplace`
 - Type `PARA` in the search field, select it from the search results and install
 
-   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/f5d9db3a-3022-49ca-a42c-10328b6312f9)
+   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a6d4337a-2454-4ca4-8a1d-a0d9ca4e9ac2)
 
 ### Usage
 
