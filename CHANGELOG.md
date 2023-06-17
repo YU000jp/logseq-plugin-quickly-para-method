@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.0...v1.1.1) (2023-06-17)
+
+
+### Bug Fixes
+
+* **bug:** on click the toolbar button ([8f19f03](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/8f19f03feaf01d01adfce42e2813d1a56da12df4))
+
 # [1.1.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.0.2...v1.1.0) (2023-06-07)
 
 
