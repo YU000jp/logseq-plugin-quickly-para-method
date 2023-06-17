@@ -175,7 +175,8 @@ button#PARAcloseButton {
 
   // external button on toolbar
   logseq.App.registerUIItem('toolbar', {
-    key: 'openPARA', template: `<div title="Open the menu for Quickly PARA Method Plugin" data-on-click="openPARA" style="font-size:20px" id="openPARAbutton" data-rect>⚓</div>`,
+    key: 'openPARA',
+    template: `<div id="openPARAbutton" data-rect><a class="button icon" data-on-click="openPARA" title="Open the menu for Quickly PARA Method Plugin" style="font-size:20px">⚓</a></div>`,
   });
 
 
