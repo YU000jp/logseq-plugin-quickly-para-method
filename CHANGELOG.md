@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.1...v1.1.2) (2023-06-18)
+
+
+### Bug Fixes
+
+* **refactor:** Remove sweetalert2 lib ([d5d18b1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/d5d18b13ec790426af2aafda8e9cbc2630bd7cb0))
+
 ## [1.1.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.0...v1.1.1) (2023-06-17)
 
 
