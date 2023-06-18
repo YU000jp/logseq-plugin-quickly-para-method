@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.2...v1.1.3) (2023-06-18)
+
+
+### Bug Fixes
+
+* **refactor:** Cleanup ([412be91](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/412be919bbb285e4166e5bb426ae014283986ab2))
+
 ## [1.1.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.1...v1.1.2) (2023-06-18)
 
 
