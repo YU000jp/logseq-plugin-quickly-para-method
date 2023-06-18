@@ -3,11 +3,11 @@ import { AppUserConfigs, PageEntity, SettingSchemaDesc, BlockEntity } from '@log
 //import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
 //import ja from "./translations/ja.json";
 import { format } from 'date-fns';
-import { get } from 'http';
 const key = "openQuickly";
 
 /* main */
 const main = () => {
+  const popup = logseq.baseInfo.id + `--${key}`;
   //(async () => {
   //   try {
   //     await l10nSetup({ builtinTranslations: { ja } });
@@ -39,7 +39,7 @@ const main = () => {
 
   logseq.provideModel({
     openPARA() {
-      if (!parent.document.getElementById(key)) openPARAfromToolbar();
+      if (!parent.document.getElementById(popup)) openPARAfromToolbar();
     },
     Inbox() {
       addProperties("Inbox", "");
@@ -78,7 +78,6 @@ const main = () => {
     },
   });
 
-  const popup = logseq.baseInfo.id + `--${key}`;
   logseq.provideStyle(`
   div#${popup} input {
       background: var(--ls-primary-background-color);
@@ -144,7 +143,7 @@ async function openPARAfromToolbar() {
   <li><button data-on-click="Inbox">to 📧[[Inbox]]</button></li>
   <li>${select}</li>
   `;
-    if (getPage.originalName === "Projects" || getPage.originalName === "Area of responsibility" || getPage.originalName === "Resources" || getPage.originalName === "Archives") {
+    if (getPage.originalName === "Projects" || getPage.originalName === "Areas of responsibility" || getPage.originalName === "Resources" || getPage.originalName === "Archives") {
       //not show
     } else {
       template += `
@@ -410,16 +409,11 @@ async function updateProperties(addProperty: string, targetProperty: string, Pag
     if (typeof PageProperties === "object") {//ページプロパティが存在した場合
       for (const [key, value] of Object.entries(PageProperties)) {//オブジェクトのキーに値がない場合は削除
         if (!value) delete PageProperties[key];
-
       }
-      if (addType === "PARA") {
-        deleteArray = deleteArray.filter(element => element !== addProperty);//PARA: 一致するもの以外のリスト
-      }
+      if (addType === "PARA") deleteArray = deleteArray.filter(element => element !== addProperty);//PARA: 一致するもの以外のリスト
       let PropertiesArray = PageProperties[targetProperty] || [];
       if (PropertiesArray) {
-        if (addType === "PARA") {
-          PropertiesArray = PropertiesArray.filter(property => !deleteArray.includes(property));//PARA: タグの重複削除
-        }
+        if (addType === "PARA") PropertiesArray = PropertiesArray.filter(property => !deleteArray.includes(property));//PARA: タグの重複削除
         PropertiesArray = [...PropertiesArray, addProperty];
       } else {
         PropertiesArray = [addProperty];
