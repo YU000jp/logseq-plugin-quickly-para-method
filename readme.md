@@ -39,6 +39,8 @@
 
 - Open the menu on click the top toolbar button `⚓`
 
+> The menu varies in its content depending on whether the single page is open or not.
+
 ### Plugin Settings
 
 - Record today's date and the link to the first block of the PARA page: boolean
