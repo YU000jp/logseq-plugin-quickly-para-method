@@ -35,6 +35,10 @@
 
    ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a6d4337a-2454-4ca4-8a1d-a0d9ca4e9ac2)
 
+### Recommended with
+
+1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+
 ### Usage
 
 - Open the menu on click the top toolbar button `⚓`
