@@ -38,47 +38,83 @@ const main = () => {
 
 
   logseq.provideModel({
-    openPARA() {
+    openPARA: () => {
       if (!parent.document.getElementById(popup)) openPARAfromToolbar();
     },
-    Inbox() {
-      addProperties("Inbox", "");
+    Inbox: () => {
+      addProperties("Inbox", "INBOX");
     },
-    Projects() {
+    Projects: () => {
       addProperties("Projects", "PARA");
     },
-    AreasOfResponsibility() {
+    AreasOfResponsibility: () => {
       addProperties("Areas of responsibility", "PARA");
     },
-    Resources() {
+    Resources: () => {
       addProperties("Resources", "PARA");
     },
-    Archives() {
+    Archives: () => {
       addProperties("Archives", "PARA");
     },
-    selectionListSendButton() {
+    selectionListSendButton: () => {
       //<select id="selectionListSelect">で選択された値を取得
       const selectionListValue: string = (parent.document.getElementById('selectionListSelect') as HTMLSelectElement)!.value;
       if (selectionListValue) addProperties(selectionListValue, "Select");
     },
-    ChildPage() {
+    ChildPage: async () => {
       removePopup();
-      createChildPage();
+      const currentPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
+      if (currentPage) createChildPage(currentPage);
     },
-    NewProject() {
+    NewProject: () => {
       removePopup();
-      createNewPageAs('✈️ New project page', "Projects");
+      createNewPageAs('✈️ Create new project page and put inside [[Projects]]', "Projects");
     },
-    NewPageInbox() {
+    NewPageInbox: () => {
       removePopup();
-      createNewPageAs("📧 To Inbox", "Inbox");
+      createNewPageAs("📧 Create new page and put inside [[Inbox]]", "Inbox");
     },
-    PARAsettingButton() {
+    PARAsettingButton: () => {
       logseq.showSettingsUI();
     },
   });
 
+
+  //slash command menu
+  if (logseq.settings?.slashCommandMenu === true) {
+    logseq.Editor.registerSlashCommand('📧 Put inside [[Inbox]]', async ({ uuid }) => {
+      slashCommand(uuid, "Inbox", "INBOX");
+    });
+    logseq.Editor.registerSlashCommand('✈️ As [[Projects]] (Add to page-tags)', async ({ uuid }) => {
+      slashCommand(uuid, "Projects", "PARA");
+    });
+    logseq.Editor.registerSlashCommand('🏠 As [[Areas of responsibility]] (Add to page-tags)', async ({ uuid }) => {
+      slashCommand(uuid, "Areas of responsibility", "PARA");
+    });
+    logseq.Editor.registerSlashCommand('🌍 As [[Resources]] (Add to page-tags)', async ({ uuid }) => {
+      slashCommand(uuid, "Resources", "PARA");
+    });
+    logseq.Editor.registerSlashCommand('🧹 As [[Archives]] (Add to page-tags)', async ({ uuid }) => {
+      slashCommand(uuid, "Archives", "PARA");
+    });
+    logseq.Editor.registerSlashCommand('🧒 The Child Page (namespaces)', async ({ uuid }) => {
+      const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null;
+      if (page) createChildPage(page);
+    });
+    logseq.Editor.registerSlashCommand('📧 Create new page and put inside [[Inbox]]', async () => {
+      createNewPageAs("📧 Create new page and put inside [[Inbox]]", "Inbox");
+    });
+    logseq.Editor.registerSlashCommand('✈️ Create new project page and put inside [[Projects]]', async () => {
+      createNewPageAs('✈️ New project page', "Projects");
+    });
+  }
+
+
   logseq.provideStyle(`
+  div#${logseq.baseInfo.id}--${key} div.th h3 {
+    max-width: 80%;
+    text-overflow: ellipsis;
+  }
   div#${popup} input {
       background: var(--ls-primary-background-color);
       color: var(--ls-primary-text-color);
@@ -124,6 +160,33 @@ const main = () => {
 
 };/* end_main */
 
+async function getPageEntityFromBlockUuid(uuid: string) {
+  const block = await logseq.Editor.getBlock(uuid) as BlockEntity | null;
+  if (!block) return;
+  const pageTitleRightSidebar = parent.document.querySelector(`div#right-sidebar div.sidebar-item.content:has(div[blockid="${block.uuid}"]) a.page-title`) as HTMLAnchorElement | null;
+  const rightSidebar: Boolean = (pageTitleRightSidebar && pageTitleRightSidebar!.textContent) ? true : false;
+  const pageTitleContentPage = parent.document.querySelector(`div#main-content-container div.content:has(div[blockid="${block.uuid}"]) :is(a.title)`) as HTMLAnchorElement | null;
+  const ContentPage: Boolean = (pageTitleContentPage && pageTitleContentPage!.textContent) ? true : false;
+  if (ContentPage || rightSidebar) {
+    const pageTitle = rightSidebar ? pageTitleRightSidebar!.textContent : pageTitleContentPage!.textContent;
+    if (pageTitle) {
+      return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null;
+    }
+  }
+}
+
+async function slashCommand(uuid: string, addProperty: string, addType: string) {
+  //右サイドバーに開いたブロックからスラッシュコマンドを実行した場合の処理
+  const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null;
+  if (page) {
+    //cancel same page
+    if (page.originalName === addProperty) return logseq.UI.showMsg(`Need not add current page to page-tags.`, "warning");
+    //INBOXを覗いてジャーナルはキャンセル
+    if (addType !== "INBOX" && page['journal?'] === true) return logseq.UI.showMsg(`Can not add journal page to page-tags.`, "warning");
+    const getCurrentTree = await logseq.Editor.getPageBlocksTree(page.originalName) as BlockEntity[] | null;
+    if (getCurrentTree) await updatePageProperty(addProperty, page, addType, getCurrentTree[0].uuid);
+  }
+}
 
 async function openPARAfromToolbar() {
 
@@ -143,22 +206,22 @@ async function openPARAfromToolbar() {
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
   if (getPage) {
     template = `
-  <div>
+  <div title="">
   <p title="The title of current page">[[${getPage.originalName}]]</p>
   <ul>
+  <li><button data-on-click="Inbox">/📧 Put inside [[Inbox]]</button></li>
   <h2>Set page-tags property</h2>
-  <li><button data-on-click="Inbox">to 📧[[Inbox]]</button></li>
+
   <li>${select}</li>
   `;
     if (getPage.originalName === "Projects" || getPage.originalName === "Areas of responsibility" || getPage.originalName === "Resources" || getPage.originalName === "Archives") {
       //not show
     } else {
       template += `
-  <h3 title="Organize this page using the PARA Method">The PARA method</h3>
-  <li><button data-on-click="Projects">to ✈️[[Projects]]</button></li>
-  <li><button data-on-click="AreasOfResponsibility">to 🏠[[Areas of responsibility]]</button></li>
-  <li><button data-on-click="Resources">to 🌍[[Resources]]</button></li>
-  <li><button data-on-click="Archives">to 🧹[[Archives]]</button></li>
+  <li><button data-on-click="Projects">/✈️ As [[Projects]]</button></li>
+  <li><button data-on-click="AreasOfResponsibility">/🏠 As [[Areas of responsibility]]</button></li>
+  <li><button data-on-click="Resources">/🌍 As [[Resources]]</button></li>
+  <li><button data-on-click="Archives">/🧹As [[Archives]]</button></li>
   `;
     }
     template += `
@@ -167,20 +230,20 @@ async function openPARAfromToolbar() {
   <ul>
   <h2>Shortcut menu</h2>
   <h3>Create new page</h3>
-  <li><button data-on-click="ChildPage">🧒 The Child Page (namespaces)</button></li>
-  <li><button data-on-click="NewPageInbox">to 📧[[Inbox]]</button></li>
-  <li><button data-on-click="NewProject" title="As New Project">to ✈️[[Projects]]</button></li>
+  <li><button data-on-click="ChildPage">/🧒 The Child Page (namespaces)</button></li>
+  <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
+  <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li>
   </ul>
       `;
     height = "690px";
   } else {
     template = `
-    <div>
+    <div title="">
     <ul>
     <h2>Shortcut menu</h2>
     <h3>Create new page</h3>
-    <li><button data-on-click="NewPageInbox">to 📧[[Inbox]]</button></li>
-    <li><button data-on-click="NewProject" title="Create new page As New Project">to ✈️[[Projects]]</button></li>
+    <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
+    <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li>
     </ul>
   
         `;
@@ -271,16 +334,18 @@ async function createNewPageAs(title: string, tags: string) {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
             await RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]");
             //ページプロパティの指定
-            const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags } });
-            if (prepend) {
-              await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
-                await setTimeout(function () {
-                  //ページプロパティを配列として読み込ませる処理
-                  logseq.Editor.insertAtEditingCursor(",");
-                  logseq.Editor.openInRightSidebar(createPage.uuid);
-                  logseq.UI.showMsg("Create a new page", "success");
-                }, 200);
-              });
+            if (tags !== "Inbox") {
+              const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags } });
+              if (prepend) {
+                await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
+                  await setTimeout(function () {
+                    //ページプロパティを配列として読み込ませる処理
+                    logseq.Editor.insertAtEditingCursor(",");
+                    logseq.Editor.openInRightSidebar(createPage.uuid);
+                    logseq.UI.showMsg("Create a new page", "success");
+                  }, 200);
+                });
+              }
             }
           }
         } else { //ページが存在していた場合
@@ -301,98 +366,101 @@ function removePopup() {
   if (element) element.remove();
 }
 
-async function createChildPage() {
-  const currentPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
-  if (currentPage) {
-    logseq.provideUI({
-      attrs: {
-        title: "🧒 Edit following",
-      },
-      key,
-      reset: true,
-      template: `
+async function createChildPage(currentPage: PageEntity) {
+
+  logseq.provideUI({
+    attrs: {
+      title: "🧒 Edit following",
+    },
+    key,
+    reset: true,
+    template: `
         <p>New Page Title: <input id="newPageTitle" type="text" style="width:340px" value="${currentPage.originalName}/"/>
         <button id="CreatePageButton">Submit</button></p>
         `,
-      style: {
-        width: "640px",
-        height: "150px",
-        left: "unset",
-        bottom: "unset",
-        right: "1em",
-        top: "4em",
-        paddingLeft: "1.8em",
-        paddingTop: "1.4em",
-        backgroundColor: 'var(--ls-primary-background-color)',
-        color: 'var(--ls-primary-text-color)',
-        boxShadow: '1px 2px 5px var(--ls-secondary-background-color)',
-      },
-    });
-    setTimeout(() => {
-      const button = parent.document.getElementById("CreatePageButton") as HTMLButtonElement;
-      if (button) {
-        let processing: Boolean = false;
-        button.addEventListener("click", async () => {
-          if (processing) return;
-          processing = true;
-          let inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value;
-          if (!inputTitle || inputTitle === `${currentPage.originalName}/`) {
-            processing = false;
-            return;
-          }
-
-          if (inputTitle.endsWith("/")) inputTitle = inputTitle.slice(0, -1);
-          const obj = await logseq.Editor.getPage(inputTitle) as PageEntity | null; //ページチェック
-          if (obj === null) { //ページが存在しない
-            const createPage = await logseq.Editor.createPage(inputTitle, "", { createFirstBlock: false, redirect: false });
-            if (createPage) {
-              const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-              //const ChildPageTitle = createPage.name.replace(`${currentPage.name}/`, "")
-              await RecodeDateToPage(preferredDateFormat, currentPage.name, " [[" + createPage.originalName + "]]");
-              logseq.Editor.openInRightSidebar(createPage.uuid);
-              logseq.UI.showMsg("The page is created");
-            }
-          } else { //ページが存在していた場合
-            logseq.Editor.openInRightSidebar(inputTitle);
-            logseq.UI.showMsg("The Page already exists", "warning");
-          }
-
-          //実行されたらポップアップを削除
-          removePopup();
+    style: {
+      width: "640px",
+      height: "150px",
+      left: "unset",
+      bottom: "unset",
+      right: "1em",
+      top: "4em",
+      paddingLeft: "1.8em",
+      paddingTop: "1.4em",
+      backgroundColor: 'var(--ls-primary-background-color)',
+      color: 'var(--ls-primary-text-color)',
+      boxShadow: '1px 2px 5px var(--ls-secondary-background-color)',
+    },
+  });
+  setTimeout(() => {
+    const button = parent.document.getElementById("CreatePageButton") as HTMLButtonElement;
+    if (button) {
+      let processing: Boolean = false;
+      button.addEventListener("click", async () => {
+        if (processing) return;
+        processing = true;
+        let inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value;
+        if (!inputTitle || inputTitle === `${currentPage.originalName}/`) {
           processing = false;
-        });
-      }
-    }, 100);
-  }
+          return;
+        }
+
+        if (inputTitle.endsWith("/")) inputTitle = inputTitle.slice(0, -1);
+        const obj = await logseq.Editor.getPage(inputTitle) as PageEntity | null; //ページチェック
+        if (obj === null) { //ページが存在しない
+          const createPage = await logseq.Editor.createPage(inputTitle, "", { createFirstBlock: false, redirect: false });
+          if (createPage) {
+            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
+            //const ChildPageTitle = createPage.name.replace(`${currentPage.name}/`, "")
+            await RecodeDateToPage(preferredDateFormat, currentPage.name, " [[" + createPage.originalName + "]]");
+            logseq.Editor.openInRightSidebar(createPage.uuid);
+            logseq.UI.showMsg("The page is created");
+          }
+        } else { //ページが存在していた場合
+          logseq.Editor.openInRightSidebar(inputTitle);
+          logseq.UI.showMsg("The Page already exists", "warning");
+        }
+
+        //実行されたらポップアップを削除
+        removePopup();
+        processing = false;
+      });
+    }
+  }, 100);
 }
 
-async function addProperties(addProperty: string | undefined, addType: string) {
-
+async function addProperties(addProperty: string, addType: string) {
   removePopup();
-
   if (addProperty === "") return logseq.UI.showMsg(`Cancel`, "warning");//cancel
 
   const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null;
-  if (getCurrent && addProperty) {
-
+  if (getCurrent) {
     //cancel same page
     if (getCurrent.name === addProperty || getCurrent.originalName === addProperty) return logseq.UI.showMsg(`Need not add current page to page-tags.`, "warning");
 
     const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null;
     if (getCurrentTree === null) return logseq.UI.showMsg(`Failed (Can not get the current page)`, "warning");
-    const editBlockUUID: string | undefined = await updateProperties(addProperty, "tags", getCurrent.properties, addType, getCurrentTree[0].uuid);
-    if (editBlockUUID) {
-      if (((addType === "Select" || addType === "") && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {//指定されたPARAページに日付とリンクをつける
-        const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-        await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300);
-      }
-      logseq.UI.showMsg(`add ${addProperty} to tags`, "info");
-    }
-  } else {
-    logseq.UI.showMsg(`Failed (Can not get the current page)`, "warning");
+    await updatePageProperty(addProperty, getCurrent, addType, getCurrentTree[0].uuid);
   }
 }
 
+
+async function updatePageProperty(addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) {
+  //INBOXの場合はタグをつけない  
+  if (addType !== "INBOX") await updateProperties(addProperty, "tags", getCurrent.properties, addType, uuid);
+  if (
+    (addType !== "PARA" && logseq.settings?.switchRecodeDate === true)
+    || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)
+  ) { //指定されたPARAページに日付とリンクをつける
+    const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
+    await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]"); }, 300);
+  }
+  if (addType !== "INBOX") {
+    logseq.UI.showMsg(`As ${addProperty}`, "info");
+  } else {
+    logseq.UI.showMsg(`Add to ${addProperty}`, "info");
+  }
+}
 
 async function RecodeDateToPage(userDateFormat, targetPageName, pushPageLink) {
   const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[];
@@ -490,6 +558,13 @@ const settingsTemplate: SettingSchemaDesc[] = [
     type: "boolean",
     default: false,
     description: "",
+  },
+  {//slash command menuを有効にするかどうか
+    key: "slashCommandMenu",
+    title: "Enable slash command menu for PARA method",
+    type: "boolean",
+    default: true,
+    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` (⚠️need to turn off this plugin or restart Logseq to take effect)",
   },
 ];
 
