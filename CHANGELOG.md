@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.3...v1.2.0) (2023-07-21)
+
+
+### Bug Fixes
+
+* **design:** The menu selection doesn't use dark theme ([92ec6af](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/92ec6af71441383383df40fc94dc7c7a06343974))
+
+
+### Features
+
+* **Add:** Enable Slash Command ([ab5a895](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/ab5a895c5dad2d67d042d14a4136eea94c018578))
+
 ## [1.1.3](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.2...v1.1.3) (2023-06-18)
 
 
