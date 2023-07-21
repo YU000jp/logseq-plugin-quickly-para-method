@@ -45,6 +45,19 @@
 
 > The menu varies in its content depending on whether the single page is open or not.
 
+#### Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
+
+- On non-journal pages. Right sidebar too.
+
+1. `📧 Put inside [[Inbox]]`]
+1. `✈️ As [[Projects]] (Add to page-tags)`
+1. `🏠 As [[Areas of responsibility]] (Add to page-tags)`
+1. `🌍 As [[Resources]] (Add to page-tags)`
+1. `🧹 As [[Archives]] (Add to page-tags)`
+1. `🧒 The Child Page (namespaces)`
+1. `📧 Create new page and put inside [[Inbox]]`
+1. `✈️ Create new project page and put inside [[Projects]]`
+
 ### Plugin Settings
 
 - Record today's date and the link to the first block of the PARA page: boolean
@@ -60,7 +73,11 @@
 - Use a DONE marker when recording on the Archives page
    - `true`
    - `false` default
-
+- Enable slash command menu for PARA method [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
+   > ⚠️need to turn off this plugin or restart Logseq to take effect
+   - `true` default
+   - `false`
+   
 ---
 
 ## Showcase / Questions / Ideas / Help
