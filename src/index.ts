@@ -113,6 +113,13 @@ const main = () => {
     font-size: 1.1em;
     margin-left:-.4em;
   }
+  div#${popup} select#selectionListSelect {
+    border-radius: 4px;
+    border: 1px solid var(--ls-secondary-text-color);
+    background: var(--ls-secondary-background-color);
+    color: var(--ls-primary-text-color);
+    margin-right: 1em;
+  }
   `);
 
 };/* end_main */
