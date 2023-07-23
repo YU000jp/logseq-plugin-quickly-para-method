@@ -1,6 +1,6 @@
 # Logseq Plugin: *Quickly PARA Method* ⚓
 
-- This plugin is designed to provide workflows for the PARA method. It quickly adds page-tags property.
+- Provides workflows for the PARA method. It quickly adds page-tags property.
 
 > This plugin still has room for improvement. Please let me know if you encounter any issues or have any ideas for enhancement.
 
