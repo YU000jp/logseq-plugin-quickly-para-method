@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.2.0...v1.3.0) (2023-07-26)
+
+
+### Features
+
+* **create new child page:** Move to the dropdown of 'create' ([4ec5297](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/4ec5297b25ad912b4976cf8fae40a2186aa7fc7c))
+* **Open menu:** register as page menu item ([484ac24](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/484ac24d69b0048d69ce67d29ce73a2c878a77b9))
+
 # [1.2.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.1.3...v1.2.0) (2023-07-21)
 
 
