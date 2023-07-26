@@ -17,16 +17,11 @@
 
    1. [PARA Method Workflowy guide](https://workflowy.com/systems/para-method/)
 
-## Features
+## Feature
 
 ### *Set page-tags property* (from the menu or slachcommand)
 
   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
-
-### *Create new child page shortcut* (in dropdown menu of 'create')
-
-  ![newChildPage](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/6c31e0be-cae1-45c1-85c5-93e61b118735)
-
 
 ---
 
@@ -82,7 +77,13 @@
    > ⚠️need to turn off this plugin or restart Logseq to take effect
    - `true` default
    - `false`
-   
+
+### Addtional feature
+
+### *Create new child page shortcut* (in dropdown menu of 'create')
+
+  ![newChildPage](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/6c31e0be-cae1-45c1-85c5-93e61b118735)
+
 ---
 
 ## Showcase / Questions / Ideas / Help
