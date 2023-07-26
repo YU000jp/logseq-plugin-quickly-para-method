@@ -63,8 +63,7 @@ const main = () => {
     },
     ChildPage: async () => {
       removePopup();
-      const currentPage = await logseq.Editor.getCurrentPage() as PageEntity | null;
-      if (currentPage) createChildPage(currentPage);
+      openSearchBoxInputHierarchy();
     },
     NewProject: () => {
       removePopup();
@@ -97,9 +96,8 @@ const main = () => {
     logseq.Editor.registerSlashCommand('🧹 As [[Archives]] (Add to page-tags)', async ({ uuid }) => {
       slashCommand(uuid, "Archives", "PARA");
     });
-    logseq.Editor.registerSlashCommand('🧒 The Child Page (namespaces)', async ({ uuid }) => {
-      const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null;
-      if (page) createChildPage(page);
+    logseq.Editor.registerSlashCommand('🧒 The Child Page (namespaces)', async () => {
+      openSearchBoxInputHierarchy();
     });
     logseq.Editor.registerSlashCommand('📧 Create new page and put inside [[Inbox]]', async () => {
       createNewPageAs("📧 Create new page and put inside [[Inbox]]", "Inbox");
@@ -158,7 +156,57 @@ const main = () => {
   }
   `);
 
+  //test
+
+  //新規作成ドロップダウンメニューにボタンを追加
+  newChildPageButton();
+
 };/* end_main */
+
+
+const newChildPageButton = () => {
+  const createButtonElement = parent.document.getElementById("create-button") as HTMLButtonElement | null;
+  if (createButtonElement) {
+    //新規作成ぼたんが押されたときの処理 
+    createButtonElement.addEventListener("click", async () => {
+      const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
+      if (page) {//ページ名が取得できる場合のみ
+        setTimeout(() => {
+          const menuLinkElement = parent.document.querySelector("div#left-sidebar footer button#create-button+div.dropdown-wrapper div.menu-links-wrapper") as HTMLDivElement | null;
+          if (menuLinkElement) {
+            menuLinkElement.insertAdjacentHTML("beforeend", `
+        <a id="${logseq.baseInfo.id}--createPageButton" class="flex justify-between px-4 py-2 text-sm transition ease-in-out duration-150 cursor menu-link">
+        <span class="flex-1">
+        <div class="flex items-center">
+        <div class="type-icon highlight">
+        <span class="ui__icon tie tie-new-page"></span></div><div class="title-wrap" style="margin-right: 8px; margin-left: 4px;">New child page</span></div></div></a>
+        `);
+          }
+          setTimeout(() => {
+            const buttonElement = parent.document.getElementById(`${logseq.baseInfo.id}--createPageButton`) as HTMLAnchorElement | null;
+            if (buttonElement) {
+              buttonElement.addEventListener("click", async () => {
+                buttonElement.remove();
+                openSearchBoxInputHierarchy();
+              });
+            }
+          }, 20);
+        }, 10);
+      }
+    });
+  }
+};
+
+function openSearchBoxInputHierarchy() {
+  logseq.App.invokeExternalCommand("logseq.go/search");
+  setTimeout(async () => {
+    const inputElement = parent.document.querySelector('div[label="ls-modal-search"] div.input-wrap input[type="text"]') as HTMLInputElement | null;
+    if (inputElement) {
+      const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
+      if (page && page.originalName) inputElement.value = page.originalName + "/";
+    }
+  }, 50);
+}
 
 async function getPageEntityFromBlockUuid(uuid: string) {
   const block = await logseq.Editor.getBlock(uuid) as BlockEntity | null;
@@ -364,69 +412,6 @@ async function createNewPageAs(title: string, tags: string) {
 function removePopup() {
   const element = parent.document.getElementById(logseq.baseInfo.id + `--${key}`) as HTMLDivElement | null;
   if (element) element.remove();
-}
-
-async function createChildPage(currentPage: PageEntity) {
-
-  logseq.provideUI({
-    attrs: {
-      title: "🧒 Edit following",
-    },
-    key,
-    reset: true,
-    template: `
-        <p>New Page Title: <input id="newPageTitle" type="text" style="width:340px" value="${currentPage.originalName}/"/>
-        <button id="CreatePageButton">Submit</button></p>
-        `,
-    style: {
-      width: "640px",
-      height: "150px",
-      left: "unset",
-      bottom: "unset",
-      right: "1em",
-      top: "4em",
-      paddingLeft: "1.8em",
-      paddingTop: "1.4em",
-      backgroundColor: 'var(--ls-primary-background-color)',
-      color: 'var(--ls-primary-text-color)',
-      boxShadow: '1px 2px 5px var(--ls-secondary-background-color)',
-    },
-  });
-  setTimeout(() => {
-    const button = parent.document.getElementById("CreatePageButton") as HTMLButtonElement;
-    if (button) {
-      let processing: Boolean = false;
-      button.addEventListener("click", async () => {
-        if (processing) return;
-        processing = true;
-        let inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value;
-        if (!inputTitle || inputTitle === `${currentPage.originalName}/`) {
-          processing = false;
-          return;
-        }
-
-        if (inputTitle.endsWith("/")) inputTitle = inputTitle.slice(0, -1);
-        const obj = await logseq.Editor.getPage(inputTitle) as PageEntity | null; //ページチェック
-        if (obj === null) { //ページが存在しない
-          const createPage = await logseq.Editor.createPage(inputTitle, "", { createFirstBlock: false, redirect: false });
-          if (createPage) {
-            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs;
-            //const ChildPageTitle = createPage.name.replace(`${currentPage.name}/`, "")
-            await RecodeDateToPage(preferredDateFormat, currentPage.name, " [[" + createPage.originalName + "]]");
-            logseq.Editor.openInRightSidebar(createPage.uuid);
-            logseq.UI.showMsg("The page is created");
-          }
-        } else { //ページが存在していた場合
-          logseq.Editor.openInRightSidebar(inputTitle);
-          logseq.UI.showMsg("The Page already exists", "warning");
-        }
-
-        //実行されたらポップアップを削除
-        removePopup();
-        processing = false;
-      });
-    }
-  }, 100);
 }
 
 async function addProperties(addProperty: string, addType: string) {
