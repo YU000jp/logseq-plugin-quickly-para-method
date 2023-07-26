@@ -36,6 +36,10 @@ const main = () => {
     template: `<div id="openPARAbutton" data-rect><a class="button icon" data-on-click="openPARA" title="Open the menu for Quickly PARA Method Plugin" style="font-size:20px">⚓</a></div>`,
   });
 
+  logseq.App.registerPageMenuItem('⚓ Open PARA method menu', () => {
+    if (!parent.document.getElementById(popup)) openPARAfromToolbar();
+  });
+
 
   logseq.provideModel({
     openPARA: () => {
@@ -159,7 +163,7 @@ const main = () => {
   //test
 
   //新規作成ドロップダウンメニューにボタンを追加
-  newChildPageButton();
+  setTimeout(() => newChildPageButton(), 10);
 
 };/* end_main */
 
@@ -190,8 +194,8 @@ const newChildPageButton = () => {
                 openSearchBoxInputHierarchy();
               });
             }
-          }, 20);
-        }, 10);
+          }, 50);
+        }, 30);
       }
     });
   }
@@ -458,6 +462,12 @@ async function RecodeDateToPage(userDateFormat, targetPageName, pushPageLink) {
       content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink;
     }
     await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false });
+  } else {
+    //ページが存在しない場合は作成
+    const createPage = await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true });
+    if (createPage) {
+      await RecodeDateToPage(userDateFormat, targetPageName, pushPageLink);
+    }
   }
 }
 
