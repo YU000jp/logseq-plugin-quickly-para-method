@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.3.0...v1.4.0) (2023-07-27)
+
+
+### Features
+
+* Copy current page title to clipboard ([75e0981](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/75e0981a9a064ce963f42e630be94a4c5ae4906f))
+
 # [1.3.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.2.0...v1.3.0) (2023-07-26)
 
 
