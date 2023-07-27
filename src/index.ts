@@ -67,7 +67,7 @@ const main = () => {
     },
     ChildPage: async () => {
       removePopup();
-      openSearchBoxInputHierarchy();
+      openSearchBoxInputHierarchy(true);
     },
     NewProject: () => {
       removePopup();
@@ -80,6 +80,9 @@ const main = () => {
     PARAsettingButton: () => {
       logseq.showSettingsUI();
     },
+    copyPageTitleLink: () => {
+      copyPageTitleLink();
+    }
   });
 
 
@@ -100,8 +103,8 @@ const main = () => {
     logseq.Editor.registerSlashCommand('🧹 As [[Archives]] (Add to page-tags)', async ({ uuid }) => {
       slashCommand(uuid, "Archives", "PARA");
     });
-    logseq.Editor.registerSlashCommand('🧒 The Child Page (namespaces)', async () => {
-      openSearchBoxInputHierarchy();
+    logseq.Editor.registerSlashCommand('🧒 The child page (namespaces)', async () => {
+      openSearchBoxInputHierarchy(true);
     });
     logseq.Editor.registerSlashCommand('📧 Create new page and put inside [[Inbox]]', async () => {
       createNewPageAs("📧 Create new page and put inside [[Inbox]]", "Inbox");
@@ -169,6 +172,7 @@ const main = () => {
 
 
 const newChildPageButton = () => {
+  //create-button エレメントはホワイトボード機能を有効にしている場合のみ
   const createButtonElement = parent.document.getElementById("create-button") as HTMLButtonElement | null;
   if (createButtonElement) {
     //新規作成ぼたんが押されたときの処理 
@@ -185,29 +189,52 @@ const newChildPageButton = () => {
         <div class="type-icon highlight">
         <span class="ui__icon tie tie-new-page"></span></div><div class="title-wrap" style="margin-right: 8px; margin-left: 4px;">New child page</span></div></div></a>
         `);
+            setTimeout(() => {
+              const buttonElement = parent.document.getElementById(`${logseq.baseInfo.id}--createPageButton`) as HTMLAnchorElement | null;
+              if (buttonElement) {
+                buttonElement.addEventListener("click", async () => {
+                  buttonElement.remove();
+                  openSearchBoxInputHierarchy(true, page.originalName);
+                });
+              }
+            }, 50);
           }
-          setTimeout(() => {
-            const buttonElement = parent.document.getElementById(`${logseq.baseInfo.id}--createPageButton`) as HTMLAnchorElement | null;
-            if (buttonElement) {
-              buttonElement.addEventListener("click", async () => {
-                buttonElement.remove();
-                openSearchBoxInputHierarchy();
-              });
-            }
-          }, 50);
         }, 30);
       }
     });
+  } else {
+    //ホワイトボード機能をオフにしている場合
+    const newPageLinkElement = parent.document.querySelector("div#left-sidebar footer a.new-page-link") as HTMLAnchorElement | null;
+    if (newPageLinkElement) {
+      newPageLinkElement.addEventListener("click", async () => {
+        const page = await logseq.Editor.getCurrentPage() as PageEntity | null;//ページ名が取得できる場合のみ
+        if (page && confirm("Insert current page title?\nFor create new the child page")) openSearchBoxInputHierarchy(false, page.originalName);//
+      });
+    }
   }
 };
 
-function openSearchBoxInputHierarchy() {
-  logseq.App.invokeExternalCommand("logseq.go/search");
+async function copyPageTitleLink() {
+  const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
+  if (page) {
+    const text: string = `[[${page.originalName}]]`;
+    // focus the window
+    window.focus();
+    navigator.clipboard.writeText(text);
+    logseq.UI.showMsg("Copy page title link", "success");
+  }
+}
+
+function openSearchBoxInputHierarchy(openSearchUI: Boolean, pageName?: string) {
+  if (openSearchUI === true) logseq.App.invokeExternalCommand("logseq.go/search");
   setTimeout(async () => {
     const inputElement = parent.document.querySelector('div[label="ls-modal-search"] div.input-wrap input[type="text"]') as HTMLInputElement | null;
     if (inputElement) {
-      const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
-      if (page && page.originalName) inputElement.value = page.originalName + "/";
+      if (pageName) inputElement.value = pageName + "/";
+      else {
+        const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
+        if (page && page.originalName) inputElement.value = page.originalName + "/";
+      }
     }
   }, 50);
 }
@@ -259,7 +286,7 @@ async function openPARAfromToolbar() {
   if (getPage) {
     template = `
   <div title="">
-  <p title="The title of current page">[[${getPage.originalName}]]</p>
+  <p title="The title of current page">[[${getPage.originalName}]]<button data-on-click="copyPageTitleLink" title="Copy to clipboard">📋</button></p>
   <ul>
   <li><button data-on-click="Inbox">/📧 Put inside [[Inbox]]</button></li>
   <h2>Set page-tags property</h2>
@@ -282,9 +309,9 @@ async function openPARAfromToolbar() {
   <ul>
   <h2>Shortcut menu</h2>
   <h3>Create new page</h3>
-  <li><button data-on-click="ChildPage">/🧒 The Child Page (namespaces)</button></li>
   <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
-  <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li>
+  <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li> 
+  <li><button data-on-click="ChildPage">/🧒 The child page (namespaces)</button></li>
   </ul>
       `;
     height = "690px";
