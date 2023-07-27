@@ -65,10 +65,6 @@ const main = () => {
       const selectionListValue: string = (parent.document.getElementById('selectionListSelect') as HTMLSelectElement)!.value;
       if (selectionListValue) addProperties(selectionListValue, "Select");
     },
-    ChildPage: async () => {
-      removePopup();
-      openSearchBoxInputHierarchy(true);
-    },
     NewProject: () => {
       removePopup();
       createNewPageAs('✈️ Create new project page and put inside [[Projects]]', "Projects");
@@ -102,9 +98,6 @@ const main = () => {
     });
     logseq.Editor.registerSlashCommand('🧹 As [[Archives]] (Add to page-tags)', async ({ uuid }) => {
       slashCommand(uuid, "Archives", "PARA");
-    });
-    logseq.Editor.registerSlashCommand('🧒 The child page (namespaces)', async () => {
-      openSearchBoxInputHierarchy(true);
     });
     logseq.Editor.registerSlashCommand('📧 Create new page and put inside [[Inbox]]', async () => {
       createNewPageAs("📧 Create new page and put inside [[Inbox]]", "Inbox");
@@ -165,54 +158,10 @@ const main = () => {
 
   //test
 
-  //新規作成ドロップダウンメニューにボタンを追加
-  setTimeout(() => newChildPageButton(), 10);
 
 };/* end_main */
 
 
-const newChildPageButton = () => {
-  //create-button エレメントはホワイトボード機能を有効にしている場合のみ
-  const createButtonElement = parent.document.getElementById("create-button") as HTMLButtonElement | null;
-  if (createButtonElement) {
-    //新規作成ぼたんが押されたときの処理 
-    createButtonElement.addEventListener("click", async () => {
-      const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
-      if (page) {//ページ名が取得できる場合のみ
-        setTimeout(() => {
-          const menuLinkElement = parent.document.querySelector("div#left-sidebar footer button#create-button+div.dropdown-wrapper div.menu-links-wrapper") as HTMLDivElement | null;
-          if (menuLinkElement) {
-            menuLinkElement.insertAdjacentHTML("beforeend", `
-        <a id="${logseq.baseInfo.id}--createPageButton" class="flex justify-between px-4 py-2 text-sm transition ease-in-out duration-150 cursor menu-link">
-        <span class="flex-1">
-        <div class="flex items-center">
-        <div class="type-icon highlight">
-        <span class="ui__icon tie tie-new-page"></span></div><div class="title-wrap" style="margin-right: 8px; margin-left: 4px;">New child page</span></div></div></a>
-        `);
-            setTimeout(() => {
-              const buttonElement = parent.document.getElementById(`${logseq.baseInfo.id}--createPageButton`) as HTMLAnchorElement | null;
-              if (buttonElement) {
-                buttonElement.addEventListener("click", async () => {
-                  buttonElement.remove();
-                  openSearchBoxInputHierarchy(true, page.originalName);
-                });
-              }
-            }, 50);
-          }
-        }, 30);
-      }
-    });
-  } else {
-    //ホワイトボード機能をオフにしている場合
-    const newPageLinkElement = parent.document.querySelector("div#left-sidebar footer a.new-page-link") as HTMLAnchorElement | null;
-    if (newPageLinkElement) {
-      newPageLinkElement.addEventListener("click", async () => {
-        const page = await logseq.Editor.getCurrentPage() as PageEntity | null;//ページ名が取得できる場合のみ
-        if (page && confirm("Insert current page title?\nFor create new the child page")) openSearchBoxInputHierarchy(false, page.originalName);//
-      });
-    }
-  }
-};
 
 async function copyPageTitleLink() {
   const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
@@ -225,19 +174,7 @@ async function copyPageTitleLink() {
   }
 }
 
-function openSearchBoxInputHierarchy(openSearchUI: Boolean, pageName?: string) {
-  if (openSearchUI === true) logseq.App.invokeExternalCommand("logseq.go/search");
-  setTimeout(async () => {
-    const inputElement = parent.document.querySelector('div[label="ls-modal-search"] div.input-wrap input[type="text"]') as HTMLInputElement | null;
-    if (inputElement) {
-      if (pageName) inputElement.value = pageName + "/";
-      else {
-        const page = await logseq.Editor.getCurrentPage() as PageEntity | null;
-        if (page && page.originalName) inputElement.value = page.originalName + "/";
-      }
-    }
-  }, 50);
-}
+
 
 async function getPageEntityFromBlockUuid(uuid: string) {
   const block = await logseq.Editor.getBlock(uuid) as BlockEntity | null;
@@ -306,29 +243,21 @@ async function openPARAfromToolbar() {
     template += `
   </ul>
   <hr/>
-  <ul>
-  <h2>Shortcut menu</h2>
-  <h3>Create new page</h3>
-  <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
-  <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li> 
-  <li><button data-on-click="ChildPage">/🧒 The child page (namespaces)</button></li>
-  </ul>
       `;
     height = "690px";
   } else {
     template = `
     <div title="">
-    <ul>
-    <h2>Shortcut menu</h2>
-    <h3>Create new page</h3>
-    <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
-    <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li>
-    </ul>
-  
-        `;
+    `;
     height = "330px";
   }
   template += `
+  <ul>
+  <h2>Shortcut menu</h2>
+  <h3>Create new page</h3>
+  <li><button data-on-click="NewPageInbox">/📧 And put inside [[Inbox]]</button></li>
+  <li><button data-on-click="NewProject">/✈️ And put inside [[Projects]]</button></li> 
+  </ul>
   <hr/>
     <ul>
     <li><button data-on-click="PARAsettingButton"><small>Plugin Settings</small></button></li>
