@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.4.0...v1.4.1) (2023-07-27)
+
+
+### Bug Fixes
+
+* **Delete:** 'Create child page' ([c6ecd14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/c6ecd14f3f1801fc184ee88a77c92baf3fc3eb6b))
+
 # [1.4.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.3.0...v1.4.0) (2023-07-27)
 
 
