@@ -54,7 +54,6 @@
 1. `🏠 As [[Areas of responsibility]] (Add to page-tags)`
 1. `🌍 As [[Resources]] (Add to page-tags)`
 1. `🧹 As [[Archives]] (Add to page-tags)`
-1. `🧒 The Child Page (namespaces)`
 1. `📧 Create new page and put inside [[Inbox]]`
 1. `✈️ Create new project page and put inside [[Projects]]`
 
