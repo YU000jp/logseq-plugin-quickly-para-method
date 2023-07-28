@@ -76,13 +76,7 @@
    > ⚠️need to turn off this plugin or restart Logseq to take effect
    - `true` default
    - `false`
-
-### Addtional feature
-
-### *Create new child page shortcut* (in dropdown menu of 'create') [#16](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/16)
-
-  ![newChildPage](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/6c31e0be-cae1-45c1-85c5-93e61b118735)
-
+ 
 ---
 
 ## Showcase / Questions / Ideas / Help
