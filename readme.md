@@ -26,7 +26,7 @@
 #### Recommend
 
 1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring) (Color the left menu title and page content.)
-1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy) (Show hierarchy links to page title)
+1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy) (Change the display position of page tags and hierarchy in page content.)
 
 ### Install from Logseq Marketplace
 
