@@ -11,11 +11,9 @@
 
 ---
 
-## Link
+## Learn the PARA method
 
-- About `The PARA Method`
-
-   1. [PARA Method Workflowy guide](https://workflowy.com/systems/para-method/)
+> [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
 ## Feature
 
