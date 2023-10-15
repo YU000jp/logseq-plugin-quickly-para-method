@@ -11,7 +11,7 @@
 
 ## Learn the PARA method
 
-> [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
+1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
 ## Feature
 
@@ -23,17 +23,16 @@
 
 ## Getting Started
 
+#### Reccommand
+
+1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring) (Color the left menu title and page content.)
+1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy) (Show hierarchy links to page title)
+
 ### Install from Logseq Marketplace
 
-- Press [`---`] on the top right toolbar to open [`Plugins`]
-- Select `Marketplace`
-- Type `PARA` in the search field, select it from the search results and install
+- Press [`---`] on the top right toolbar to open [`Plugins`]. Select `Marketplace`. Type `PARA` in the search field, select it from the search results and install.
 
    ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a6d4337a-2454-4ca4-8a1d-a0d9ca4e9ac2)
-
-### Recommended with
-
-1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
 
 ### Usage
 
@@ -55,23 +54,7 @@
 
 ### Plugin Settings
 
-- Record today's date and the link to the first block of the PARA page: boolean
-   - `true` default
-   - `false`
-- Use page-tags Selection List: text
-   > Entry page titles separated by commas(,)
-   - `Index,` default
-
-- Record today's date and the link to the first block of the page
-   - `true`
-   - `false` default
-- Use a DONE marker when recording on the Archives page
-   - `true`
-   - `false` default
-- Enable slash command menu for PARA method [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
-   > ⚠️need to turn off this plugin or restart Logseq to take effect
-   - `true` default
-   - `false`
+> [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
  
 ---
 
