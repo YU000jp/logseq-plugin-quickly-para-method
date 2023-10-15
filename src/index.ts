@@ -109,51 +109,65 @@ const main = () => {
 
 
   logseq.provideStyle(`
-  div#${logseq.baseInfo.id}--${key} div.th h3 {
-    max-width: 80%;
-    text-overflow: ellipsis;
+body>div#${popup}  {
+  &>div {
+    &.draggable-handle>div.th h3 {
+      max-width: 80%;
+      text-overflow: ellipsis;
+    }
+    &.ls-ui-float-content>div {
+      & input {
+        background-color: var(--ls-primary-background-color);
+        color: var(--ls-primary-text-color);
+        box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+      }
+  
+      & button {
+        border: 1px solid var(--ls-secondary-background-color);
+        box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+        text-decoration: underline;
+  
+        &:hover {
+          background-color: var(--ls-secondary-background-color);
+          color: var(--ls-secondary-text-color);
+        }
+      }
+  
+      & ul li {
+        list-style: none;
+        padding: 4px 8px;
+        cursor: pointer;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+  
+      & h2 {
+        font-size: 1.5em;
+        margin-left: -.8em;
+      }
+  
+      & h3 {
+        font-size: 1.25em;
+        margin-left: -.6em;
+      }
+  
+      & h4 {
+        font-size: 1.1em;
+        margin-left: -.4em;
+      }
+  
+      & select#selectionListSelect {
+        border-radius: 4px;
+        border: 1px solid var(--ls-secondary-text-color);
+        background: var(--ls-secondary-background-color);
+        color: var(--ls-primary-text-color);
+        margin-right: 1em;
+      }
+    }
   }
-  div#${popup} input {
-      background: var(--ls-primary-background-color);
-      color: var(--ls-primary-text-color);
-      boxShadow: 1px 2px 5px var(--ls-secondary-background-color);
-  }
-  div#${popup} button {
-      border: 1px solid var(--ls-secondary-background-color);
-      boxShadow: 1px 2px 5px var(--ls-secondary-background-color);
-      text-decoration: underline;
-  }
-  div#${popup} button:hover {
-      background: var(--ls-secondary-background-color);
-      color: var(--ls-secondary-text-color);
-  }
-  div#${popup} ul li {
-    list-style: none;
-    padding: 4px 8px;
-    cursor: pointer;
-  }
-  div#${popup} ul li:hover {
-    text-decoration: underline;
-  }
-  div#${popup} h2{
-    font-size: 1.5em;
-    margin-left:-.8em;
-  }
-  div#${popup} h3{
-    font-size: 1.25em;
-    margin-left:-.6em;
-  }
-  div#${popup} h4{
-    font-size: 1.1em;
-    margin-left:-.4em;
-  }
-  div#${popup} select#selectionListSelect {
-    border-radius: 4px;
-    border: 1px solid var(--ls-secondary-text-color);
-    background: var(--ls-secondary-background-color);
-    color: var(--ls-primary-text-color);
-    margin-right: 1em;
-  }
+}
   `);
 
   //test
