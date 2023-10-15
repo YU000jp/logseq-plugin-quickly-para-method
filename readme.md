@@ -15,7 +15,7 @@
 
 ## Feature
 
-### *Set page-tags property* (from the menu or slachcommand)
+[How to use] Set page-tags property
 
   ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
 
@@ -23,10 +23,14 @@
 
 ## Getting Started
 
-#### Recommend
+#### Recommend plugin
 
-1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring) (Color the left menu title and page content.)
-1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy) (Change the display position of page tags and hierarchy in page content.)
+1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
+   > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
+2. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
+   > Color the left menu title and page content.
+3. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+   > Change the display position of page tags and hierarchy in page content.
 
 ### Install from Logseq Marketplace
 
@@ -35,6 +39,8 @@
    ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a6d4337a-2454-4ca4-8a1d-a0d9ca4e9ac2)
 
 ### Usage
+
+from the menu or slashcommand
 
 - Open the menu on click the top toolbar button `⚓`
 
