@@ -77,6 +77,7 @@ from the menu or slashcommand
 ### Logseq-plugin
 
 - [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
+  > Although it has almost the same functionality, that plugin does not specify page tags. No date is recorded.
 
 ### Icon
 
