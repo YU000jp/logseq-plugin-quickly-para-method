@@ -23,7 +23,7 @@
 
 ## Getting Started
 
-#### Reccommand
+#### Recommend
 
 1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring) (Color the left menu title and page content.)
 1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy) (Show hierarchy links to page title)
