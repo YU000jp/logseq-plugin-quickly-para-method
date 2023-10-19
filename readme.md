@@ -1,6 +1,6 @@
 # Logseq Plugin: *Quickly PARA Method* ⚓
 
-- Provides workflows for the PARA method. It quickly adds page-tags property.
+- Provides workflows for the PARA method. Quickly adds page-tags property.
 
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
@@ -11,9 +11,13 @@
 
 ## Learn the PARA method
 
+> Helps organize pages in your Logseq graph.
 1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
 ## Feature
+
+* Select from the menu to add page tags to the current page using the page name for each PARA method.
+* Record the date and link on each PARA method page when added. (option)
 
 [How to use] Set page-tags property
 
