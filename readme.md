@@ -27,63 +27,59 @@
 
 ## Getting Started
 
-#### Recommend plugin
+Install from Logseq Marketplace
 
-1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
-   > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
-2. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-   > Color the left menu title and page content.
-3. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
-   > Change the display position of page tags and hierarchy in page content.
-
-### Install from Logseq Marketplace
-
-- Press [`---`] on the top right toolbar to open [`Plugins`]. Select `Marketplace`. Type `PARA` in the search field, select it from the search results and install.
+  - Press [`---`] on the top right toolbar to open [`Plugins`]. Select `Marketplace`. Type `PARA` in the search field, select it from the search results and install.
 
    ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a6d4337a-2454-4ca4-8a1d-a0d9ca4e9ac2)
 
 ### Usage
 
-from the menu or slashcommand
+- From the menu or slashcommand
 
-- Open the menu on click the top toolbar button `⚓`
+  1. Open the menu on click the top toolbar button `⚓`
+     > The menu varies in its content depending on whether the single page is open or not.
+  1. Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
+     - On non-journal pages. Right sidebar too.
+       1. `📧 Put inside [[Inbox]]`]
+       1. `✈️ As [[Projects]] (Add to page-tags)`
+       1. `🏠 As [[Areas of responsibility]] (Add to page-tags)`
+       1. `🌍 As [[Resources]] (Add to page-tags)`
+       1. `🧹 As [[Archives]] (Add to page-tags)`
+       1. `📧 Create new page and put inside [[Inbox]]`
+       1. `✈️ Create new project page and put inside [[Projects]]`
 
-> The menu varies in its content depending on whether the single page is open or not.
+- Plugin Settings
 
-#### Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
+  > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
 
-- On non-journal pages. Right sidebar too.
+- Recommend plugin
 
-1. `📧 Put inside [[Inbox]]`]
-1. `✈️ As [[Projects]] (Add to page-tags)`
-1. `🏠 As [[Areas of responsibility]] (Add to page-tags)`
-1. `🌍 As [[Resources]] (Add to page-tags)`
-1. `🧹 As [[Archives]] (Add to page-tags)`
-1. `📧 Create new page and put inside [[Inbox]]`
-1. `✈️ Create new project page and put inside [[Projects]]`
+  1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
+    > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
+  2. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
+    > Color the left menu title and page content.
+  3. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+    > Change the display position of page tags and hierarchy in page content.
 
-### Plugin Settings
-
-> [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
- 
 ---
 
 ## Showcase / Questions / Ideas / Help
 
-> Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
+  > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
 
 ## Author
 
-- GitHub: [YU000jp](https://github.com/YU000jp)
+  - GitHub: [YU000jp](https://github.com/YU000jp)
 
 ## Prior art & Credit
 
-### Logseq-plugin
+Logseq Plugin
 
 - [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
   > Although it has almost the same functionality, that plugin does not specify page tags. No date is recorded.
 
-### Icon
+Icon
 
 - [icooon-mono.com](https://icooon-mono.com/10204-%e9%8c%a8%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e3%81%9d%e3%81%ae4/)
 
