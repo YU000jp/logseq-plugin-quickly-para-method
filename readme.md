@@ -1,6 +1,8 @@
 # Logseq Plugin: *Quickly PARA Method* ⚓
 
-- Provides workflows for the PARA method. Quickly adds page-tags property.
+[English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
+
+- Provide a workflow that helps organize pages, which tend to be large, using the PARA method.
 
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
@@ -11,10 +13,10 @@
 
 ## Learn the PARA method
 
-> Helps organize pages in your Logseq graph.
+> Helps organize pages in the Logseq graph.
 1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
-## Feature
+## Overview
 
 * Select from the menu to add page tags to the current page using the page name for each PARA method.
 * Record the date and link on each PARA method page when added. (option)
@@ -51,16 +53,16 @@ Install from Logseq Marketplace
 
 - Plugin Settings
 
-  > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
+   > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
 
 - Recommend plugin
 
   1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
-    > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
+     > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
   2. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-    > Color the left menu title and page content.
+     > Color the left menu title and page content.
   3. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
-    > Change the display position of page tags and hierarchy in page content.
+     > Change the display position of page tags and hierarchy in page content.
 
 ---
 
@@ -68,21 +70,13 @@ Install from Logseq Marketplace
 
   > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
 
-## Author
-
-  - GitHub: [YU000jp](https://github.com/YU000jp)
-
 ## Prior art & Credit
 
-Logseq Plugin
-
-- [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
+Logseq Plugin > [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
   > Although it has almost the same functionality, that plugin does not specify page tags. No date is recorded.
 
-Icon
+Icon > [icooon-mono.com](https://icooon-mono.com/10204-%e9%8c%a8%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e3%81%9d%e3%81%ae4/)
 
-- [icooon-mono.com](https://icooon-mono.com/10204-%e9%8c%a8%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e3%81%9d%e3%81%ae4/)
-
----
+Author > [YU000jp](https://github.com/YU000jp)
 
 <a href="https://www.buymeacoffee.com/yu000japan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="🍌Buy Me A Coffee" style="height: 42px;width: 152px" ></a>
