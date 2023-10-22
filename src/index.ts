@@ -3,7 +3,8 @@ import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyua
 import ja from "./translations/ja.json"
 import { settingsTemplate } from './settings'
 import { removePopup, copyPageTitleLink } from './lib'
-import { createPageFor, openPARAfromToolbar, addProperties, createNewPageAs, FromSlashCommand } from './para'
+import { createPageFor, openPARAfromToolbar, addProperties, createNewPageAs } from './para'
+import { slashCommandItems } from './slashCommand'
 export const key = "openQuickly"
 
 /* main */
@@ -107,31 +108,6 @@ body>div#${popup}  {
 }/* end_main */
 
 
-const slashCommandItems = () => {
-  logseq.Editor.registerSlashCommand(t("📧 Put inside [[Inbox]]"), async ({ uuid }) => {
-    FromSlashCommand(uuid, "Inbox", "INBOX")
-  })
-  logseq.Editor.registerSlashCommand(t("✈️ As [[Projects]] (Add to page-tags)"), async ({ uuid }) => {
-    FromSlashCommand(uuid, "Projects", "PARA")
-  })
-  logseq.Editor.registerSlashCommand(t("🏠 As [[Areas of responsibility]] (Add to page-tags)"), async ({ uuid }) => {
-    FromSlashCommand(uuid, "Areas of responsibility", "PARA")
-  })
-  logseq.Editor.registerSlashCommand(t("🌍 As [[Resources]] (Add to page-tags)"), async ({ uuid }) => {
-    FromSlashCommand(uuid, "Resources", "PARA")
-  })
-  logseq.Editor.registerSlashCommand(t("🧹 As [[Archives]] (Add to page-tags)"), async ({ uuid }) => {
-    FromSlashCommand(uuid, "Archives", "PARA")
-  })
-  logseq.Editor.registerSlashCommand(t("📧 Create new page and put inside [[Inbox]]"), async () => {
-    createNewPageAs(t("📧 Create new page and put inside [[Inbox]]"), "Inbox")
-  })
-  logseq.Editor.registerSlashCommand(t("✈️ Create new project page and put inside [[Projects]]"), async () => {
-    createNewPageAs(t("✈️ New project page"), "Projects")
-  })
-}
-
-
 const model = (popup: string) => {
   logseq.provideModel({
     openPARA: () => {
@@ -159,11 +135,11 @@ const model = (popup: string) => {
     },
     NewProject: () => {
       removePopup()
-      createNewPageAs(t('✈️ Create new project page and put inside [[Projects]]'), "Projects")
+      createNewPageAs(t('✈️ New project page / [[Projects]]'), "Projects")
     },
     NewPageInbox: () => {
       removePopup()
-      createNewPageAs(t("📧 Create new page and put inside [[Inbox]]"), "Inbox")
+      createNewPageAs(t("📧 New page / [[Inbox]]"), "Inbox")
     },
     PARAsettingButton: () => {
       logseq.showSettingsUI()

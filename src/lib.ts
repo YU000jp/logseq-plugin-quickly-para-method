@@ -1,4 +1,5 @@
 import { PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { key } from '.'
 
 
@@ -29,7 +30,7 @@ export const copyPageTitleLink = async () => {
     // focus the window
     window.focus()
     navigator.clipboard.writeText(text)
-    logseq.UI.showMsg("Copy page title link", "success")
+    logseq.UI.showMsg(t("Copy page title link"), "success")
   }
 }
 

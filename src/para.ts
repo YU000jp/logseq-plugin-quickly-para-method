@@ -1,22 +1,9 @@
 import { AppUserConfigs, PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
-import { getPageEntityFromBlockUuid, removePopup } from './lib'
+import { removePopup } from './lib'
 import { key } from '.'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 
-
-export const FromSlashCommand = async (uuid: string, addProperty: string, addType: string) => {
-  //右サイドバーに開いたブロックからスラッシュコマンドを実行した場合の処理
-  const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null
-  if (page) {
-    //cancel same page
-    if (page.originalName === addProperty) return logseq.UI.showMsg(t("Need not add current page to page-tags."), "warning")
-    //INBOXを覗いてジャーナルはキャンセル
-    if (addType !== "INBOX" && page['journal?'] === true) return logseq.UI.showMsg(t("Can not add journal page to page-tags."), "warning")
-    const getCurrentTree = await logseq.Editor.getPageBlocksTree(page.originalName) as BlockEntity[] | null
-    if (getCurrentTree) await updatePageProperty(addProperty, page, addType, getCurrentTree[0].uuid)
-  }
-}
 
 export const openPARAfromToolbar = async () => {
 
@@ -39,7 +26,7 @@ export const openPARAfromToolbar = async () => {
   <div title="">
   <p title="${t("The title of current page")}">[[${getPage.originalName}]]<button data-on-click="copyPageTitleLink" title="${t("Copy to clipboard")}">📋</button></p>
   <ul>
-  <li><button data-on-click="Inbox">${t("/📧 Put inside [[Inbox]])")}</button></li>
+  <li><button data-on-click="Inbox">${t("/📧 Into [[Inbox]])")}</button></li>
   <h2>${t("Set page-tags property")}</h2>
 
   <li>${select}</li>
@@ -48,30 +35,32 @@ export const openPARAfromToolbar = async () => {
       //not show
     } else {
       template += `
-  <li><button data-on-click="Projects">${t("/✈️ As [[Projects]]")}</button></li>
-  <li><button data-on-click="AreasOfResponsibility">${t("/🏠 As [[Areas of responsibility]]")}</button></li>
-  <li><button data-on-click="Resources">${t("/🌍 As [[Resources]]")}</button></li>
-  <li><button data-on-click="Archives">${t("/🧹As [[Archives]]")}</button></li>
+  <li><button data-on-click="Projects">${t("/✈️ Page-Tag [[Projects]]")}</button></li>
+  <li><button data-on-click="AreasOfResponsibility">${t("/🏠 Page-Tag [[Areas of responsibility]]")}</button></li>
+  <li><button data-on-click="Resources">${t("/🌍 Page-Tag [[Resources]]")}</button></li>
+  <li><button data-on-click="Archives">${t("/🧹 Page-Tag [[Archives]]")}</button></li>
   `
     }
     template += `
   </ul>
   <hr/>
       `
-    height = "690px"
+    height = "720px"
   } else {
     template = `
     <div title="">
     `
-    height = "330px"
+    height = "420px"
   }
   template += `
   <ul>
-  <h2>${t("Shortcut menu")}</h2>
-  <h3>Create new page</h3>
-  <li><button data-on-click="NewPageInbox">${t("/📧 And put inside [[Inbox]]")}</button></li>
-  <li><button data-on-click="NewProject">${t("/✈️ And put inside [[Projects]]")}</button></li> 
+  <h2>${t("Shortcut command menu")}</h2>
+  <h3>${t("New page")}</h3>
+  <li><button data-on-click="NewPageInbox">${t("/📧 Into [[Inbox]]")}</button></li>
+  <li><button data-on-click="NewProject">${t("/✈️ Page-Tag [[Projects]]")}</button></li> 
   </ul>
+  <hr/>
+  <p><small>${t("When open the page, will see various menus.")}</small></p>
   <hr/>
   <ul>
   <li><button data-on-click="PARAsettingButton"><small>${t("Plugin Settings")}</small></button></li>
@@ -105,7 +94,7 @@ export const createPageFor = async (name: string, icon: string, para: boolean) =
   const getPage = await logseq.Editor.getPage(name) as PageEntity | null
   if (getPage === null) {
     if (para === true) {
-      logseq.Editor.createPage(name, { icon, tags: "The PARA Method" }, { createFirstBlock: true, })
+      logseq.Editor.createPage(name, { icon, tags: t("[[The PARA Method]]") }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
     } else {
       logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
     }
@@ -120,7 +109,7 @@ export const createNewPageAs = async (title: string, tags: string) => {
     key,
     reset: true,
     template: `
-        <p>New Page Title: <input id="newPageTitle" type="text" style="width:340px"/>
+        <p>${t("New Page Title")}: <input id="newPageTitle" type="text" style="width:340px"/>
         <button id="CreatePageButton">${t("Submit")}</button></p>
         `,
     style: {
@@ -149,8 +138,7 @@ export const createNewPageAs = async (title: string, tags: string) => {
           processing = false
           return
         }
-        const obj = await logseq.Editor.getPage(inputTitle) as PageEntity | null //ページチェック
-        if (obj === null) { //ページが存在しないことを確認する
+        if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) { //ページが存在しないことを確認する
           const createPage = await logseq.Editor.createPage(inputTitle, "", { createFirstBlock: false, redirect: true })
           if (createPage) {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
@@ -185,7 +173,7 @@ export const createNewPageAs = async (title: string, tags: string) => {
 
 export const addProperties = async (addProperty: string, addType: string) => {
   removePopup()
-  if (addProperty === "") return logseq.UI.showMsg(`Cancel`, "warning") //cancel
+  if (addProperty === "") return logseq.UI.showMsg(t("Cancel"), "warning") //cancel
 
   const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getCurrent) {
@@ -198,19 +186,16 @@ export const addProperties = async (addProperty: string, addType: string) => {
   }
 }
 
-const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
-  //INBOXの場合はタグをつけない  
+export const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
+  //INBOXの場合はタグをつけない
   if (addType !== "INBOX") await updateProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
   if ((addType !== "PARA" && logseq.settings?.switchRecodeDate === true)
     || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) { //指定されたPARAページに日付とリンクをつける
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
     await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300)
   }
-  if (addType !== "INBOX") {
-    logseq.UI.showMsg(`As ${addProperty}`, "info") // TODO:
-  } else {
-    logseq.UI.showMsg(`Add to ${addProperty}`, "info") // TODO: 
-  }
+  if (addType === "INBOX") logseq.UI.showMsg(t("Into [[INBOX]]"), "info")
+  else logseq.UI.showMsg(`${t("Page-Tag")} ${addProperty}`, "info")
 }
 
 const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink) => {
@@ -218,18 +203,13 @@ const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink) =>
   if (blocks) {
     //PARAページの先頭行の下に追記
     let content
-    if (logseq.settings!.archivesDone === true && targetPageName === "Archives") {
-      content = "DONE [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
-    } else {
-      content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
-    }
+    if (logseq.settings!.archivesDone === true && targetPageName === "Archives") content = "DONE [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
+    else content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
+
     await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false })
   } else {
     //ページが存在しない場合は作成
-    const createPage = await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true })
-    if (createPage) {
-      await RecodeDateToPage(userDateFormat, targetPageName, pushPageLink)
-    }
+    if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true })) await RecodeDateToPage(userDateFormat, targetPageName, pushPageLink)
   }
 }
 
