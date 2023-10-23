@@ -3,9 +3,10 @@ import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyua
 import ja from "./translations/ja.json"
 import { settingsTemplate } from './settings'
 import { removePopup, copyPageTitleLink } from './lib'
-import { createPageForPARA, openPARAfromToolbar, createNewPageAs } from './para'
+import { createPageForPARA, openPARAfromToolbar } from './para'
 import { addProperties } from './property'
 import { slashCommandItems } from './slashCommand'
+import { combinationNewPage } from './combination'
 export const key = "openQuickly"
 
 /* main */
@@ -122,7 +123,7 @@ body>div{
           margin-left: -.6em;
         }
     
-        & select#selectionListSelect {
+        & select#pickListSelect {
           border-radius: 4px;
           border: 1px solid var(--ls-secondary-text-color);
           background: var(--ls-secondary-background-color);
@@ -158,18 +159,18 @@ const model = (popup: string) => {
     Archives: () => {
       addProperties("Archives", "PARA")
     },
-    selectionListSendButton: () => {
-      //<select id="selectionListSelect">で選択された値を取得
-      const selectionListValue: string = (parent.document.getElementById('selectionListSelect') as HTMLSelectElement)!.value
+    pickListTagSubmitButton: () => {
+      //<select id="pickListSelect">で選択された値を取得
+      const selectionListValue: string = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
       if (selectionListValue !== "") addProperties(selectionListValue, "Select")
     },
     NewProject: () => {
       removePopup()
-      createNewPageAs(`✈️ ${t("New Project Page")} / [Projects]`, "Projects")
+      combinationNewPage(`✈️ ${t("New Project Page")} / [Projects]`, "Projects")
     },
     NewPageInbox: () => {
       removePopup()
-      createNewPageAs(`📧 ${t("New page / [Inbox]")}`, "Inbox")
+      combinationNewPage(`📧 ${t("New page / [Inbox]")}`, "Inbox")
     },
     PARAsettingButton: () => {
       logseq.showSettingsUI()

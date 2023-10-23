@@ -1,8 +1,8 @@
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { createNewPageAs } from './para'
 import { updatePageProperty } from './property'
 import { PageEntity, BlockEntity } from "@logseq/libs/dist/LSPlugin.user"
 import { getPageEntityFromBlockUuid } from "./lib"
+import { combinationNewPage } from "./combination"
 
 export const slashCommandItems = () => {
 
@@ -24,10 +24,10 @@ export const slashCommandItems = () => {
     run(uuid, "Archives", "PARA")
   })
   logseq.Editor.registerSlashCommand("📧 New Page / [Inbox]", async () => {
-    createNewPageAs(`📧 ${t("New page / [Inbox]")}`, "Inbox")
+    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, "Inbox")
   })
   logseq.Editor.registerSlashCommand("✈️ New Project Page / [Projects]", async () => {
-    createNewPageAs(`✈️ ${t("New Project Page")}`, "Projects")
+    combinationNewPage(`✈️ ${t("New Project Page")}`, "Projects")
   })
 }
 
