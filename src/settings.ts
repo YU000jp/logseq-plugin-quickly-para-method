@@ -5,6 +5,13 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 // https://logseq.github.io/plugins/types/SettingSchemaDesc.html
 export const settingsTemplate = (): SettingSchemaDesc[] => [
   {
+    key: "switchRecodeDate",
+    title: t("In the first block, record today's date and its link. Except for the PARA page."),
+    type: "boolean",
+    default: false,
+    description: "",
+  },
+  {
     key: "switchPARArecodeDate",
     title: t("In the first block, record today's date and a link to the PARA page."),
     type: "boolean",
@@ -26,17 +33,11 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` "+t(" (⚠️To enable or disable it, restart Logseq or turn off the plugin)"),
   },
   {
-    key: "selectionList",
+    key: "pickList",
     type: "string",
-    default: "Index,ReadLATER,",
+    default: "Index\nReadLATER\n",
     title: t("Pick-list options in popup menu"),
-    description: t("Entry page names separated by commas(,)"),
-  },
-  {
-    key: "switchRecodeDate",
-    title: t("In the first block of the page, record today's date and its link. Except for the PARA page."),
-    type: "boolean",
-    default: false,
-    description: "",
+    description: t("Entry page names separate by line breaks. Without `#`."),
+    inputAs :"textarea",
   },
 ]

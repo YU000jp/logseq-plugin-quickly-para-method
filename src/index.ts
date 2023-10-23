@@ -3,7 +3,8 @@ import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyua
 import ja from "./translations/ja.json"
 import { settingsTemplate } from './settings'
 import { removePopup, copyPageTitleLink } from './lib'
-import { createPageFor, openPARAfromToolbar, addProperties, createNewPageAs } from './para'
+import { createPageForPARA, openPARAfromToolbar, createNewPageAs } from './para'
+import { addProperties } from './property'
 import { slashCommandItems } from './slashCommand'
 export const key = "openQuickly"
 
@@ -13,21 +14,39 @@ const main = async () => {
   await l10nSetup({ builtinTranslations: { ja } })
   /* user settings */
   if (!logseq.settings) {
-    createPageFor("Projects", "✈️", true)
-    createPageFor("Areas of responsibility", "🏠", true)
-    createPageFor("Resources", "🌍", true)
-    createPageFor("Archives", "🧹", true)
-    createPageFor("Inbox", "📧", false)
+    createPageForPARA("Projects", "✈️", true)
+    createPageForPARA("Areas of responsibility", "🏠", true)
+    createPageForPARA("Resources", "🌍", true)
+    createPageForPARA("Archives", "🧹", true)
+    createPageForPARA("Inbox", "📧", false)
   }
   logseq.useSettingsSchema(settingsTemplate())
   if (!logseq.settings) setTimeout(() => logseq.showSettingsUI(), 300)
-  //   }
-  //})();
+
+
+
+  //Update 2023/10/23
+
+  if (!logseq.settings!.breakingChanges20231023) {
+    //logseq.settings!.selectionListの区切り方を、「,」から改行に変更する
+    const pickList = logseq.settings!.pickList ? logseq.settings!.pickList : String(logseq.settings!.selectionList).includes(",") ? String(logseq.settings!.selectionList).replaceAll(",","\n") : logseq.settings!.selectionList
+    setTimeout(() => 
+      logseq.updateSettings({
+        pickList,
+        selectionList: null,
+        breakingChanges20231023: true
+      })
+    , 10)
+
+    const dateString = new Date("2023/10/23").toLocaleDateString()
+    logseq.UI.showMsg(`⚓ ${t("Quickly PARA method Plugin")}\n Big update!! ${dateString}`, "info")
+  }
+
 
   // external button on toolbar
   logseq.App.registerUIItem('toolbar', {
     key: 'openPARA',
-    template: `<div id="openPARAbutton" data-rect><a class="button icon" data-on-click="openPARA" title="${t("Open the menu for Quickly PARA Method Plugin")}" style="font-size:20px">⚓</a></div>`,
+    template: `<div id="openPARAbutton" data-rect><a class="button icon" data-on-click="openPARA" title="${t("Open PARA method menu")}" style="font-size:18px">⚓</a></div>`,
   })
 
   logseq.App.registerPageMenuItem(`⚓ ${t("Open PARA method menu")}`, () => {
@@ -44,57 +63,72 @@ const main = async () => {
 
 
   logseq.provideStyle(`
-body>div#${popup}  {
-  &>div {
-    &.draggable-handle>div.th h3 {
-      max-width: max-content;
-      text-overflow: ellipsis;
-      font-size: .9em;
+body>div{
+  &#root>div>main {
+    & article>div[data-id="${logseq.baseInfo.id}"] {
+      & div.heading-item {
+        margin-top: 3em;
+        border-top-width: 1px;
+        padding-top: 1em;
+      }
+
+      & label.form-control {
+        &>input[type="text"].form-input {
+          width: 100px;
+          font-size: 1.3em;
+        }
+
+        &>textarea.form-input {
+          width: 350px;
+          height: 9em;
+        }
+      }
     }
-    &.ls-ui-float-content>div {
-      & input {
-        background-color: var(--ls-primary-background-color);
-        color: var(--ls-primary-text-color);
-        box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+  }
+  &#${popup}  {
+    &>div {
+      &.draggable-handle>div.th h3 {
+        font-size: .9em;
       }
-  
-      & button {
-        border: 1px solid var(--ls-secondary-background-color);
-        box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
-        text-decoration: underline;
-  
-        &:hover {
-          background-color: var(--ls-secondary-background-color);
-          color: var(--ls-secondary-text-color);
+      &.ls-ui-float-content>div {
+        padding-top: 1em;
+        padding-bottom: .5em;
+
+        & input {
+          background-color: var(--ls-primary-background-color);
+          color: var(--ls-primary-text-color);
+          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
         }
-      }
-  
-      & ul li {
-        list-style: none;
-        padding: 4px 8px;
-        cursor: pointer;
-  
-        &:hover {
+    
+        & button {
+          border: 1px solid var(--ls-secondary-background-color);
+          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
           text-decoration: underline;
+    
+          &:hover {
+            background-color: var(--ls-secondary-background-color);
+            color: var(--ls-secondary-text-color);
+          }
         }
-      }
-  
-      & h2 {
-        font-size: 1.3em;
-        margin-left: -.8em;
-      }
-  
-      & h3 {
-        font-size: 1em;
-        margin-left: -.6em;
-      }
-  
-      & select#selectionListSelect {
-        border-radius: 4px;
-        border: 1px solid var(--ls-secondary-text-color);
-        background: var(--ls-secondary-background-color);
-        color: var(--ls-primary-text-color);
-        margin-right: 1em;
+    
+        & h2 {
+          font-size: 1.3em;
+          margin-left: -.8em;
+          margin-bottom: .5em;
+        }
+    
+        & h3 {
+          font-size: 1em;
+          margin-left: -.6em;
+        }
+    
+        & select#selectionListSelect {
+          border-radius: 4px;
+          border: 1px solid var(--ls-secondary-text-color);
+          background: var(--ls-secondary-background-color);
+          color: var(--ls-primary-text-color);
+          margin-top : .5em;
+        }
       }
     }
   }

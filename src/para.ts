@@ -1,23 +1,32 @@
-import { AppUserConfigs, PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { format } from 'date-fns'
+import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { removePopup } from './lib'
 import { key } from '.'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
+import { RecodeDateToPage } from './property'
 
 
 export const openPARAfromToolbar = async () => {
 
-  const SelectionList = logseq.settings!.selectionList.split(",")
-  //selectを作成
-  let select = `<select id="selectionListSelect" title="${t("User Selection List")}">`
-  //Select hereの選択肢を作成
-  select += `<option value="">${t("User Selection List")}</option>`
-  for (let i = 0; i < SelectionList.length; i++) {
-    if (SelectionList[i] !== "") select += `<option value="${SelectionList[i]}">${SelectionList[i]}</option>`
+  const pickList = logseq.settings!.pickList ? logseq.settings!.pickList.split("\n") : null
+  let select = ""
+  if (pickList === null) {
+    select = `<small>${t("Please set the pick list in the plugin settings.")}</small>`
+  } else {
+    //selectを作成
+    select = `
+              <select id="selectionListSelect" title="${t("Pick List")}">
+              <option value="">${t("Pick List")}</option>
+              `
+    for (let i = 0; i < pickList.length; i++) {
+      //文字列が12文字を超える場合は、12文字目以降を「...」にする
+      const label = pickList[i].length > 14 ? pickList[i].slice(0, 14) + "..." : pickList[i];
+      if (pickList[i] !== "") select += `<option value="${pickList[i]}">${label}</option>`
+    }
+    select += `
+              </select>
+              <button data-on-click="selectionListSendButton">${t("Tag")}</button>
+              `
   }
-  select += `</select>`
-  //selectの後ろに送信ボタン
-  select += `<button data-on-click="selectionListSendButton">${t("Submit")}</button>`
   let template = ""
   let title = ""
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null
@@ -26,11 +35,9 @@ export const openPARAfromToolbar = async () => {
     template = `
   <div title="" style="user-select: none">
   <ul>
-  <li><small><a data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</a></small></li>
+  <li><button data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</button></li>
   <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
-  <hr/>
-  <h2>${t("Set page-tags")}</h2>
-  <hr/>
+  <li style="margin-top:.6em">${select}</li>
   `
     if (getPage['journal?'] === false) {
       if (getPage.originalName === "Projects"
@@ -40,16 +47,17 @@ export const openPARAfromToolbar = async () => {
         || getPage.originalName === "Inbox"
       ) {
         //not show
+
       } else {
         template += `
-  <li><button data-on-click="Projects">/✈️ [Projects]</button></li>
-  <li><button data-on-click="AreasOfResponsibility">/🏠 [Areas of responsibility]</button></li>
-  <li><button data-on-click="Resources">/🌍 [Resources]</button></li>
-  <li><button data-on-click="Archives">/🧹 [Archives]</button></li>
-  `
+        <hr/>
+        <li>/✈️ [Projects] <button data-on-click="Projects">${t("Tag")}</button></li>
+        <li>/🏠 [Areas of responsibility] <button data-on-click="AreasOfResponsibility">${t("Tag")}</button></li>
+        <li>/🌍 [Resources] <button data-on-click="Resources">${t("Tag")}</button></li>
+        <li>/🧹 [Archives] <button data-on-click="Archives">${t("Tag")}</button></li>
+        `
       }
       template += `
-  <li style="margin-top:.6em">${select}</li>
   </ul>
   <hr/>
       `
@@ -64,9 +72,8 @@ export const openPARAfromToolbar = async () => {
   }
   template += `
   <ul>
-  <h2>${t("Command menu")}</h2>
-  <hr/>
-  <h3>${t("New page")}</h3>
+  <h2>${t("Combination Menu")}</h2>
+  <h3>${t("New page")} +</h3>
   <li><button data-on-click="NewPageInbox">/📧 ${t("Into [Inbox]")}</button></li>
   <li><button data-on-click="NewProject">/✈️ ${t("Page-Tag")} [Projects]</button></li> 
   </ul>
@@ -99,7 +106,7 @@ export const openPARAfromToolbar = async () => {
   })
 }
 
-export const createPageFor = async (name: string, icon: string, para: boolean) => {
+export const createPageForPARA = async (name: string, icon: string, para: boolean) => {
   const getPage = await logseq.Editor.getPage(name) as PageEntity | null
   if (getPage === null) {
     if (para === true) {
@@ -180,94 +187,3 @@ export const createNewPageAs = async (title: string, tags: string) => {
   }, 100)
 }
 
-export const addProperties = async (addProperty: string, addType: string) => {
-  removePopup()
-  if (addProperty === "") return logseq.UI.showMsg(t("Cancel"), "warning") //cancel
-
-  const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null
-  if (getCurrent) {
-    //cancel same page
-    if (getCurrent.name === addProperty || getCurrent.originalName === addProperty) return logseq.UI.showMsg(t("No need to tag the current page."), "warning")
-
-    const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null
-    if (getCurrentTree === null) return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
-    await updatePageProperty(addProperty, getCurrent, addType, getCurrentTree[0].uuid)
-  }
-}
-
-export const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
-  //INBOXの場合はタグをつけない
-  if (addType !== "INBOX") await updateProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
-  if ((addType !== "PARA" && logseq.settings?.switchRecodeDate === true)
-    || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) { //指定されたPARAページに日付とリンクをつける
-    const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-    await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300)
-  }
-  if (addType === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "info")
-  else logseq.UI.showMsg(`${t("Page-Tag")} ${addProperty}`, "info")
-}
-
-const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink) => {
-  const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[]
-  if (blocks) {
-    //PARAページの先頭行の下に追記
-    let content
-    if (logseq.settings!.archivesDone === true && targetPageName === "Archives") content = "DONE [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
-    else content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
-
-    await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false })
-  } else {
-    //ページが存在しない場合は作成
-    if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true })) await RecodeDateToPage(userDateFormat, targetPageName, pushPageLink)
-  }
-}
-
-const updateProperties = async (addProperty: string, targetProperty: string, PageProperties, addType: string, firstBlockUUID: string) => {
-  let editBlockUUID
-  let deleteArray = ['Projects', 'Resources', 'Areas of responsibility', 'Archives']
-  if (PageProperties !== null) {
-    if (typeof PageProperties === "object") { //ページプロパティが存在した場合
-      for (const [key, value] of Object.entries(PageProperties)) { //オブジェクトのキーに値がない場合は削除
-        if (!value) delete PageProperties[key]
-      }
-      if (addType === "PARA") deleteArray = deleteArray.filter(element => element !== addProperty) //PARA: 一致するもの以外のリスト
-      let PropertiesArray = PageProperties[targetProperty] || []
-      if (PropertiesArray) {
-        if (addType === "PARA") PropertiesArray = PropertiesArray.filter(property => !deleteArray.includes(property)) //PARA: タグの重複削除
-        PropertiesArray = [...PropertiesArray, addProperty]
-      } else {
-        PropertiesArray = [addProperty]
-      }
-      PropertiesArray = [...new Set(PropertiesArray)] //タグの重複削除
-      await logseq.Editor.upsertBlockProperty(firstBlockUUID, targetProperty, PropertiesArray)
-      editBlockUUID = firstBlockUUID
-    } else { //ページプロパティが存在しない
-      const prependProperties = {}
-      prependProperties[targetProperty] = addProperty
-      const prepend = await logseq.Editor.insertBlock(firstBlockUUID, "", { properties: prependProperties, sibling: true, before: true, isPageBlock: true, focus: true })
-      if (prepend) {
-        await logseq.Editor.moveBlock(prepend.uuid, firstBlockUUID, { before: true, children: true })
-        editBlockUUID = prepend.uuid
-      }
-    }
-    await logseq.Editor.editBlock(editBlockUUID)
-    setTimeout(function () {
-      logseq.Editor.insertAtEditingCursor(",") //ページプロパティを配列として読み込ませる処理
-      setTimeout(async function () {
-        const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null
-        if (property) {
-          //propertyから「,」をすべて取り除く
-          property.replace(/,/g, "")
-          await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property)
-          let tagsProperty = await logseq.Editor.getBlockProperty(editBlockUUID, "tags") as string | null
-          if (tagsProperty) {
-            //tagsPropertyの最後に「,」を追加
-            await logseq.Editor.upsertBlockProperty(editBlockUUID, "tags", tagsProperty)
-            logseq.Editor.insertAtEditingCursor(",") //ページプロパティを配列として読み込ませる処理
-          }
-        }
-      }, 200)
-    }, 200)
-  }
-  return editBlockUUID
-}

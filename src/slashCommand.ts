@@ -1,5 +1,6 @@
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { createNewPageAs,updatePageProperty } from './para'
+import { createNewPageAs } from './para'
+import { updatePageProperty } from './property'
 import { PageEntity, BlockEntity } from "@logseq/libs/dist/LSPlugin.user"
 import { getPageEntityFromBlockUuid } from "./lib"
 
