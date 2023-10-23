@@ -12,20 +12,6 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     description: "",
   },
   {
-    key: "selectionList",
-    type: "string",
-    default: "Index,ReadLATER,",
-    title: t("Page-tags Selection List"),
-    description: t("Entry page titles separated by commas(,)"),
-  },
-  {
-    key: "switchRecodeDate",
-    title: t("Record today's date and a link to the page in the first block of the page."),
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {
     key: "archivesDone",
     title: t("Add a DONE marker when recording on the Archives page"),
     type: "boolean",
@@ -38,5 +24,19 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     type: "boolean",
     default: true,
     description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` "+t(" (⚠️To enable or disable it, restart Logseq or turn off the plugin)"),
+  },
+  {
+    key: "selectionList",
+    type: "string",
+    default: "Index,ReadLATER,",
+    title: t("Pick-list options in popup menu"),
+    description: t("Entry page names separated by commas(,)"),
+  },
+  {
+    key: "switchRecodeDate",
+    title: t("In the first block of the page, record today's date and its link. Except for the PARA page."),
+    type: "boolean",
+    default: false,
+    description: "",
   },
 ]
