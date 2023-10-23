@@ -46,7 +46,7 @@ export const runCommand = async (addProperty: string, addType: string) => {
  */
 export const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
   // ページにプロパティを追加する (INBOX以外、またはタグをつける設定が有効の場合)
-  if (addType !== "INBOX" || logseq.settings!.booleanRecodeOnly === false) await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
+  if (addType !== "INBOX") await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
   // ページに日付を記録する
   if ((addType !== "PARA" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
