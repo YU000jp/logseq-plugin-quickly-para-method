@@ -4,6 +4,13 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 /* user setting */
 // https://logseq.github.io/plugins/types/SettingSchemaDesc.html
 export const settingsTemplate = (): SettingSchemaDesc[] => [
+  {//ページタグをつけるかどうか
+    key: "booleanRecodeOnly",
+    title: t("Just record without adding tags."),
+    type: "boolean",
+    default: false,
+    description: "default: false",
+  },
   {
     key: "switchRecodeDate",
     title: t("In the first block, record today's date and its link. Except for the PARA page."),

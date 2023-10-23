@@ -1,9 +1,7 @@
-import { AppUserConfigs, PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
+import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
 import { removePopup } from './lib'
-import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-
-
 
 
 /**
@@ -11,7 +9,7 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
  * @param addProperty 追加するプロパティ
  * @param addType 追加するプロパティのタイプ
  */
-export const addProperties = async (addProperty: string, addType: string) => {
+export const runCommand = async (addProperty: string, addType: string) => {
   removePopup()
 
   // 追加するプロパティが空の場合はキャンセルとする
@@ -39,7 +37,6 @@ export const addProperties = async (addProperty: string, addType: string) => {
 }
 
 
-
 /**
  * ページにプロパティを追加し、必要に応じて日付を記録する
  * @param addProperty 追加するプロパティ
@@ -49,7 +46,7 @@ export const addProperties = async (addProperty: string, addType: string) => {
  */
 export const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
   // ページにプロパティを追加する (INBOX以外、またはタグをつける設定が有効の場合)
-  if (addType !== "INBOX" || logseq.settings!.booleanTag === true) await updateProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
+  if (addType !== "INBOX" || logseq.settings!.booleanRecodeOnly === false) await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
   // ページに日付を記録する
   if ((addType !== "PARA" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
@@ -91,7 +88,7 @@ export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageL
  * @param firstBlockUUID ページの最初のブロックのUUID
  * @returns 編集されたブロックのUUID
  */
-const updateProperties = async (addProperty: string, targetProperty: string, PageProperties, addType: string, firstBlockUUID: string) => {
+const updatePageProperties = async (addProperty: string, targetProperty: string, PageProperties, addType: string, firstBlockUUID: string) => {
   let editBlockUUID
 
   // 削除するプロパティのリスト
@@ -138,32 +135,43 @@ const updateProperties = async (addProperty: string, targetProperty: string, Pag
     }
 
     // ブロックを編集
-    await logseq.Editor.editBlock(editBlockUUID)
-
-    setTimeout(function () {
-      // ページプロパティを配列として読み込ませる処理
-      logseq.Editor.insertAtEditingCursor(",")
-
-      setTimeout(async function () {
-        const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null
-
-        if (property) {
-          //propertyから「,」をすべて取り除く
-          property.replace(/,/g, "")
-          await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property)
-
-          let tagsProperty = await logseq.Editor.getBlockProperty(editBlockUUID, "tags") as string | null
-
-          if (tagsProperty) {
-            //tagsPropertyの最後に「,」を追加
-            await logseq.Editor.upsertBlockProperty(editBlockUUID, "tags", tagsProperty)
-            // ページプロパティを配列として読み込ませる処理
-            logseq.Editor.insertAtEditingCursor(",")
-          }
-        }
-      }, 200)
-    }, 200)
+    await reflectProperty(editBlockUUID)
   }
 
   return editBlockUUID
+}
+
+
+/**
+ * ブロックのプロパティを編集を反映させる
+ * @param editBlockUUID 編集するブロックのUUID
+ */
+const reflectProperty = async (editBlockUUID: any) => {
+  // ブロックを編集する
+  await logseq.Editor.editBlock(editBlockUUID)
+
+  // ページプロパティを配列として読み込ませる処理
+  setTimeout(function () {
+    logseq.Editor.insertAtEditingCursor(",")
+
+    // ページプロパティを読み込む
+    setTimeout(async function () {
+      const property = await logseq.Editor.getBlockProperty(editBlockUUID, "icon") as string | null
+
+      if (property) {
+        //propertyから「,」をすべて取り除く
+        property.replace(/,/g, "")
+        await logseq.Editor.upsertBlockProperty(editBlockUUID, "icon", property)
+
+        let tagsProperty = await logseq.Editor.getBlockProperty(editBlockUUID, "tags") as string | null
+
+        if (tagsProperty) {
+          //tagsPropertyの最後に「,」を追加
+          await logseq.Editor.upsertBlockProperty(editBlockUUID, "tags", tagsProperty)
+          // ページプロパティを配列として読み込ませる処理
+          logseq.Editor.insertAtEditingCursor(",")
+        }
+      }
+    }, 200)
+  }, 200)
 }

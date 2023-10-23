@@ -11,25 +11,24 @@ export const openPARAfromToolbar = async () => {
   if (getPage) {
     title = getPage.originalName
 
-    const paraBoolean = (getPage['journal?'] === false
-      || getPage.originalName === "Projects"
+    const paraBoolean = getPage.originalName === "Projects"
       || getPage.originalName === "Areas of responsibility"
       || getPage.originalName === "Resources"
       || getPage.originalName === "Archives"
       || getPage.originalName === "Inbox"
-    ) ? true : false
-
+      ? true : false
+    const tagButtonBoolean: boolean = getPage['journal?'] === false && paraBoolean === false
     template = `
   <div title="" style="user-select: none">
     <ul>
       <li><button data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</button></li>
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
-      <li style="margin-top:.6em" class="para-away">${createPickListSelect(true)}</li>
+      <li style="margin-top:.6em" class="para-away">${createPickListSelect(tagButtonBoolean)}</li>
       <hr/>
-      <li class="para-away"><span>/✈️ [Projects]</span><span>${paraBoolean === false ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🏠 [Areas of responsibility]</span><span>${paraBoolean === false ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🌍 [Resources]</span><span>${paraBoolean === false ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🧹 [Archives]</span><span>${paraBoolean === false ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/✈️ [Projects]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🏠 [Areas of responsibility]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🌍 [Resources]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🧹 [Archives]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
       `
@@ -38,7 +37,7 @@ export const openPARAfromToolbar = async () => {
     template = `
     <div title="" style="user-select: none">
     <ul>
-      <li style="margin-top:.6em" class="para-away">${createPickListSelect(true)}</li>
+      <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
       <li class="para-away"><span>/✈️ [Projects]</span><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
       <li class="para-away"><span>/🏠 [Areas of responsibility]</span><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>

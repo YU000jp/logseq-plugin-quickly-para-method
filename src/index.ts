@@ -4,7 +4,7 @@ import ja from "./translations/ja.json"
 import { settingsTemplate } from './settings'
 import { removePopup, copyPageTitleLink } from './lib'
 import { createPageForPARA, openPARAfromToolbar } from './para'
-import { addProperties } from './property'
+import { runCommand } from './property'
 import { slashCommandItems } from './slashCommand'
 import { combinationNewPage } from './combination'
 export const key = "openQuickly"
@@ -153,24 +153,24 @@ const model = (popup: string) => {
       if (!parent.document.getElementById(popup)) openPARAfromToolbar()
     },
     Inbox: () => {
-      addProperties("Inbox", "INBOX")
+      runCommand("Inbox", "INBOX")
     },
     Projects: () => {
-      addProperties("Projects", "PARA")
+      runCommand("Projects", "PARA")
     },
     AreasOfResponsibility: () => {
-      addProperties("Areas of responsibility", "PARA")
+      runCommand("Areas of responsibility", "PARA")
     },
     Resources: () => {
-      addProperties("Resources", "PARA")
+      runCommand("Resources", "PARA")
     },
     Archives: () => {
-      addProperties("Archives", "PARA")
+      runCommand("Archives", "PARA")
     },
     pickListTagSubmitButton: () => {
       //<select id="pickListSelect">で選択された値を取得
       const selectionListValue: string = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
-      if (selectionListValue !== "") addProperties(selectionListValue, "Select")
+      if (selectionListValue !== "") runCommand(selectionListValue, "Select")
     },
     NewProject: () => {
       removePopup()
