@@ -42,13 +42,13 @@ Logseq マーケットプレイスからインストール
      > ページが単独で開いているかどうかに応じてメニューの内容が異なります。
   1. スラッシュコマンド [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
      - ジャーナルページ以外でも、右サイドバーでも。
-       1. `📧 [[Inbox]] に挿入`
-       1. `✈️ [[Projects]]`
-       1. `🏠 [[Areas of responsibility]]`
-       1. `🌍 [[Resources]]`
-       1. `🧹 [[Archives]]`
-       1. `📧 新しいページを作成して [[Inbox]] に挿入`
-       1. `✈️ プロジェクトページを作成して [[Projects]] に挿入`
+       1. `📧 Into [Inbox]`
+       1. `✈️ Page-tag [Projects]`
+       1. `🏠 Page-tag [Areas of responsibility]`
+       1. `🌍 Page-tag [Resources]`
+       1. `🧹 Page-tag [Archives]`
+       1. `📧 New Page / [Inbox]`
+       1. `✈️ New Project Page / [Projects]`
 
 - プラグイン設定
 

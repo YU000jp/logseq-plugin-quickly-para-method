@@ -43,13 +43,13 @@ Install from Logseq Marketplace
      > The menu varies in its content depending on whether the single page is open or not.
   1. Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
      - On non-journal pages. Right sidebar too.
-       1. `📧 Put inside [[Inbox]]`]
-       1. `✈️ As [[Projects]] (Add to page-tags)`
-       1. `🏠 As [[Areas of responsibility]] (Add to page-tags)`
-       1. `🌍 As [[Resources]] (Add to page-tags)`
-       1. `🧹 As [[Archives]] (Add to page-tags)`
-       1. `📧 Create new page and put inside [[Inbox]]`
-       1. `✈️ Create new project page and put inside [[Projects]]`
+       1. `📧 Into [Inbox]`
+       1. `✈️ Page-tag [Projects]`
+       1. `🏠 Page-tag [Areas of responsibility]`
+       1. `🌍 Page-tag [Resources]`
+       1. `🧹 Page-tag [Archives]`
+       1. `📧 New Page / [Inbox]`
+       1. `✈️ New Project Page / [Projects]`
 
 - Plugin Settings
 
