@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.4.1...v1.5.0) (2023-10-23)
+
+
+### Bug Fixes
+
+* **design:** organize toolbar menu ([ffebf60](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/ffebf608f2afc3b7a1d55489f23f2943fc199e14))
+* **Translation:** ja ([a1a72aa](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/a1a72aa021b2d63e982418ab8fb9eb9f0f27c75f))
+
+
+### Features
+
+* **Add:** menu > quick open page button ([eeceb05](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/eeceb05b1c4e06962f2de77e1aa9635369798685))
+
 ## [1.4.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.4.0...v1.4.1) (2023-07-27)
 
 
