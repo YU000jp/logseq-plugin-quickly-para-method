@@ -7,26 +7,26 @@ export const slashCommandItems = () => {
 
   // スラッシュコマンドは、翻訳禁止！
 
-  logseq.Editor.registerSlashCommand("📧 Into [[Inbox]]", async ({ uuid }) => {
+  logseq.Editor.registerSlashCommand("📧 Into [Inbox]", async ({ uuid }) => {
     run(uuid, "Inbox", "INBOX")
   })
-  logseq.Editor.registerSlashCommand("✈️ Page-Tag [[Projects]]", async ({ uuid }) => {
+  logseq.Editor.registerSlashCommand("✈️ Page-Tag [Projects]", async ({ uuid }) => {
     run(uuid, "Projects", "PARA")
   })
-  logseq.Editor.registerSlashCommand("🏠 Page-Tag [[Areas of responsibility]]", async ({ uuid }) => {
+  logseq.Editor.registerSlashCommand("🏠 Page-Tag [Areas of responsibility]", async ({ uuid }) => {
     run(uuid, "Areas of responsibility", "PARA")
   })
-  logseq.Editor.registerSlashCommand("🌍 Page-Tag [[Resources]]", async ({ uuid }) => {
+  logseq.Editor.registerSlashCommand("🌍 Page-Tag [Resources]", async ({ uuid }) => {
     run(uuid, "Resources", "PARA")
   })
-  logseq.Editor.registerSlashCommand("🧹 Page-Tag [[Archives]]", async ({ uuid }) => {
+  logseq.Editor.registerSlashCommand("🧹 Page-Tag [Archives]", async ({ uuid }) => {
     run(uuid, "Archives", "PARA")
   })
-  logseq.Editor.registerSlashCommand("📧 New Page / [[Inbox]]", async () => {
-    createNewPageAs(t("📧 New page / [[Inbox]]"), "Inbox")
+  logseq.Editor.registerSlashCommand("📧 New Page / [Inbox]", async () => {
+    createNewPageAs(`📧 ${t("New page / [Inbox]")}`, "Inbox")
   })
-  logseq.Editor.registerSlashCommand("✈️ New Project Page / [[Projects]]", async () => {
-    createNewPageAs(t("✈️ New Project Page"), "Projects")
+  logseq.Editor.registerSlashCommand("✈️ New Project Page / [Projects]", async () => {
+    createNewPageAs(`✈️ ${t("New Project Page")}`, "Projects")
   })
 }
 

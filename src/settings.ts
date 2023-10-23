@@ -6,7 +6,7 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 export const settingsTemplate = (): SettingSchemaDesc[] => [
   {
     key: "switchPARArecodeDate",
-    title: t("Record today's date and the link to the first block of the PARA page"),
+    title: t("In the first block, record today's date and a link to the PARA page."),
     type: "boolean",
     default: true,
     description: "",
@@ -15,28 +15,28 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     key: "selectionList",
     type: "string",
     default: "Index,ReadLATER,",
-    title: t("Use page-tags Selection List"),
+    title: t("Page-tags Selection List"),
     description: t("Entry page titles separated by commas(,)"),
   },
   {
     key: "switchRecodeDate",
-    title: t("Record today's date and the link to the first block of the page"),
+    title: t("Record today's date and a link to the page in the first block of the page."),
     type: "boolean",
     default: false,
     description: "",
   },
   {
     key: "archivesDone",
-    title: t("Use a DONE marker when recording on the Archives page"),
+    title: t("Add a DONE marker when recording on the Archives page"),
     type: "boolean",
     default: false,
     description: "",
   },
   {
     key: "slashCommandMenu",
-    title: t("Enable slash command menu for PARA method"),
+    title: t("Enable slash command items for The PARA method"),
     type: "boolean",
     default: true,
-    description: t("`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` (⚠️need to turn off this plugin or restart Logseq to take effect)"),
+    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` "+t(" (⚠️To enable or disable it, restart Logseq or turn off the plugin)"),
   },
 ]

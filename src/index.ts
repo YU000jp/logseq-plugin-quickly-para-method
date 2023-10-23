@@ -30,7 +30,7 @@ const main = async () => {
     template: `<div id="openPARAbutton" data-rect><a class="button icon" data-on-click="openPARA" title="${t("Open the menu for Quickly PARA Method Plugin")}" style="font-size:20px">⚓</a></div>`,
   })
 
-  logseq.App.registerPageMenuItem(t("⚓ Open PARA method menu"), () => {
+  logseq.App.registerPageMenuItem(`⚓ ${t("Open PARA method menu")}`, () => {
     if (!parent.document.getElementById(popup)) openPARAfromToolbar()
   })
 
@@ -47,8 +47,9 @@ const main = async () => {
 body>div#${popup}  {
   &>div {
     &.draggable-handle>div.th h3 {
-      max-width: 80%;
+      max-width: max-content;
       text-overflow: ellipsis;
+      font-size: .9em;
     }
     &.ls-ui-float-content>div {
       & input {
@@ -79,18 +80,13 @@ body>div#${popup}  {
       }
   
       & h2 {
-        font-size: 1.5em;
+        font-size: 1.3em;
         margin-left: -.8em;
       }
   
       & h3 {
-        font-size: 1.25em;
+        font-size: 1em;
         margin-left: -.6em;
-      }
-  
-      & h4 {
-        font-size: 1.1em;
-        margin-left: -.4em;
       }
   
       & select#selectionListSelect {
@@ -135,11 +131,11 @@ const model = (popup: string) => {
     },
     NewProject: () => {
       removePopup()
-      createNewPageAs(t('✈️ New project page / [[Projects]]'), "Projects")
+      createNewPageAs(`✈️ ${t("New Project Page")} / [Projects]`, "Projects")
     },
     NewPageInbox: () => {
       removePopup()
-      createNewPageAs(t("📧 New page / [[Inbox]]"), "Inbox")
+      createNewPageAs(`📧 ${t("New page / [Inbox]")}`, "Inbox")
     },
     PARAsettingButton: () => {
       logseq.showSettingsUI()

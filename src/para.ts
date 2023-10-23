@@ -11,7 +11,7 @@ export const openPARAfromToolbar = async () => {
   //selectを作成
   let select = `<select id="selectionListSelect" title="${t("User Selection List")}">`
   //Select hereの選択肢を作成
-  select += `<option>${("Select here")}</option>`
+  select += `<option>${t("User Selection List")}</option>`
   for (let i = 0; i < SelectionList.length; i++) {
     if (SelectionList[i] !== "") select += `<option value="${SelectionList[i]}">${SelectionList[i]}</option>`
   }
@@ -20,57 +20,69 @@ export const openPARAfromToolbar = async () => {
   select += `<button data-on-click="selectionListSendButton">${t("Submit")}</button>`
   let template = ""
   let height = ""
+  let title = ""
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getPage) {
+    title = getPage.originalName
     template = `
-  <div title="">
-  <p title="${t("The title of current page")}">[[${getPage.originalName}]]<button data-on-click="copyPageTitleLink" title="${t("Copy to clipboard")}">📋</button></p>
+  <div title="" style="user-select: none">
   <ul>
-  <li><button data-on-click="Inbox">${t("/📧 Into [[Inbox]])")}</button></li>
-  <h2>${t("Set page-tags property")}</h2>
+  <li><small><a data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</a></small></li>
+  <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
+  <hr/>
+  <h2>${t("Set page-tags")}</h2>
+  <hr/>
 
-  <li>${select}</li>
   `
-    if (getPage.originalName === "Projects" || getPage.originalName === "Areas of responsibility" || getPage.originalName === "Resources" || getPage.originalName === "Archives") {
+    if (getPage.originalName === "Projects"
+      || getPage.originalName === "Areas of responsibility"
+      || getPage.originalName === "Resources"
+      || getPage.originalName === "Archives"
+      || getPage.originalName === "Inbox"
+      || getPage['journal?'] === true
+    ) {
       //not show
     } else {
       template += `
-  <li><button data-on-click="Projects">${t("/✈️ Page-Tag [[Projects]]")}</button></li>
-  <li><button data-on-click="AreasOfResponsibility">${t("/🏠 Page-Tag [[Areas of responsibility]]")}</button></li>
-  <li><button data-on-click="Resources">${t("/🌍 Page-Tag [[Resources]]")}</button></li>
-  <li><button data-on-click="Archives">${t("/🧹 Page-Tag [[Archives]]")}</button></li>
+  <li><button data-on-click="Projects">/✈️ [Projects]</button></li>
+  <li><button data-on-click="AreasOfResponsibility">/🏠 [Areas of responsibility]</button></li>
+  <li><button data-on-click="Resources">/🌍 [Resources]</button></li>
+  <li><button data-on-click="Archives">/🧹 [Archives]</button></li>
   `
     }
     template += `
+  <li style="margin-top:.6em">${select}</li>
   </ul>
   <hr/>
       `
-    height = "720px"
+    height = "850px"
   } else {
+    title = "⚓"
     template = `
     <div title="">
+    <p><small>${t("When open the page, will see various menus.")}</small></p>
+    <hr/>
     `
-    height = "420px"
+    height = "460px"
   }
   template += `
   <ul>
-  <h2>${t("Shortcut command menu")}</h2>
+  <h2>${t("Command menu")}</h2>
+  <hr/>
   <h3>${t("New page")}</h3>
-  <li><button data-on-click="NewPageInbox">${t("/📧 Into [[Inbox]]")}</button></li>
-  <li><button data-on-click="NewProject">${t("/✈️ Page-Tag [[Projects]]")}</button></li> 
+  <li><button data-on-click="NewPageInbox">/📧 ${t("Into [Inbox]")}</button></li>
+  <li><button data-on-click="NewProject">/✈️ ${t("Page-Tag")} [Projects]</button></li> 
   </ul>
   <hr/>
-  <p><small>${t("When open the page, will see various menus.")}</small></p>
-  <hr/>
-  <ul>
-  <li><button data-on-click="PARAsettingButton"><small>${t("Plugin Settings")}</small></button></li>
-  <li><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">⚓ ${t("Quickly PARA method Plugin")}</a></li>
-  </ul>
+  <p><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
   </div>
   `
 
   logseq.provideUI({
     key,
+    attrs: {
+      title,
+    },
     reset: true,
     close: "outside",
     template,
@@ -178,7 +190,7 @@ export const addProperties = async (addProperty: string, addType: string) => {
   const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getCurrent) {
     //cancel same page
-    if (getCurrent.name === addProperty || getCurrent.originalName === addProperty) return logseq.UI.showMsg(t("Need not add current page to page-tags."), "warning")
+    if (getCurrent.name === addProperty || getCurrent.originalName === addProperty) return logseq.UI.showMsg(t("No need to tag the current page."), "warning")
 
     const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null
     if (getCurrentTree === null) return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
@@ -194,7 +206,7 @@ export const updatePageProperty = async (addProperty: string, getCurrent: PageEn
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
     await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300)
   }
-  if (addType === "INBOX") logseq.UI.showMsg(t("Into [[INBOX]]"), "info")
+  if (addType === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "info")
   else logseq.UI.showMsg(`${t("Page-Tag")} ${addProperty}`, "info")
 }
 
