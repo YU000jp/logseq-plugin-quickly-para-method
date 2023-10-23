@@ -127,7 +127,7 @@ const model = (popup: string) => {
     selectionListSendButton: () => {
       //<select id="selectionListSelect">で選択された値を取得
       const selectionListValue: string = (parent.document.getElementById('selectionListSelect') as HTMLSelectElement)!.value
-      if (selectionListValue) addProperties(selectionListValue, "Select")
+      if (selectionListValue !== "") addProperties(selectionListValue, "Select")
     },
     NewProject: () => {
       removePopup()

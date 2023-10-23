@@ -11,7 +11,7 @@ export const openPARAfromToolbar = async () => {
   //selectを作成
   let select = `<select id="selectionListSelect" title="${t("User Selection List")}">`
   //Select hereの選択肢を作成
-  select += `<option>${t("User Selection List")}</option>`
+  select += `<option value="">${t("User Selection List")}</option>`
   for (let i = 0; i < SelectionList.length; i++) {
     if (SelectionList[i] !== "") select += `<option value="${SelectionList[i]}">${SelectionList[i]}</option>`
   }
@@ -19,7 +19,6 @@ export const openPARAfromToolbar = async () => {
   //selectの後ろに送信ボタン
   select += `<button data-on-click="selectionListSendButton">${t("Submit")}</button>`
   let template = ""
-  let height = ""
   let title = ""
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getPage) {
@@ -32,38 +31,36 @@ export const openPARAfromToolbar = async () => {
   <hr/>
   <h2>${t("Set page-tags")}</h2>
   <hr/>
-
   `
-    if (getPage.originalName === "Projects"
-      || getPage.originalName === "Areas of responsibility"
-      || getPage.originalName === "Resources"
-      || getPage.originalName === "Archives"
-      || getPage.originalName === "Inbox"
-      || getPage['journal?'] === true
-    ) {
-      //not show
-    } else {
-      template += `
+    if (getPage['journal?'] === false) {
+      if (getPage.originalName === "Projects"
+        || getPage.originalName === "Areas of responsibility"
+        || getPage.originalName === "Resources"
+        || getPage.originalName === "Archives"
+        || getPage.originalName === "Inbox"
+      ) {
+        //not show
+      } else {
+        template += `
   <li><button data-on-click="Projects">/✈️ [Projects]</button></li>
   <li><button data-on-click="AreasOfResponsibility">/🏠 [Areas of responsibility]</button></li>
   <li><button data-on-click="Resources">/🌍 [Resources]</button></li>
   <li><button data-on-click="Archives">/🧹 [Archives]</button></li>
   `
-    }
-    template += `
+      }
+      template += `
   <li style="margin-top:.6em">${select}</li>
   </ul>
   <hr/>
       `
-    height = "850px"
+    }
   } else {
     title = "⚓"
     template = `
     <div title="">
-    <p><small>${t("When open the page, will see various menus.")}</small></p>
+    <p><small>${t("If not journals, more menus will be displayed.")}</small></p>
     <hr/>
     `
-    height = "460px"
   }
   template += `
   <ul>
@@ -88,7 +85,7 @@ export const openPARAfromToolbar = async () => {
     template,
     style: {
       width: "400px",
-      height,
+      maxHeight: "980px",
       left: "unset",
       bottom: "unset",
       right: "1em",
