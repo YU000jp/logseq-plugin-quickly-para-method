@@ -34,3 +34,13 @@ export const copyPageTitleLink = async () => {
   }
 }
 
+export const openPageFromPageName = async (pageName: string, shiftKey: boolean) => {
+  if (shiftKey === true) {
+    const page = await logseq.Editor.getPage(pageName) as PageEntity | null
+    if (page) logseq.Editor.openInRightSidebar(page.uuid) //ページが存在しない場合は開かない
+    else return logseq.UI.showMsg(t("Page not found"), "error")
+  } else {
+    logseq.App.replaceState('page', { name: pageName })
+  }
+  removePopup()
+}

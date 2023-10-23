@@ -95,6 +95,13 @@ body>div{
         padding-top: 1em;
         padding-bottom: .5em;
 
+        & li.para-away {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: 1em;
+        }
+
         & input {
           background-color: var(--ls-primary-background-color);
           color: var(--ls-primary-text-color);
@@ -109,6 +116,7 @@ body>div{
           &:hover {
             background-color: var(--ls-secondary-background-color);
             color: var(--ls-secondary-text-color);
+            text-decoration: unset;
           }
         }
     
