@@ -19,7 +19,7 @@ export const openPARAfromToolbar = async () => {
       ? true : false
     const tagButtonBoolean: boolean = getPage['journal?'] === false && paraBoolean === false
     template = `
-  <div title="" style="user-select: none">
+  <div style="user-select: none">
     <ul>
       <li><button data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</button></li>
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
@@ -48,14 +48,14 @@ export const openPARAfromToolbar = async () => {
     `
   }
   template += `
-  <ul>
+  <ul title="">
   <h2>${t("Combination Menu")}</h2>
   <h3>${t("New page")} +</h3>
   <li><button data-on-click="NewPageInbox">/📧 ${t("Into [Inbox]")}</button></li>
   <li><button data-on-click="NewProject">/✈️ ${t("Page-Tag")} [Projects]</button></li> 
   </ul>
   <hr/>
-  <p><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
+  <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
   </div>
   `
 
