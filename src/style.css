@@ -1,0 +1,78 @@
+body>div{
+  &#root>div>main {
+    & article>div[data-id="quickly-para-method"] {
+      & div.heading-item {
+        margin-top: 3em;
+        border-top-width: 1px;
+        padding-top: 1em;
+      }
+
+      & label.form-control {
+        &>input[type="text"].form-input {
+          width: 100px;
+          font-size: 1.3em;
+        }
+
+        &>textarea.form-input {
+          width: 350px;
+          height: 9em;
+        }
+      }
+    }
+  }
+  &#quickly-para-method--openQuickly  {
+    &>div {
+      &.draggable-handle>div.th h3 {
+        font-size: .9em;
+      }
+      &.ls-ui-float-content>div {
+        padding-top: 1em;
+        padding-bottom: .5em;
+
+        & li.para-away {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-right: 1em;
+        }
+
+        & input {
+          background-color: var(--ls-primary-background-color);
+          color: var(--ls-primary-text-color);
+          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+        }
+    
+        & button {
+          border: 1px solid var(--ls-secondary-background-color);
+          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+          text-decoration: underline;
+    
+          &:hover {
+            background-color: var(--ls-secondary-background-color);
+            color: var(--ls-secondary-text-color);
+            text-decoration: unset;
+          }
+        }
+    
+        & h2 {
+          font-size: 1.3em;
+          margin-left: -.8em;
+          margin-bottom: .5em;
+        }
+    
+        & h3 {
+          font-size: 1em;
+          margin-left: -.6em;
+        }
+    
+        & select#pickListSelect {
+          border-radius: 4px;
+          border: 1px solid var(--ls-secondary-text-color);
+          background: var(--ls-secondary-background-color);
+          color: var(--ls-primary-text-color);
+          margin-top : .5em;
+        }
+      }
+    }
+  }
+}

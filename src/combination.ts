@@ -1,7 +1,6 @@
 import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { removePopup } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { key } from '.'
 import { RecodeDateToPage } from './property'
 
 
@@ -10,7 +9,7 @@ export const combinationNewPage = async (title: string, tags: string) => {
     attrs: {
       title,
     },
-    key,
+    key: "openQuickly",
     reset: true,
     template: `
         <p>${t("New Page Title")}: <input id="newPageTitle" type="text" style="width:340px"/>

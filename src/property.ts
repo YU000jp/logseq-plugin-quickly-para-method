@@ -10,6 +10,7 @@ import { removePopup } from './lib'
  * @param addType 追加するプロパティのタイプ
  */
 export const runCommand = async (addProperty: string, addType: string) => {
+  // ポップアップを削除
   removePopup()
 
   // 追加するプロパティが空の場合はキャンセルとする

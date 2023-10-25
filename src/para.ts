@@ -1,38 +1,45 @@
 import { PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { openPageFromPageName } from './lib'
-import { key } from '.'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 
 
+// ツールバーからPARAメニューを開く
 export const openPARAfromToolbar = async () => {
-  let template = ""
-  let title = ""
+  let template = "" // テンプレート(HTML)用
+  let title = "" // タイトル用
+
+  // 現在のページを取得
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getPage) {
-    title = getPage.originalName
 
-    const paraBoolean = getPage.originalName === "Projects"
+    // ページが存在する場合
+    title = getPage.originalName
+    // PARAページに該当する場合のフラグ
+    const flagPARA = getPage.originalName === "Projects"
       || getPage.originalName === "Areas of responsibility"
       || getPage.originalName === "Resources"
       || getPage.originalName === "Archives"
       || getPage.originalName === "Inbox"
       ? true : false
-    const tagButtonBoolean: boolean = getPage['journal?'] === false && paraBoolean === false
+    // タグボタンの表示は、Journalページではなく、paraページでもない場合のみ
+    const flagTagButton: boolean = getPage['journal?'] === false && flagPARA === false
     template = `
   <div style="user-select: none">
     <ul>
       <li><button data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</button></li>
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
-      <li style="margin-top:.6em" class="para-away">${createPickListSelect(tagButtonBoolean)}</li>
+      <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       <hr/>
-      <li class="para-away"><span>/✈️ [Projects]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🏠 [Areas of responsibility]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🌍 [Resources]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><span>/🧹 [Archives]</span><span>${tagButtonBoolean ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/✈️ [Projects]</span><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🏠 [Areas of responsibility]</span><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🌍 [Resources]</span><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><span>/🧹 [Archives]</span><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
       `
   } else {
+
+    // ページが存在しない場合
     title = "⚓"
     template = `
     <div title="" style="user-select: none">
@@ -47,6 +54,7 @@ export const openPARAfromToolbar = async () => {
     <hr/>
     `
   }
+
   template += `
   <ul title="">
   <h2>${t("Combination Menu")}</h2>
@@ -60,7 +68,7 @@ export const openPARAfromToolbar = async () => {
   `
 
   logseq.provideUI({
-    key,
+    key: "openQuickly",
     attrs: {
       title,
     },
@@ -81,12 +89,15 @@ export const openPARAfromToolbar = async () => {
       boxShadow: '1px 2px 5px var(--ls-secondary-background-color)',
     },
   })
-  setTimeout(() => {
-    openPageButton("pickListOpenButton", "pickListSelect") //openボタン //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
-    openPageButton("paraOpenButtonProjects", "Projects") //openボタン
-    openPageButton("paraOpenButtonAreas", "Areas of responsibility") //openボタン
-    openPageButton("paraOpenButtonResources", "Resources") //openボタン
-    openPageButton("paraOpenButtonArchives", "Archives") //openボタン
+
+  // ボタン操作 (Shiftキーに対応させるため)
+  setTimeout(() => { // 100ms後に実行
+    // 開くボタン
+    openPageButton("pickListOpenButton", "pickListSelect")//この場合だけ、selectの値を取得 (別の場所に書くと、selectの値が取得できない)
+    openPageButton("paraOpenButtonProjects", "Projects")
+    openPageButton("paraOpenButtonAreas", "Areas of responsibility")
+    openPageButton("paraOpenButtonResources", "Resources")
+    openPageButton("paraOpenButtonArchives", "Archives")
   }, 100)
 
 }
@@ -102,20 +113,27 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
   }
 }
 
+// ページを開くボタンのイベントリスナー
 const openPageButton = (elementId: string, value: string) => {
   if (!value) return
   const button = parent.document.getElementById(elementId) as HTMLButtonElement | null
   if (button) {
     button.addEventListener("click", async ({ shiftKey }) => {
+
       if (value === "pickListSelect") {
-        const selectValue = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value //selectの値を取得
+        // ピックリストの場合は、selectの値を取得
+        const selectValue = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
         if (selectValue !== "") openPageFromPageName(selectValue, shiftKey)
       } else
+        // ピックリスト以外の場合は、valueをそのまま渡す
         if (value !== "") openPageFromPageName(value, shiftKey)
+
     })
   }
 }
 
+
+// ピックリストの行を作成
 const createPickListSelect = (isPage: boolean): string => {
   const pickList = logseq.settings?.pickList?.split("\n") ?? []
   let select = ""

@@ -1,8 +1,8 @@
 import { PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { key } from '.'
 
 
+// UuidからPageEntityを取得 (右サイドバー or メインコンテンツ)
 export const getPageEntityFromBlockUuid = async (uuid: string) => {
   const block = await logseq.Editor.getBlock(uuid) as BlockEntity | null
   if (!block) return
@@ -12,17 +12,18 @@ export const getPageEntityFromBlockUuid = async (uuid: string) => {
   const ContentPage: Boolean = (pageTitleContentPage && pageTitleContentPage!.textContent) ? true : false
   if (ContentPage || rightSidebar) {
     const pageTitle = rightSidebar ? pageTitleRightSidebar!.textContent : pageTitleContentPage!.textContent
-    if (pageTitle) {
-      return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null
-    }
+    if (pageTitle)  return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null
   }
 }
 
+// ポップアップ削除 キー固定
 export const removePopup = () => {
-  const element = parent.document.getElementById(logseq.baseInfo.id + `--${key}`) as HTMLDivElement | null
+  const element = parent.document.getElementById("quickly-para-method--openQuickly") as HTMLDivElement | null
   if (element) element.remove()
 }
 
+
+// ページタイトルリンクをコピー
 export const copyPageTitleLink = async () => {
   const page = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (page) {
@@ -34,6 +35,7 @@ export const copyPageTitleLink = async () => {
   }
 }
 
+// ページ名からページを開く (Shiftキーで右サイドバーに開く)
 export const openPageFromPageName = async (pageName: string, shiftKey: boolean) => {
   if (shiftKey === true) {
     const page = await logseq.Editor.getPage(pageName) as PageEntity | null
