@@ -3,7 +3,7 @@ import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyu
 import { combinationNewPage } from './combination'
 import CSSMain from './style.css?inline'
 import { copyPageTitleLink, removePopup } from './lib'
-import { createPageForPARA, openPARAfromToolbar } from './para'
+import { createPageForPARA, openPARAfromToolbar } from './menu'
 import { runCommand } from './property'
 import { settingsTemplate } from './settings'
 import { slashCommandItems } from './slashCommand'
