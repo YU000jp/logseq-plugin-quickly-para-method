@@ -91,18 +91,21 @@ export const openMenuFromToolbar = async () => {
   })
 
   // ボタン操作 (Shiftキーに対応させるため)
-  setTimeout(() => { // 100ms後に実行
-    // 開くボタン
-    openPageButton("pickListOpenButton", "pickListSelect")//この場合だけ、selectの値を取得 (別の場所に書くと、selectの値が取得できない)
-    openPageButton("paraOpenButtonProjects", "Projects")
-    openPageButton("paraOpenButtonAreas", "Areas of responsibility")
-    openPageButton("paraOpenButtonResources", "Resources")
-    openPageButton("paraOpenButtonArchives", "Archives")
-  }, 100)
+  setTimeout(eventListener, 100)
 
 }
 
-// ページを開くボタンのイベントリスナー
+
+// イベントリスナー
+const eventListener = () => {
+  // それぞれの開くボタン
+  openPageButton("pickListOpenButton", "pickListSelect") //この場合だけ、selectの値を取得 (別の場所に書くと、selectの値が取得できない)
+  openPageButton("paraOpenButtonProjects", "Projects")
+  openPageButton("paraOpenButtonAreas", "Areas of responsibility")
+  openPageButton("paraOpenButtonResources", "Resources")
+  openPageButton("paraOpenButtonArchives", "Archives")
+}
+
 const openPageButton = (elementId: string, value: string) => {
   if (!value) return
   const button = parent.document.getElementById(elementId) as HTMLButtonElement | null

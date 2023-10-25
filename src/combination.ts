@@ -53,14 +53,13 @@ function eventListener(tags: string): () => void {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
 
             // ページを作成したら、ページに日付を記録する
-            setTimeout(() => RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]"), 100) 
-
+            setTimeout(async() => {
+              const success: boolean = await RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
+              if (success) logseq.UI.showMsg(t("Create a new page"), "success")
+            }, 100) 
+            
             // 右サイドバーにページを開く
             logseq.Editor.openInRightSidebar(createPage.uuid)
-
-            // メッセージを表示する
-            logseq.UI.showMsg(t("Create a new page"), "success")
-
           }
         } else {
           //ページが存在していた場合

@@ -5,35 +5,33 @@ import { removePopup } from './lib'
 
 
 /**
- * ページにプロパティを追加する
+ * コマンドを実行する (チェックをおこなう)
  * @param addProperty 追加するプロパティ
  * @param addType 追加するプロパティのタイプ
  */
 export const runCommand = async (addProperty: string, addType: string) => {
-  // ポップアップを削除
-  removePopup()
 
   // 追加するプロパティが空の場合はキャンセルとする
-  if (addProperty === "") {
-    return logseq.UI.showMsg(t("Cancel"), "warning")
-  }
+  if (addProperty === "") return logseq.UI.showMsg(t("Cancel"), "warning")
 
   // 現在のページを取得する
   const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getCurrent) {
     // 現在のページと同じ名前のプロパティを追加しようとした場合はキャンセルとする
-    if (getCurrent.name === addProperty || getCurrent.originalName === addProperty) {
+    if (getCurrent.name === addProperty
+      || getCurrent.originalName === addProperty)
       return logseq.UI.showMsg(t("No need to tag the current page."), "warning")
-    }
 
     // 現在のページのブロックツリーを取得する
     const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null
-    if (getCurrentTree === null) {
-      return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
-    }
+    if (getCurrentTree === null) return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
+
+    // ポップアップを削除
+    removePopup()
 
     // ページにプロパティを追加する
     await updatePageProperty(addProperty, getCurrent, addType, getCurrentTree[0].uuid)
+
   }
 }
 
@@ -46,16 +44,31 @@ export const runCommand = async (addProperty: string, addType: string) => {
  * @param uuid ページの最初のブロックのUUID
  */
 export const updatePageProperty = async (addProperty: string, getCurrent: PageEntity, addType: string, uuid: string) => {
-  // ページにプロパティを追加する (INBOX以外、またはタグをつける設定が有効の場合)
+
+  const message = () => {
+    if (addType === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "success", { timeout: 3000 })
+    else logseq.UI.showMsg(`${t("Page-Tag")} ${addProperty}`, "info", { timeout: 3000 })
+  }
+
+  // ページにプロパティを追加する
+  //INBOX以外、またはタグをつける設定が有効の場合
   if (addType !== "INBOX") await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
+
   // ページに日付を記録する
   if ((addType !== "PARA" && logseq.settings?.switchRecodeDate === true) || (addType === "PARA" && logseq.settings?.switchPARArecodeDate === true)) {
+
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-    await setTimeout(function () { RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]") }, 300)
+
+    setTimeout(async () => {
+      const success: boolean = await RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]")
+      if (success) message()
+    }, 300)
+
+  } else {
+    // 成功した場合のメッセージを表示
+    message()
   }
-  // メッセージを表示する
-  if (addType === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "info")
-  else logseq.UI.showMsg(`${t("Page-Tag")} ${addProperty}`, "info")
+
 }
 
 /**
@@ -64,7 +77,7 @@ export const updatePageProperty = async (addProperty: string, getCurrent: PageEn
  * @param targetPageName 日付を記録するページの名前
  * @param pushPageLink 日付を記録するページへのリンク
  */
-export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink, flagRepeat?: boolean) => {
+export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink, flagRepeat?: boolean): Promise<boolean> => {
   const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[]
   if (blocks.length > 0) {
 
@@ -77,14 +90,19 @@ export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageL
       , { sibling: false }) // ブロックのサブ行に追記
 
     logseq.hideMainUI() // 作業保護解除
+    return true
   } else {
-    if (flagRepeat) return logseq.UI.showMsg("Failed (Can not get the current page)", "warning") // 無限ループを防ぐ
+    if (flagRepeat) {
+      logseq.UI.showMsg("Failed (Can not get the current page)", "warning") // 無限ループを防ぐ
+      return false
+    }
 
     // ページが存在しない場合は作成
     if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true }))
       // 作成したら再度実行
       setTimeout(() => RecodeDateToPage(userDateFormat, targetPageName, pushPageLink, true), 100)
   }
+  return false
 }
 
 
