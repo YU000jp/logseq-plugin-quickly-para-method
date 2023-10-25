@@ -4,7 +4,7 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 
 
 // ツールバーからPARAメニューを開く
-export const openPARAfromToolbar = async () => {
+export const openMenuFromToolbar = async () => {
   let template = "" // テンプレート(HTML)用
   let title = "" // タイトル用
 
@@ -100,17 +100,6 @@ export const openPARAfromToolbar = async () => {
     openPageButton("paraOpenButtonArchives", "Archives")
   }, 100)
 
-}
-
-export const createPageForPARA = async (name: string, icon: string, para: boolean) => {
-  const getPage = await logseq.Editor.getPage(name) as PageEntity | null
-  if (getPage === null) {
-    if (para === true) {
-      logseq.Editor.createPage(name, { icon, tags: t("[[The PARA Method]]") }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
-    } else {
-      logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
-    }
-  }
 }
 
 // ページを開くボタンのイベントリスナー

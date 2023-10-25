@@ -1,4 +1,4 @@
-import { PageEntity, BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 
 
@@ -45,4 +45,11 @@ export const openPageFromPageName = async (pageName: string, shiftKey: boolean) 
     logseq.App.replaceState('page', { name: pageName })
   }
   removePopup()
+}
+export const createPageForPARA = async (name: string, icon: string, para: boolean) => {
+  const getPage = await logseq.Editor.getPage(name) as PageEntity | null
+  if (getPage === null) {
+    if (para === true) logseq.Editor.createPage(name, { icon, tags: t("[[The PARA Method]]") }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
+    else logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
+  }
 }

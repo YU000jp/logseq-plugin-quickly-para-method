@@ -1,14 +1,15 @@
-import '@logseq/libs'; //https://plugins-doc.logseq.com/
-import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import '@logseq/libs' //https://plugins-doc.logseq.com/
+import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { combinationNewPage } from './combination'
 import CSSMain from './style.css?inline'
 import { copyPageTitleLink, removePopup } from './lib'
-import { createPageForPARA, openPARAfromToolbar } from './menu'
+import { openMenuFromToolbar } from './menu'
 import { runCommand } from './property'
 import { settingsTemplate } from './settings'
 import { slashCommandItems } from './slashCommand'
 import ja from "./translations/ja.json"
 import { update20231023ChangeSplit } from './update'
+import { createPageForPARA } from './lib'
 
 /* main */
 const main = async () => {
@@ -43,7 +44,7 @@ const main = async () => {
 
   // page menu
   logseq.App.registerPageMenuItem(`⚓ ${t("Open PARA method menu")}`, () => {
-    if (!parent.document.getElementById("quickly-para-method--openQuickly")) openPARAfromToolbar()
+    if (!parent.document.getElementById("quickly-para-method--openQuickly")) openMenuFromToolbar()
   })
 
   // Model
@@ -53,7 +54,7 @@ const main = async () => {
   if (logseq.settings?.slashCommandMenu === true) slashCommandItems()
 
   // CSS
-  logseq.provideStyle(CSSMain);
+  logseq.provideStyle(CSSMain)
 
 }/* end_main */
 
@@ -62,7 +63,7 @@ const model = (popup: string) => logseq.provideModel({
 
   // ツールバー
   openPARA: () => {
-    if (!parent.document.getElementById(popup)) openPARAfromToolbar()
+    if (!parent.document.getElementById(popup)) openMenuFromToolbar()
   },
 
   // Inboxのコマンド呼び出し
@@ -108,5 +109,6 @@ const model = (popup: string) => logseq.provideModel({
   copyPageTitleLink: () => copyPageTitleLink(),
 
 })/* end_model */
+
 
 logseq.ready(main).catch(console.error)
