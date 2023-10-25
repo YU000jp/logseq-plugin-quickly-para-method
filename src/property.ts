@@ -1,6 +1,6 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
-import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { removePopup } from './lib'
 
 
@@ -64,18 +64,26 @@ export const updatePageProperty = async (addProperty: string, getCurrent: PageEn
  * @param targetPageName 日付を記録するページの名前
  * @param pushPageLink 日付を記録するページへのリンク
  */
-export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink) => {
+export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink, flagRepeat?: boolean) => {
   const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[]
-  if (blocks) {
-    // PARAページの先頭行の下に追記
-    let content
-    if (logseq.settings!.archivesDone === true && targetPageName === "Archives") content = "DONE [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
-    else content = "[[" + format(new Date(), userDateFormat) + "]]" + pushPageLink
+  if (blocks.length > 0) {
 
-    await logseq.Editor.insertBlock(blocks[0].uuid, content, { sibling: false })
+    logseq.showMainUI() // 作業保護
+
+    // 先頭行の下に追記する
+    await logseq.Editor.insertBlock(blocks[0].uuid,
+      logseq.settings!.archivesDone === true && targetPageName === "Archives" ? "DONE" : "" // Archivesページの場合はDONEを追加
+        + " [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink // 日付ページへのリンク
+      , { sibling: false }) // ブロックのサブ行に追記
+
+    logseq.hideMainUI() // 作業保護解除
   } else {
+    if (flagRepeat) return logseq.UI.showMsg("Failed (Can not get the current page)", "warning") // 無限ループを防ぐ
+
     // ページが存在しない場合は作成
-    if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true })) await RecodeDateToPage(userDateFormat, targetPageName, pushPageLink)
+    if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true }))
+      // 作成したら再度実行
+      setTimeout(() => RecodeDateToPage(userDateFormat, targetPageName, pushPageLink, true), 100)
   }
 }
 

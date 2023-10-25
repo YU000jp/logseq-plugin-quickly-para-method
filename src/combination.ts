@@ -4,6 +4,7 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPage } from './property'
 
 
+// ページを作成するダイアログを表示する
 export const combinationNewPage = async (title: string, tags: string) => {
   logseq.provideUI({
     attrs: {
@@ -29,47 +30,54 @@ export const combinationNewPage = async (title: string, tags: string) => {
       boxShadow: '1px 2px 5px var(--ls-secondary-background-color)',
     },
   })
-  setTimeout(() => {
+  setTimeout(eventListener(tags), 100)
+}
+
+
+// イベントリスナーを追加する
+function eventListener(tags: string): () => void {
+  return () => {
     const button = parent.document.getElementById("CreatePageButton") as HTMLButtonElement
     if (button) {
       let processing: Boolean = false
       button.addEventListener("click", async () => {
         if (processing) return
+        const inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value as string | null
+        if (!inputTitle) return
         processing = true
-        const inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value
-        if (!inputTitle) {
-          processing = false
-          return
-        }
-        if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) { //ページが存在しないことを確認する
-          const createPage = await logseq.Editor.createPage(inputTitle, "", { createFirstBlock: false, redirect: true })
+
+        //ページが存在しないことを確認する
+        if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) {
+          const createPage = await logseq.Editor.createPage(inputTitle, tags === "Inbox" ? {} : { tags }, { createFirstBlock: false, redirect: true })
           if (createPage) {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-            await RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
-            //ページプロパティの指定
-            if (tags !== "Inbox") {
-              const prepend = await logseq.Editor.prependBlockInPage(createPage.uuid, "", { properties: { tags } })
-              if (prepend) {
-                await logseq.Editor.editBlock(prepend.uuid).catch(async () => {
-                  await setTimeout(function () {
-                    //ページプロパティを配列として読み込ませる処理
-                    logseq.Editor.insertAtEditingCursor(",")
-                    logseq.Editor.openInRightSidebar(createPage.uuid)
-                    logseq.UI.showMsg(t("Create a new page"), "success")
-                  }, 200)
-                })
-              }
-            }
+
+            // ページを作成したら、ページに日付を記録する
+            setTimeout(() => RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]"), 100) 
+
+            // 右サイドバーにページを開く
+            logseq.Editor.openInRightSidebar(createPage.uuid)
+
+            // メッセージを表示する
+            logseq.UI.showMsg(t("Create a new page"), "success")
+
           }
-        } else { //ページが存在していた場合
+        } else {
+          //ページが存在していた場合
+
+          // 右サイドバーにページを開く
           logseq.Editor.openInRightSidebar(inputTitle)
+
+          // メッセージを表示する
           logseq.UI.showMsg(t("The Page already exists"), "warning")
         }
 
         //実行されたらポップアップを削除
         removePopup()
+
         processing = false
       })
     }
-  }, 100)
+  }
 }
+
