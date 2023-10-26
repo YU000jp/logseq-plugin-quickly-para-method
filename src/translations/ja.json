@@ -36,5 +36,6 @@
   "The current page does not need to be tagged.": "現在のページにタグを付ける必要はありません。",
   "The Page already exists": "ページはすでに存在します",
   "The title of current page": "現在のページのタイトル",
-  "Whether to add page tag": "ページタグを追加するかどうか"
+  "Whether to add page tag": "ページタグを追加するかどうか",
+  "Recode > Just record without adding tags." : "記録 > ページタグの追加をしない"
 }
