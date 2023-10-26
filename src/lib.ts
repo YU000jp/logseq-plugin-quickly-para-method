@@ -5,15 +5,8 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 // UuidからPageEntityを取得 (右サイドバー or メインコンテンツ)
 export const getPageEntityFromBlockUuid = async (uuid: string) => {
   const block = await logseq.Editor.getBlock(uuid) as BlockEntity | null
-  if (!block) return
-  const pageTitleRightSidebar = parent.document.querySelector(`div#right-sidebar div.sidebar-item.content:has(div[blockid="${block.uuid}"]) a.page-title`) as HTMLAnchorElement | null
-  const rightSidebar: Boolean = (pageTitleRightSidebar && pageTitleRightSidebar!.textContent) ? true : false
-  const pageTitleContentPage = parent.document.querySelector(`div#main-content-container div.content:has(div[blockid="${block.uuid}"]) :is(a.title)`) as HTMLAnchorElement | null
-  const ContentPage: Boolean = (pageTitleContentPage && pageTitleContentPage!.textContent) ? true : false
-  if (ContentPage || rightSidebar) {
-    const pageTitle = rightSidebar ? pageTitleRightSidebar!.textContent : pageTitleContentPage!.textContent
-    if (pageTitle) return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null
-  }
+  if (!block) return null
+  return await logseq.Editor.getPage(block.page.id) as PageEntity | null
 }
 
 // ポップアップ削除 キー固定
@@ -77,5 +70,11 @@ export const reflectProperty = async (blockUuid: string, flagLock?: boolean) => 
       100)
   }, 500)
 
+}
+export const renameProperty = async (oldName: string, newName: string) => {
+  const oldPage = await logseq.Editor.getPage(oldName) as PageEntity | null
+  if (!oldPage) return
+  logseq.Editor.renamePage(oldName, newName)
+  logseq.UI.showMsg(`${t("Renamed page")}`, "success")
 }
 
