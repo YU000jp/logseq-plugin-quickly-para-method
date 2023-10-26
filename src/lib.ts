@@ -12,7 +12,7 @@ export const getPageEntityFromBlockUuid = async (uuid: string) => {
   const ContentPage: Boolean = (pageTitleContentPage && pageTitleContentPage!.textContent) ? true : false
   if (ContentPage || rightSidebar) {
     const pageTitle = rightSidebar ? pageTitleRightSidebar!.textContent : pageTitleContentPage!.textContent
-    if (pageTitle)  return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null
+    if (pageTitle) return await logseq.Editor.getPage(pageTitle as string) as PageEntity | null
   }
 }
 
@@ -59,10 +59,10 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
  * ブロックにあるプロパティを強制的に反映させる
  * @param blockUuid 対象ブロックのUUID
  */
-export const reflectProperty = async (blockUuid: string) => {
+export const reflectProperty = async (blockUuid: string, flagLock?: boolean) => {
 
   //ユーザーによる操作を停止する
-  logseq.showMainUI()
+  if (flagLock) logseq.showMainUI()
   // ブロックの編集を終了する
   logseq.Editor.restoreEditingCursor()
   setTimeout(async () => {
@@ -70,9 +70,9 @@ export const reflectProperty = async (blockUuid: string) => {
     logseq.Editor.editBlock(blockUuid)
     setTimeout(() => {
       //改行を挿入
-      logseq.Editor.insertAtEditingCursor("\n")
+      logseq.Editor.insertAtEditingCursor(",\n")
       // ユーザーによる操作を再開する
-      logseq.hideMainUI()
+      if (flagLock) logseq.hideMainUI()
     },
       100)
   }, 500)

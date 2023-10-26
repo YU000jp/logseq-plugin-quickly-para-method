@@ -1,7 +1,7 @@
 import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { removePopup } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { RecodeDateToPage } from './property'
+import { RecodeDateToPageTop } from './property'
 
 
 // ページを作成するダイアログを表示する
@@ -54,7 +54,7 @@ function eventListener(tags: string): () => void {
 
             // ページを作成したら、ページに日付を記録する
             setTimeout(async() => {
-              const success: boolean = await RecodeDateToPage(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
+              const success: boolean = await RecodeDateToPageTop(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
               if (success) logseq.UI.showMsg(t("Create a new page"), "success")
             }, 100) 
             

@@ -52,24 +52,21 @@ export const updatePageProperty = async (addProperty: string, getCurrent: PageEn
   }
 
   // ページにプロパティを追加する
-  //INBOX以外、またはタグをつける設定が有効の場合
   if (addType !== "INBOX"
-    && logseq.settings!.booleanRecodeOnly === false)
-    await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
+    && logseq.settings!.booleanRecodeOnly === false //タグをつけない設定がオフの場合
+  ) await updatePageProperties(addProperty, "tags", getCurrent.properties, addType, uuid)
 
   // ページに日付を記録する
-
-  // PARAページ以外で、その日付記録の設定が有効の場合
-  if ((addType !== "PARA"
-    && logseq.settings?.switchRecodeDate === true)
-    // PARAページで、その日付記録の設定が有効の場合
-    || (addType === "PARA"
-      && logseq.settings?.switchPARArecodeDate === true)) {
+  if ((addType !== "PARA" // PARAページ以外
+    && logseq.settings?.switchRecodeDate === true) // 設定が有効
+    // もしくは
+    || (addType === "PARA" // PARAページ
+      && logseq.settings?.switchPARArecodeDate === true)) { // 設定が有効
 
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
 
     setTimeout(async () => {
-      const success: boolean = await RecodeDateToPage(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]")
+      const success: boolean = await RecodeDateToPageTop(preferredDateFormat, addProperty, " [[" + getCurrent.originalName + "]]")
       if (success) message()
     }, 300)
 
@@ -81,22 +78,28 @@ export const updatePageProperty = async (addProperty: string, getCurrent: PageEn
 }
 
 /**
- * 指定されたページに日付を記録する
- * @param userDateFormat ユーザーが設定した日付のフォーマット
- * @param targetPageName 日付を記録するページの名前
- * @param pushPageLink 日付を記録するページへのリンク
+ * 指定されたページの最初の行に、日付リンクともとのページ名リンクを追加する
+ * @param userDateFormat ユーザーが設定した日付形式
+ * @param targetPageName 日付リンク
+ * @param pushPageLink 元のページ名リンク
  */
-export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageLink, flagRepeat?: boolean): Promise<boolean> => {
+export const RecodeDateToPageTop = async (userDateFormat, targetPageName, pushPageLink, flagRepeat?: boolean): Promise<boolean> => {
   const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[]
   if (blocks.length > 0) {
 
+    const flagArchives: boolean = logseq.settings!.archivesDone === true && targetPageName === "Archives"
     logseq.showMainUI() // 作業保護
 
     // 先頭行の下に追記する
     await logseq.Editor.insertBlock(blocks[0].uuid,
-      logseq.settings!.archivesDone === true && targetPageName === "Archives" ? "DONE" : "" // Archivesページの場合はDONEを追加
-        + " [[" + format(new Date(), userDateFormat) + "]]" + pushPageLink // 日付ページへのリンク
-      , { sibling: false }) // ブロックのサブ行に追記
+      `${flagArchives === true ? "DONE" : "" // Archivesページの場合はDONEを追加
+      } [[${format(new Date(), userDateFormat)//日付リンク
+      }]]${pushPageLink// もとのページ名リンク
+      }`, {
+      sibling: false// ブロックのサブ行に追記
+    })
+    if (flagArchives === true) logseq.UI.showMsg(t("[DONE] marked and added date to the top of the page"), "success", { timeout: 3000 })
+    else logseq.UI.showMsg(t("Added date to the top of the page"), "success", { timeout: 3000 })
 
     logseq.hideMainUI() // 作業保護解除
     return true
@@ -109,7 +112,7 @@ export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageL
     // ページが存在しない場合は作成
     if (await logseq.Editor.createPage(targetPageName, "", { createFirstBlock: true, redirect: true }))
       // 作成したら再度実行
-      setTimeout(() => RecodeDateToPage(userDateFormat, targetPageName, pushPageLink, true), 100)
+      setTimeout(() => RecodeDateToPageTop(userDateFormat, targetPageName, pushPageLink, true), 100)
     // return trueはループで返却される
   }
   return false
@@ -120,44 +123,66 @@ export const RecodeDateToPage = async (userDateFormat, targetPageName, pushPageL
  * ページのプロパティを更新する
  * @param addProperty 追加するプロパティ
  * @param targetProperty 更新するプロパティの種類
- * @param PageProperties ページのプロパティ
+ * @param properties ページのプロパティ
  * @param addType 追加するプロパティのタイプ
  * @param firstBlockUuid ページの最初のブロックのUUID
- * @returns 編集されたブロックのUUID
  */
-const updatePageProperties = async (addProperty: string, targetProperty: string, PageProperties: {} | undefined, addType: string, firstBlockUuid: string) => {
+const updatePageProperties = (addProperty: string, targetProperty: string, properties, addType: string, firstBlockUuid: string) => {
 
   // 削除するプロパティのリスト
   let deleteArray = ['Projects', 'Resources', 'Areas of responsibility', 'Archives']
-  // PARAの場合は一致するもの以外のリストを使用
-  if (addType === "PARA") deleteArray = deleteArray.filter(element => element !== addProperty)
 
-  // ページプロパティにオブジェクトが存在するか確認
-  if (typeof PageProperties === "object") {
+  //properties[targetProperty]の中に配列もしくはundefinedがある
+  if (properties) {
+    if (properties[targetProperty]) {
 
-    // オブジェクトのキーに値がないものは削除
-    for (const [key, value] of Object.entries(PageProperties)) if (!value) delete PageProperties[key]
+      let tagArray = properties[targetProperty] as string[]
 
-    // PARAの場合はタグの重複を削除
-    if (addType === "PARA") PageProperties[targetProperty] = PageProperties[targetProperty].filter(property => !deleteArray.includes(property))
+      // PARAの場合は、削除リストに一致するものを取り除く
+      if (addType === "PARA") {
+        tagArray = tagArray.filter((value) => !deleteArray.includes(value))
+      }
 
+      // 重複を削除
+      tagArray = [...new Set([...tagArray, addProperty])]
 
-    // そのページプロパティを重複させない
-    PageProperties[targetProperty] = [...new Set(PageProperties[targetProperty])]
+      // properties[targetProperty]に反映する
+      properties = {
+        [targetProperty]: tagArray as string[]
+      }
+
+    } else {
+
+      // properties[targetProperty]が存在しない場合はpropertiesに追加する
+      properties[targetProperty] = [addProperty] as string[]
+
+    }
 
   } else {
-    // オブジェクトが存在しない場合は作成
-    PageProperties = {}
+
+    // propertiesが空の場合は、新規作成する
+    properties = {
+      [targetProperty]: [addProperty] as string[]
+    }
+
+
   }
 
-  // そのページプロパティに指定したプロパティを追加
-  PageProperties[targetProperty] = [...PageProperties[targetProperty], addProperty]
+  //ユーザーによる操作を停止する
+  logseq.showMainUI()
 
-  // ページのプロパティを更新
-  await logseq.Editor.upsertBlockProperty(firstBlockUuid, targetProperty, PageProperties)
+  setTimeout(() => {
 
-  // ページタグを反映する
-  await reflectProperty(firstBlockUuid)
+    // ページのプロパティを更新
+    logseq.Editor.upsertBlockProperty(firstBlockUuid, targetProperty, properties[targetProperty])
+
+    // ページタグを反映する
+    reflectProperty(firstBlockUuid)
+
+  }, 100)
+
+  // ユーザーによる操作を再開する
+  logseq.hideMainUI()
 
   return firstBlockUuid
 }
