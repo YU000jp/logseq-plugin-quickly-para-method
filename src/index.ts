@@ -111,7 +111,7 @@ const model = (popup: string) => logseq.provideModel({
   // 受信トレイに入れる新規ページの作成ダイアログを開く
   NewPageInbox: () => {
     removePopup() // ポップアップを閉じる
-    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, "logseq.settings!.inboxName")
+    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, logseq.settings!.inboxName)
   },
 
   // 設定ボタン

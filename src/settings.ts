@@ -26,6 +26,28 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: true,
     description: "",
   },
+  {//次ごとの分類をおこなう
+    key: "sortByMonth",
+    title: t("Recode > Sort by month"),
+    type: "boolean",
+    default: true,
+    description: "default: true",
+  },
+  {//上の項目がオンの場合に、それをリンクにするかどうか
+    key: "sortByMonthLink",
+    title: t("Recode > Sort by month > Link to the month page"),
+    type: "boolean",
+    default: true,
+    description: "default: true",
+  },
+  {//sortByMonthSeparator
+    key: "sortByMonthSeparator",
+    title: t("Recode > Sort by month > Separator"),
+    type: "string",
+    default: ">",
+    description: "default: `>`",
+  },
+  
   {
     key: "archivesDone",
     title: t("Recode > Add a DONE marker when recording on the Archives"),
