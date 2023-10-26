@@ -4,6 +4,7 @@
   "[DONE] marked and added date to the top of the page": "ページの先頭に日付を追加しました。(DONEとして)",
   "Added date to the top of the page": "ページの先頭に日付を追加しました",
   "Cancel": "キャンセル",
+  "Change > Inbox page name": "変更 > 受信トレイのページ名",
   "Combination Menu": "組み合わせメニュー",
   "Copy page title link": "ページタイトルリンクをコピー",
   "Copy the page name to clipboard": "ページ名をクリップボードにコピー",
@@ -11,6 +12,7 @@
   "Entry page names separate by line breaks. Without `#`.": "ページ名を改行で区切って入力します。`#`は不要です。",
   "Failed (Can not get the current page)": "失敗 (現在のページを取得できません)",
   "If not journals, more menus will be displayed.": "日誌以外の場合、さまざまなメニューが表示されます。",
+  "Inbox": "受信トレイ",
   "Into [Inbox]": "受信トレイに入れる",
   "Journals cannot be tagged.": "日誌にタグを付けることはできません。",
   "Menu > Pick-list options": "メニュー > 選択リストの項目作成",
@@ -32,6 +34,7 @@
   "Recode > In the first block, record current date and its link to the PARA page.": "記録 > ページの先頭に、現在の日付とそのリンクを記録する (PARAページ)",
   "Recode > In the first block, record current date and its link. Except for the PARA page.": "記録 > ページの先頭に、現在の日付とそのリンクを記録する (PARAページ以外)",
   "Recode > Just record without adding tags.": "記録 > ページタグの追加をしない",
+  "Renamed page": "ページ名を変更しました",
   "Slash command > Enable items": "スラッシュコマンド > 項目を有効にする",
   "Submit": "送信",
   "Tag": "タグ",
@@ -39,5 +42,6 @@
   "The current page does not need to be tagged.": "現在のページにタグを付ける必要はありません。",
   "The Page already exists": "ページはすでに存在します",
   "The title of current page": "現在のページのタイトル",
+  "The current page is not found." : "現在のページが見つかりません。",
   "Whether to add page tag": "ページタグを追加するかどうか"
 }

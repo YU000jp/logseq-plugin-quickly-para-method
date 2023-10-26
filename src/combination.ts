@@ -48,7 +48,7 @@ function eventListener(tags: string): () => void {
 
         //ページが存在しないことを確認する
         if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) {
-          const createPage = await logseq.Editor.createPage(inputTitle, tags === "Inbox" ? {} : { tags }, { createFirstBlock: false, redirect: true })
+          const createPage = await logseq.Editor.createPage(inputTitle, tags === logseq.settings!.inboxName ? {} : { tags }, { createFirstBlock: false, redirect: true })
           if (createPage) {
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
 

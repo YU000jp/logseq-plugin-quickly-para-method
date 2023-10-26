@@ -19,7 +19,7 @@ export const openMenuFromToolbar = async () => {
       || getPage.originalName === "Areas of responsibility"
       || getPage.originalName === "Resources"
       || getPage.originalName === "Archives"
-      || getPage.originalName === "Inbox"
+      || getPage.originalName === logseq.settings!.inboxName
       ? true : false
     // タグボタンの表示は、Journalページではなく、paraページでもない場合のみ
     const flagTagButton: boolean = getPage['journal?'] === false && flagPARA === false

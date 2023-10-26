@@ -10,6 +10,8 @@ import { slashCommandItems } from './slashCommand'
 import ja from "./translations/ja.json"
 import { update20231023ChangeSplit } from './update'
 import { createPageForPARA } from './lib'
+import { LSPluginBaseInfo } from '@logseq/libs/dist/LSPlugin'
+import { renameProperty } from './lib'
 
 /* main */
 const main = async () => {
@@ -27,7 +29,7 @@ const main = async () => {
     createPageForPARA("Areas of responsibility", "🏠", true)
     createPageForPARA("Resources", "🌍", true)
     createPageForPARA("Archives", "🧹", true)
-    createPageForPARA("Inbox", "📧", false)
+    createPageForPARA(logseq.settings!.inboxName, "📧", false)
 
     //設定画面を開く
     setTimeout(() => logseq.showSettingsUI(), 300)
@@ -56,7 +58,19 @@ const main = async () => {
   // CSS
   logseq.provideStyle(CSSMain)
 
+
+  // プラグイン設定の項目変更時
+  logseq.onSettingsChanged((
+    newSet: LSPluginBaseInfo["settings"],
+    oldSet: LSPluginBaseInfo["settings"]
+  ) => {
+    //Inboxのページ名を変更
+    if (oldSet.inboxName !== newSet.inboxName) renameProperty(oldSet.inboxName, newSet.inboxName)
+  }
+  )
+
 }/* end_main */
+
 
 
 const model = (popup: string) => logseq.provideModel({
@@ -67,7 +81,7 @@ const model = (popup: string) => logseq.provideModel({
   },
 
   // Inboxのコマンド呼び出し
-  Inbox: () => runCommand("Inbox", "INBOX"),
+  Inbox: () => runCommand(logseq.settings!.inboxName, "INBOX"),
 
   // Projectsのコマンド呼び出し
   Projects: () => runCommand("Projects", "PARA"),
@@ -99,7 +113,7 @@ const model = (popup: string) => logseq.provideModel({
   // 受信トレイに入れる新規ページの作成ダイアログを開く
   NewPageInbox: () => {
     removePopup() // ポップアップを閉じる
-    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, "Inbox")
+    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, "logseq.settings!.inboxName")
   },
 
   // 設定ボタン

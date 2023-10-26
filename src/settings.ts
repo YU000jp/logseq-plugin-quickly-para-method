@@ -4,6 +4,7 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 /* user setting */
 // https://logseq.github.io/plugins/types/SettingSchemaDesc.html
 export const settingsTemplate = (): SettingSchemaDesc[] => [
+  
   {//ページタグをつけるかどうか
     key: "booleanRecodeOnly",
     title: t("Recode > Just record without adding tags."),
@@ -32,6 +33,7 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: false,
     description: "",
   },
+
   {
     key: "slashCommandMenu",
     title: t("Slash command > Enable items"),
@@ -39,6 +41,7 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: true,
     description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` "+t(" (⚠️To enable or disable it, restart Logseq or turn off the plugin)"),
   },
+
   {
     key: "pickList",
     type: "string",
@@ -46,5 +49,14 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     title: t("Menu > Pick-list options"),
     description: t("Entry page names separate by line breaks. Without `#`."),
     inputAs :"textarea",
+  },
+
+  {// Inboxのページ名を変更する
+    // 変更された時、リネームを実行する
+    key: "inboxName",
+    type: "string",
+    default: t("Inbox"),
+    title: t("Change > Inbox page name"),
+    description: t("default: `Inbox`"),
   },
 ]

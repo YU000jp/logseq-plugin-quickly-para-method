@@ -9,7 +9,7 @@ body>div{
 
       & label.form-control {
         &>input[type="text"].form-input {
-          width: 100px;
+          width: 200px;
           font-size: 1.3em;
         }
 
