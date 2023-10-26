@@ -1,4 +1,4 @@
-body>div{
+body>div {
   &#root>div>main {
     & article>div[data-id="quickly-para-method"] {
       & div.heading-item {
@@ -20,14 +20,64 @@ body>div{
       }
     }
   }
-  &#quickly-para-method--openQuickly  {
+
+  &#quickly-para-method--openQuickly {
     &>div {
       &.draggable-handle>div.th h3 {
         font-size: .9em;
       }
+
       &.ls-ui-float-content>div {
         padding-top: 1em;
         padding-bottom: .5em;
+
+        /* ツールチップ */
+        & ul>li.para-away>label>span>input[type=checkbox] {
+          display: none;
+
+          &+div {
+
+            overflow: auto;
+            min-width: 340px;
+            max-width: 660px;
+            min-height: 200px;
+            max-height: 620px;
+            color: var(--ls-primary-text-color);
+            padding: 1em;
+            position: absolute;
+            transform: translate(-10%, -50%);
+            z-index: 1;
+            border-radius: 0.2em;
+            outline: 6px solid var(--ls-guideline-color);
+            outline-offset: 3px;
+            cursor: zoom-out;
+            backdrop-filter: blur(30px);
+            font-size: .96em;
+
+            & a {
+              text-decoration: underline;
+
+              &:hover {
+                text-decoration: none;
+              }
+
+            }
+
+            & h2 {
+              padding-left: 0.5em;
+            }
+
+          }
+
+          &:not(:checked)+div {
+            display: none;
+          }
+
+          &:checked+div {
+            transition: .2s;
+            display: block;
+          }
+        }
 
         & li.para-away {
           display: flex;
@@ -41,36 +91,36 @@ body>div{
           color: var(--ls-primary-text-color);
           box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
         }
-    
+
         & button {
           border: 1px solid var(--ls-secondary-background-color);
           box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
           text-decoration: underline;
-    
+
           &:hover {
             background-color: var(--ls-secondary-background-color);
             color: var(--ls-secondary-text-color);
             text-decoration: unset;
           }
         }
-    
+
         & h2 {
           font-size: 1.3em;
           margin-left: -.8em;
           margin-bottom: .5em;
         }
-    
+
         & h3 {
           font-size: 1em;
           margin-left: -.6em;
         }
-    
+
         & select#pickListSelect {
           border-radius: 4px;
           border: 1px solid var(--ls-secondary-text-color);
           background: var(--ls-secondary-background-color);
           color: var(--ls-primary-text-color);
-          margin-top : .5em;
+          margin-top: .5em;
         }
       }
     }
