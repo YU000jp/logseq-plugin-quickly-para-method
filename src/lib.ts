@@ -53,3 +53,29 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
     else logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
   }
 }
+
+
+/**
+ * ブロックにあるプロパティを強制的に反映させる
+ * @param blockUuid 対象ブロックのUUID
+ */
+export const reflectProperty = async (blockUuid: string) => {
+
+  //ユーザーによる操作を停止する
+  logseq.showMainUI()
+  // ブロックの編集を終了する
+  logseq.Editor.restoreEditingCursor()
+  setTimeout(async () => {
+    // ブロックを編集する
+    logseq.Editor.editBlock(blockUuid)
+    setTimeout(() => {
+      //改行を挿入
+      logseq.Editor.insertAtEditingCursor("\n")
+      // ユーザーによる操作を再開する
+      logseq.hideMainUI()
+    },
+      100)
+  }, 500)
+
+}
+
