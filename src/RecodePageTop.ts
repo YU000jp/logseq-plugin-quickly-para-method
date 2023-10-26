@@ -108,7 +108,7 @@ const sortByMonth = async (blocks: BlockEntity[], insertContent: string): Promis
   const newBlock = await logseq.Editor.insertBlock(firstBlock.uuid, monthString, { sibling: false }) as BlockEntity | null // ブロックのサブ行に追記
   if (!newBlock) {
     //年のためエラー処理
-    logseq.UI.showMsg("Failed (Create a new block in first block of the page)", "error")
+    logseq.UI.showMsg(t("Failed (Cannot create a new block in first block of the page)"), "error")
     return false
   }
   // ブロックのサブ行に追記

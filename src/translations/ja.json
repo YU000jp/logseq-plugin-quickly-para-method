@@ -9,6 +9,7 @@
   "Copy page title link": "ページタイトルリンクをコピー",
   "Copy the page name to clipboard": "ページ名をクリップボードにコピー",
   "Create a new page": "新しいページを作成する",
+  "Created page": "ページを作成しました",
   "Entry page names separate by line breaks. Without `#`.": "ページ名を改行で区切って入力します。`#`は不要です。",
   "Failed (Already recorded)": "失敗 (すでに記録されています)",
   "Failed (Can not get the current page)": "失敗 (現在のページを取得できません)",
@@ -24,6 +25,8 @@
   "No need to tag the current page.": "現在のページにタグを付ける必要はありません。",
   "Open": "開く",
   "Open PARA method menu": "PARAメソッド メニューを開く",
+  "Opened page in main content": "メインコンテンツでページを開きました",
+  "Opened page in right sidebar": "サイドバーでページを開きました",
   "Page not found": "ページが見つかりません",
   "Page-Tag": "ページタグ",
   "Pick List": "選択リスト",
@@ -37,6 +40,7 @@
   "Recode > Just record without adding tags.": "記録 > ページタグの追加をしない",
   "Recode > Sort by month": "記録 > 月でソート",
   "Recode > Sort by month > Link to the month page": "記録 > 月でソート > 月のページへのリンク",
+  "Recode > Sort by month > Separator": "記録 > 月でソート > 区切り文字",
   "Renamed page": "ページ名を変更しました",
   "Slash command > Enable items": "スラッシュコマンド > 項目を有効にする",
   "Submit": "送信",
@@ -46,6 +50,6 @@
   "The current page is not found.": "現在のページが見つかりません。",
   "The Page already exists": "ページはすでに存在します",
   "The title of current page": "現在のページのタイトル",
-  "Recode > Sort by month > Separator" : "記録 > 月でソート > 区切り文字",
+  "Failed (Cannot create a new block in first block of the page)": "中断しました。 (ページの先頭に新しいブロックを作成できなかったため)",
   "Whether to add page tag": "ページタグを追加するかどうか"
 }

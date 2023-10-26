@@ -32,9 +32,13 @@ export const copyPageTitleLink = async () => {
 export const openPageFromPageName = async (pageName: string, shiftKey: boolean) => {
   if (shiftKey === true) {
     const page = await logseq.Editor.getPage(pageName) as PageEntity | null
-    if (page) logseq.Editor.openInRightSidebar(page.uuid) //ページが存在しない場合は開かない
+    if (page) {
+      logseq.Editor.openInRightSidebar(page.uuid) //ページが存在しない場合は開かない
+      logseq.UI.showMsg(t("Opened page in right sidebar") + "\n\n" + pageName, "success", { timeout: 1900 })
+    }
     else return logseq.UI.showMsg(t("Page not found"), "error")
   } else {
+    logseq.UI.showMsg(t("Opened page in main content") + "\n\n" + pageName, "success", { timeout: 1900 })
     logseq.App.replaceState('page', { name: pageName })
   }
   removePopup()
@@ -44,6 +48,7 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
   if (getPage === null) {
     if (para === true) logseq.Editor.createPage(name, { icon, tags: t("[[The PARA Method]]") }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
     else logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
+    logseq.UI.showMsg(t("Created page") + "\n\n" + name, "success", { timeout: 1900 })
   }
 }
 
