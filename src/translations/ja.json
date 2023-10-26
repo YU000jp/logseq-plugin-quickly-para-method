@@ -37,5 +37,7 @@
   "The Page already exists": "ページはすでに存在します",
   "The title of current page": "現在のページのタイトル",
   "Whether to add page tag": "ページタグを追加するかどうか",
+  "[DONE] marked and added date to the top of the page": "[DONE] マークをつけて。ページの先頭に日付を追加しました",
+  "Added date to the top of the page" : "ページの先頭に日付を追加しました",
   "Recode > Just record without adding tags." : "記録 > ページタグの追加をしない"
 }
