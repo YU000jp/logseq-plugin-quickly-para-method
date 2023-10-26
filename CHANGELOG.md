@@ -9,6 +9,22 @@
 
 ### Features
 
+* **Add:** plugin settings > Recode > Sort by month ([57ea714](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/57ea71458d102b2a7dac0d3034e9efa32adeb5d1))
+* **Add:** plugin settings > recode only ([c82ab2a](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/c82ab2a603ef771989e1af9f9262c89bc779e41f))
+* **Inbox:** plugin settings > rename inbox page ([a88b9f5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/a88b9f5f0b5120eaed75d27026d8f09423a4b036))
+* Recode >Remove empty lines in page first line ([debb322](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/debb322f464da5f5fa1c05f64890b3e52c21aba2))
+
+# [1.6.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.5.0...v1.6.0) (2023-10-26)
+
+
+### Bug Fixes
+
+* **bug:** Adding to page property "tags" fails depending on conditions ([cec7319](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/cec731988cff83d614cf8878c9f07ff85b3db51a))
+* **bug:** slash command > not work ([7939b03](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/7939b03be1f3a7b5b77c69de6e578d9b0c3fdc1e))
+
+
+### Features
+
 * **Add:** plugin settings > Recode > Sort by month ([cd72140](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/cd721408886c8a93ec992979a69031d91bdf252a))
 * **Add:** plugin settings > recode only ([c82ab2a](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/c82ab2a603ef771989e1af9f9262c89bc779e41f))
 * **Inbox:** plugin settings > rename inbox page ([a88b9f5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/a88b9f5f0b5120eaed75d27026d8f09423a4b036))
