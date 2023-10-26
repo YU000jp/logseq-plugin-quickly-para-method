@@ -1,8 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { removePopup } from './lib'
-import { reflectProperty } from './lib'
+import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from './RecodePageTop'
+import { reflectProperty, removePopup } from './lib'
 
 
 /**

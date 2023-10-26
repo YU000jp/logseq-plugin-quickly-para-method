@@ -1,7 +1,7 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-  
+
 
 /**
  * 指定されたページの最初の行に、日付リンクともとのページ名リンクを追加する
@@ -17,6 +17,8 @@ export const RecodeDateToPageTop = async (userDateFormat, targetPageName, pushPa
     const flagArchives: boolean = logseq.settings!.archivesDone === true && targetPageName === "Archives"
     logseq.showMainUI() // 作業保護
 
+    //先頭行の子孫にある空ブロックを削除
+    await removeEmptyBlockFirstLineAll(blocks)
 
     // 先頭行の下に追記する
     await logseq.Editor.insertBlock(blocks[0].uuid,
@@ -44,4 +46,21 @@ export const RecodeDateToPageTop = async (userDateFormat, targetPageName, pushPa
     // return trueはループで返却される
   }
   return false
+}
+
+const removeEmptyBlockFirstLineAll = async (blocks: BlockEntity[]) => {
+  const firstBlock = blocks[0] as BlockEntity
+  const children = firstBlock.children as BlockEntity[]
+  if (children && children.length > 0) {
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i]
+      if (child.content === "") {
+        await logseq.Editor.removeBlock(child.uuid)
+      }
+      // 子孫ブロックがある場合は再帰的に探索する
+      if (child.children && child.children.length > 0) {
+        await removeEmptyBlockFirstLineAll(child.children as BlockEntity[])
+      }
+    }
+  }
 }
