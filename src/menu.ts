@@ -54,9 +54,9 @@ export const openMenuFromToolbar = async () => {
     template = `
   <div style="user-select: none" title="">
     <ul>
-      <li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>|<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>|`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
-      ${printNamespace}
+      ${title === logseq.settings!.inboxName ? "" : printNamespace}
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>|` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li class="para-away"><label title="${t("Open the list")}"><span>🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>|` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
@@ -72,6 +72,7 @@ export const openMenuFromToolbar = async () => {
     template = `
     <div title="" style="user-select: none" title="">
     <ul>
+      ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
