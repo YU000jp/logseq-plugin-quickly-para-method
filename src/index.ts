@@ -2,7 +2,7 @@ import '@logseq/libs' //https://plugins-doc.logseq.com/
 import { LSPluginBaseInfo } from '@logseq/libs/dist/LSPlugin'
 import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { combinationNamespace, combinationNewPage } from './combination'
-import { copyPageTitleLink, createPageForPARA, removePopup, renameProperty } from './lib'
+import { copyPageTitleLink, createPageForPARA, removePopup, renamePageAndProperty } from './lib'
 import { openMenuFromToolbar } from './menu'
 import { runCommand } from './property'
 import { settingsTemplate } from './settings'
@@ -63,7 +63,7 @@ const main = async () => {
     oldSet: LSPluginBaseInfo["settings"]
   ) => {
     //Inboxのページ名を変更
-    if (oldSet.inboxName !== newSet.inboxName) renameProperty(oldSet.inboxName, newSet.inboxName)
+    if (oldSet.inboxName !== newSet.inboxName) renamePageAndProperty(oldSet.inboxName, newSet.inboxName)
   }
   )
 

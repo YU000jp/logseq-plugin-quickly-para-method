@@ -257,14 +257,14 @@ const tooltipCreateList = (
 
       //同じ名前をもつページ名を取得するクエリー
       const query = `
-    [:find (pull ?p [:block/original-name])
-            :in $ ?pattern
-            :where
-            [?p :block/name ?c]
-		        [(re-pattern ?pattern) ?q]
-		        [(re-find ?q ?c)]
-    ]
-    `
+      [:find (pull ?p [:block/original-name])
+              :in $ ?pattern
+              :where
+              [?p :block/name ?c]
+              [(re-pattern ?pattern) ?q]
+              [(re-find ?q ?c)]
+      ]
+      `
       let result = (await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null)?.flat() as {
         "original-name": string
       }[] | null
@@ -313,7 +313,9 @@ const tooltipCreateList = (
       if (!blocksEntity) return logseq.UI.showMsg("Cannot get the page name", "warning")
       const firstBlock = blocksEntity[0]
       //一行目のサブブロックを取得
-      const subBlocks = firstBlock.children as BlockEntity[] | null
+      let subBlocks = firstBlock.children as BlockEntity[] | null
+      // contentが""を除外する
+      if (subBlocks) subBlocks = subBlocks.filter((item) => item['content'] !== "")
       if (!subBlocks) {
         //inboxのサブブロックがない場合
         eleDiv.innerHTML = t("No pages found for this inbox.")
@@ -321,9 +323,12 @@ const tooltipCreateList = (
       } else {
         //inboxのサブブロックがある場合
 
-        //さらにそのサブブロックのサブブロックがある場合
-        const subSubBlocks = subBlocks[0].children as BlockEntity[] | null
-        if (subSubBlocks) {
+        //サブブロックの中にある、すべてのサブブロック(children)を取得する
+        let subSubBlocks = subBlocks.map((item) => item.children).flat() as BlockEntity[] | null
+        // contentが""を除外する
+        if (subSubBlocks) subSubBlocks = subSubBlocks.filter((item) => item['content'] !== "")
+
+        if (subSubBlocks && subSubBlocks.length > 0) {
           //サブサブブロックがある場合
           //サブブロックは[[YYYY/MM]]のような形式で月ごとの分類になっている
           //サブサブブロックは「[[日付形式]] [[ページ名]]」という形式になっている
@@ -342,6 +347,8 @@ const tooltipCreateList = (
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
             const day: Date = parse(monthString.replace("[[", ""),  // [[を削除する
               preferredDateFormat, new Date())// ユーザー日付形式から、YYYY/MMのような形式で作成する
+            // 正しい日付形式でない場合は、スキップする
+            if (day.toString() === "Invalid Date") continue
             const monthKey = format(day, "yyyy/MM")
             //月ごとにグループ化する
             if (!pagesByMonth[monthKey]) {
@@ -358,7 +365,7 @@ const tooltipCreateList = (
             //original-nameを追加
             pagesByMonth[monthKey].push({
               "original-name": pageName as string,
-              "receive-date": day
+              "receive-date": day as Date
             })
 
             //day(Date)でソートする
@@ -378,7 +385,10 @@ const tooltipCreateList = (
                 const pageName = page['original-name']
                 const eleLi = document.createElement("li") as HTMLLIElement
                 const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
-                const receiveString = page["receive-date"].toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
+                const receiveDate: Date | null = page["receive-date"]
+                // 正しい日付形式でない場合は、スキップする
+                if (receiveDate.toString() === "Invalid Date") continue
+                const receiveString = receiveDate.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
                 eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${receiveString}">${pageNameString}</a>`
                 eleUl.append(eleLi)
                 setTimeout(() => {
@@ -392,14 +402,22 @@ const tooltipCreateList = (
 
           }
 
-        } else {
+        }//end of サブサブブロックがある場合
+
+
+        // 月ごとのソートがオフで、混合している場合も処理する
+        // contentに、先頭が「[[」で始まる場合は、サブブロックとして処理する
+        const subBlocksNotSortByMonth = subBlocks.filter((item) =>
+          item['content'].startsWith("[[")
+        )
+        if (subBlocksNotSortByMonth && subBlocksNotSortByMonth.length > 0) {
 
           //サブブロックを表示する
           const eleUl = document.createElement("ul") as HTMLUListElement
-          for (const subBlock of subBlocks) {
+          for (const subBlock of subBlocksNotSortByMonth) {
             // contentに含まれるページ名を取得
             // [[日付フォーマット]] [[ページ名]] という形式になっているので、2つ目を取得する
-            let pageName = subBlock['content'].split("]] ")[1] as string | undefined
+            let pageName = subBlock['content'].split(" [[")[1] as string | undefined
             if (!pageName) continue
             // ]]を削除する
             pageName = pageName.replace("]]", "")
@@ -407,14 +425,19 @@ const tooltipCreateList = (
 
             // 1つ目の[[日付フォーマット]]を取得する
             const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-            const day: Date = parse(subBlock['content'].split("]] ")[0].replace("[[", ""),  // [[を削除する
+            // [[を削除する
+            const dateString = subBlock['content'].split("]] ")[0].replace("[[", "") as string | undefined
+            if (!dateString) continue
+            const day: Date = parse( // 日付を作成
+              dateString,
               preferredDateFormat, new Date())// ユーザー日付形式から、YYYY/MMのような形式で作成する
-            if (!day) continue
+            // 正しい日付形式でない場合は、スキップする
+            if (day.toString() === "Invalid Date") continue
 
             //ページ名を表示する
             const eleLi = document.createElement("li") as HTMLLIElement
             const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
-            const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
+            const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
             eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${dayString}">${pageNameString}</a>`
 
             eleUl.append(eleLi)
@@ -429,6 +452,7 @@ const tooltipCreateList = (
         }//end of サブブロックがある場合
 
       }//end of inboxのサブブロックがある場合
+
       //end of inbox
     } else {
 
