@@ -86,19 +86,18 @@ const sortByMonth = async (blocks: BlockEntity[], insertContent: string): Promis
       //マッチした場合
 
       //insertContentがすでにサブ行に記録されていないか調べる
-      const subChildren = child.children as BlockEntity[]
+      const subChildren = child.children as BlockEntity[] | undefined
       if (subChildren
         && subChildren.length > 0
         && subChildren.find(subChild => subChild.content === insertContent)) {
         logseq.UI.showMsg(t("Failed (Already recorded)"), "warning") // すでに記録されている場合は終了
         return false
+      } else {
+        //そのブロックのサブ行に追記する
+        await logseq.Editor.insertBlock(child.uuid, insertContent, { sibling: false })
+        return true
+        // ここで成功として終了
       }
-
-
-      //そのブロックのサブ行に追記する
-      await logseq.Editor.insertBlock(child.uuid, insertContent, { sibling: false })
-      return true
-      // ここで成功として終了
     }
   }
 

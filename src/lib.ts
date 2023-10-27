@@ -46,7 +46,7 @@ export const openPageFromPageName = async (pageName: string, shiftKey: boolean) 
 export const createPageForPARA = async (name: string, icon: string, para: boolean) => {
   const getPage = await logseq.Editor.getPage(name) as PageEntity | null
   if (getPage === null) {
-    if (para === true) logseq.Editor.createPage(name, { icon, tags: t("[[The PARA Method]]") }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
+    if (para === true) logseq.Editor.createPage(name, { icon, tags: [t("[[The PARA Method]]")] }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
     else logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
     logseq.UI.showMsg(t("Created page") + "\n\n" + name, "success", { timeout: 1900 })
   }
@@ -55,7 +55,8 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
 
 /**
  * ブロックにあるプロパティを強制的に反映させる
- * @param blockUuid 対象ブロックのUUID
+ * @param blockUuid 対象ブロック(一行目)のUUID
+ * @param flagLock ユーザーによる操作を停止するかどうか
  */
 export const reflectProperty = async (blockUuid: string, flagLock?: boolean) => {
 

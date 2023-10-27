@@ -33,6 +33,7 @@ body>div {
 
         /* ツールチップ */
         & ul>li.para-away>label>span {
+          cursor: pointer;
 
           &:hover {
             text-decoration: underline;
@@ -43,21 +44,31 @@ body>div {
 
             &+div {
               overflow: auto;
-              min-width: 340px;
-              max-width: 660px;
+              width: 350px;
               min-height: 200px;
               max-height: 620px;
               color: var(--ls-primary-text-color);
+              background-color: var(--ls-primary-background-color);
               padding: 1em;
               position: absolute;
-              transform: translate(-10%, -50%);
               z-index: 1;
               border-radius: 0.2em;
               outline: 6px solid var(--ls-guideline-color);
               outline-offset: 3px;
               cursor: zoom-out;
-              backdrop-filter: blur(100px);
               font-size: .96em;
+
+              &:not(#paraTooltipNamespace, #paraTooltipA) {
+                transform: translate(-3%, -50%);
+              }
+
+              &#paraTooltipNamespace {
+                transform: translate(-3%, -17%);
+              }
+
+              &#paraTooltipA {
+                transform: translate(-3%, -57%);
+              }
 
               &>h2 {
                 padding-left: .3em;

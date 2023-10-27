@@ -1,8 +1,7 @@
 import { PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { openPageFromPageName } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { el } from 'date-fns/locale'
-
+let flagNamespace: boolean = false // ページ名に階層が含まれる場合のフラグ
 
 // ツールバーからPARAメニューを開く
 export const openMenuFromToolbar = async () => {
@@ -16,19 +15,36 @@ export const openMenuFromToolbar = async () => {
     // ページが存在する場合
     title = getPage.originalName
     // PARAページに該当する場合のフラグ
-    const flagPARA = getPage.originalName === "Projects"
-      || getPage.originalName === "Areas of responsibility"
-      || getPage.originalName === "Resources"
-      || getPage.originalName === "Archives"
-      || getPage.originalName === logseq.settings!.inboxName
+    const flagPARA = title === "Projects"
+      || title === "Areas of responsibility"
+      || title === "Resources"
+      || title === "Archives"
+      || title === logseq.settings!.inboxName
       ? true : false
     // タグボタンの表示は、Journalページではなく、paraページでもない場合のみ
     const flagTagButton: boolean = getPage['journal?'] === false && flagPARA === false
+
+    // ページ名に階層が含まれる場合は、階層を削除したページ名を表示する
+    let printNamespace = ""
+    flagNamespace = title.includes("/")
+
+    const namespace = flagNamespace ?
+      title.split("/").slice(-1)[0] //階層が含まれる場合
+      : title //階層が含まれない場合
+    const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
+    if (pageCheck) {
+      // ページが存在する場合
+      printNamespace = `<li class="para-away" style="margin-top:.5em"><label title="<Namespace> ${t("Open the list")}"><span>${namespace}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span><small><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} ${namespace}">🏷️${t("Tag")}</button></small> | <small><button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄${t("Open")}</button></small></span></li>`
+    } else {
+      //  ページが存在しない場合
+      printNamespace = `<li><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${namespace}">📇 ${t("New page using the sub page name (namespace)")}</button></li>`
+    }
     template = `
   <div style="user-select: none" title="">
     <ul>
       <li><button data-on-click="copyPageTitleLink" title="${title}">📋 ${t("Copy the page name to clipboard")}</button></li>
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
+      ${printNamespace}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
@@ -100,31 +116,39 @@ export const openMenuFromToolbar = async () => {
 // イベントリスナー
 const eventListener = () => {
   // それぞれの開くボタン
-  openPageButton("pickListOpenButton", "pickListSelect") //この場合だけ、selectの値を取得 (別の場所に書くと、selectの値が取得できない)
+  if (flagNamespace) openPageButton("paraOpenButtonNamespace", "namespace") // namespaceの場合は、data-namespaceの値を取得
+  openPageButton("pickListOpenButton", "pickListSelect") //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
   openPageButton("paraOpenButtonProjects", "Projects")
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
   // ツールチップ
+  tooltip("📇", "paraCheckboxNamespace", "paraTooltipNamespace", "namespace")
   tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
   tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
   tooltip("🌍", "paraCheckboxR", "paraTooltipR", "Resources")
   tooltip("🧹", "paraCheckboxA", "paraTooltipA", "Archives")
 }
 
-const openPageButton = (elementId: string, value: string) => {
-  if (!value) return
+const openPageButton = (elementId: string, pageName: string) => {
+  // namespaceやpickListSelectの場合は、個別に値を取得する
+
+  if (!pageName) return
   const button = parent.document.getElementById(elementId) as HTMLButtonElement | null
   if (button) {
     button.addEventListener("click", async ({ shiftKey }) => {
 
-      if (value === "pickListSelect") {
+      if (pageName === "pickListSelect") {
         // ピックリストの場合は、selectの値を取得
         const selectValue = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
         if (selectValue !== "") openPageFromPageName(selectValue, shiftKey)
+      } else if (pageName === "namespace") {
+        // namespaceの場合は、data-namespaceの値を取得
+        const namespace = button.dataset.namespace
+        if (namespace) openPageFromPageName(namespace, shiftKey)
       } else
         // ピックリスト以外の場合は、valueをそのまま渡す
-        if (value !== "") openPageFromPageName(value, shiftKey)
+        if (pageName !== "") openPageFromPageName(pageName, shiftKey)
 
     })
   }
@@ -135,103 +159,7 @@ const openPageButton = (elementId: string, value: string) => {
 const tooltip = (titleIcon: string, checkboxEleId: string, tooltipEleId: string, pageName: string) => {
 
 
-  const showList = async (tooltip) => {
-    // チェックボックスがチェックされたら、ツールチップを表示
-
-    //h2
-    const eleH2 = document.createElement("h2") as HTMLHeadingElement
-    eleH2.innerText = `${titleIcon} ${pageName} ${t("List")}`
-    eleH2.title = t("Pages tagged with")
-    //div
-    const eleDiv = document.createElement("div") as HTMLDivElement
-    //ul
-    const eleUl = document.createElement("ul") as HTMLUListElement
-
-
-    // ページ名を取得するクエリ
-
-    const queryPageName = pageName.toLowerCase() // ページ名を小文字にする必要がある
-
-    const query = `
-    [:find (pull ?p [:block/original-name :block/updated-at])
-            :in $ ?name
-            :where
-            [?t :block/name ?name]
-            [?p :block/tags ?t]]
-    `
-    let result = await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null
-    if (!result) return logseq.UI.showMsg("Cannot get the page name", "error")
-    result = result.flat() as { "original-name": string, "updated-at": string }[] | null
-
-    //ページ名の配列にする
-    let pageList = result.map((item) => {
-      return {
-        "original-name": item["original-name"], // ページ名
-        "updated-at": item["updated-at"], // 更新日時
-      }
-    }) as { "original-name": string, "updated-at": string }[]
-
-
-    if (pageList.length === 0) {
-      //このページタグに一致するページは見つかりませんでした。
-      eleDiv.innerHTML = t("No pages found for this page tag.")
-    } else {
-
-      // ページ名を、日付順に並び替える
-      pageList = pageList.sort((a, b) => {
-        return a["updated-at"] > b["updated-at"] ? -1 : 1
-      })
-
-      // 日付を月ごとにグループ化するためのオブジェクト
-      const pagesByMonth: {
-        [key: string]: {
-          "original-name": string,
-          "updated-at": string
-        }[]
-      } = {}
-
-      // ページ名を月ごとにグループ化する
-      for (const page of pageList) {
-        const updatedAt = new Date(page["updated-at"])
-        const month = updatedAt.getMonth() + 1 // 月の値を取得
-        const monthKey = `${updatedAt.getFullYear()}-${month.toString().padStart(2, "0")}` // キーを作成
-        if (!pagesByMonth[monthKey]) {
-          pagesByMonth[monthKey] = []
-        }
-        //original-nameだけでなくupdated-atを追加
-        pagesByMonth[monthKey].push(page)
-      }
-
-      // 月ごとにページ名を表示する
-      for (const monthKey in pagesByMonth) {
-        const pages = pagesByMonth[monthKey]
-        //年月を取得
-        const month = new Date(monthKey).toLocaleDateString("default", { year: "numeric", month: "long" })
-        // 更新月
-        eleDiv.innerHTML += `<h3>${month} <small>(${t("Updated month")})</small></h3>`
-        const eleUl = document.createElement("ul") as HTMLUListElement
-        for (const page of pages) {
-          const pageName = page['original-name']
-          const eleLi = document.createElement("li") as HTMLLIElement
-          const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
-          const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
-          eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Updated at")}: ${createdString}">${pageNameString}</a>`
-          eleUl.append(eleLi)
-          setTimeout(() => {
-            eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
-              openPageFromPageName(this.dataset.pageName as string, shiftKey)
-            })
-          }, 100)
-        }
-        eleDiv.append(eleUl)
-      }
-      //hr
-      eleDiv.innerHTML += "<hr/>"
-    }
-
-    tooltip.innerHTML = "" // ツールチップを空にする
-    tooltip.append(eleH2, eleDiv) // ツールチップにエレメントを追加
-  }
+  const showList = tooltipCreateList(titleIcon, pageName)
 
 
 
@@ -276,3 +204,167 @@ const createPickListSelect = (isPage: boolean): string => {
   }
   return select
 }
+
+
+const tooltipCreateList = (titleIcon: string, pageName: string) => {
+  return async (tooltip: HTMLDivElement) => {
+    // チェックボックスがチェックされたら、ツールチップを表示
+    //h2
+    const eleH2 = document.createElement("h2") as HTMLHeadingElement
+    eleH2.innerText = `${titleIcon} ${pageName} ${t("List")}`
+    //div
+    const eleDiv = document.createElement("div") as HTMLDivElement
+
+
+    if (pageName === "namespace") {
+      //namespaceの場合
+      eleH2.title = t("Pages in this namespace")
+      //data - namespaceの値を取得
+      const namespace = tooltip.dataset.namespace
+      if (!namespace) return logseq.UI.showMsg("Cannot get the page name", "warning")
+
+
+      logseq.UI.showMsg(namespace, "success")
+
+      const queryPageName = namespace.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
+
+      //同じ名前をもつページ名を取得するクエリー
+      const query = `
+    [:find (pull ?p [:block/original-name])
+            :in $ ?pattern
+            :where
+            [?p :block/name ?c]
+		        [(re-pattern ?pattern) ?q]
+		        [(re-find ?q ?c)]
+    ]
+    `
+      let result = (await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null)?.flat() as {
+        "original-name": string
+      }[] | null
+      if (!result) return logseq.UI.showMsg("Cannot get the page name", "error")
+
+      //resultの中に、nullが含まれている場合があるので、nullを除外する
+      result = result.filter((item) => item !== null)
+
+
+      if (result.length === 0) {
+        //このページ名に関連するページは見つかりませんでした。
+        eleDiv.innerHTML = t("No pages found for this page name.")
+      }
+
+      // ページ名を、名称順に並び替える
+      result = result.sort((a, b) => {
+        return a["original-name"] > b["original-name"] ? 1 : -1
+      })
+
+      //h2
+      eleH2.innerText = `${titleIcon} ${namespace} ${t("List")}`
+      // ページ名を表示する
+      const eleUl = document.createElement("ul") as HTMLUListElement
+      for (const page of result) {
+        const pageName = page['original-name']
+        const eleLi = document.createElement("li") as HTMLLIElement
+        const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+        eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}">${pageNameString}</a>`
+        eleUl.append(eleLi)
+        setTimeout(() => {
+          eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+            openPageFromPageName(this.dataset.pageName as string, shiftKey)
+          })
+        }, 100)
+      }
+      eleDiv.append(eleH2, eleUl)
+
+
+      //end of namespace
+    } else {
+
+
+      //namespace以外の場合
+      eleH2.title = t("Pages tagged with")
+      const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
+
+      logseq.UI.showMsg(pageName, "success")
+
+
+      // ページ名と更新日時を取得するクエリ
+      const query = `
+    [:find (pull ?p [:block/original-name :block/updated-at])
+            :in $ ?name
+            :where
+            [?t :block/name ?name]
+            [?p :block/tags ?t]]
+    `
+      let result = (await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null)?.flat() as {
+        "original-name": string
+        "updated-at": string
+      }[] | null
+      if (!result) return logseq.UI.showMsg("Cannot get the page name", "error")
+
+      //resultの中に、nullが含まれている場合があるので、nullを除外する
+      result = result.filter((item) => item !== null)
+
+      if (result.length === 0) {
+        //このページタグに一致するページは見つかりませんでした。
+        eleDiv.innerHTML = t("No pages found for this page tag.")
+      } else {
+
+        // ページ名を、日付順に並び替える
+        result = result.sort((a, b) => {
+          return a["updated-at"] > b["updated-at"] ? -1 : 1
+        })
+
+        // 日付を月ごとにグループ化するためのオブジェクト
+        const pagesByMonth: {
+          [key: string]: {
+            "original-name": string
+            "updated-at": string
+          }[]
+        } = {}
+
+        // ページ名を月ごとにグループ化する
+        for (const page of result) {
+          const updatedAt = new Date(page["updated-at"])
+          const month = updatedAt.getMonth() + 1 // 月の値を取得
+          const monthKey = `${updatedAt.getFullYear()}-${month.toString().padStart(2, "0")}` // キーを作成
+          if (!pagesByMonth[monthKey]) {
+            pagesByMonth[monthKey] = []
+          }
+          //original-nameだけでなくupdated-atを追加
+          pagesByMonth[monthKey].push(page)
+        }
+
+        // 月ごとにページ名を表示する
+        for (const monthKey in pagesByMonth) {
+          const pages = pagesByMonth[monthKey]
+          //年月を取得
+          const month = new Date(monthKey).toLocaleDateString("default", { year: "numeric", month: "long" })
+          // 更新月
+          eleDiv.innerHTML += `<h3>${month} <small>(${t("Updated month")})</small></h3>`
+          const eleUl = document.createElement("ul") as HTMLUListElement
+          for (const page of pages) {
+            const pageName = page['original-name']
+            const eleLi = document.createElement("li") as HTMLLIElement
+            const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+            const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
+            eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Updated at")}: ${createdString}">${pageNameString}</a>`
+            eleUl.append(eleLi)
+            setTimeout(() => {
+              eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+                openPageFromPageName(this.dataset.pageName as string, shiftKey)
+              })
+            }, 100)
+          }
+          eleDiv.append(eleUl)
+        }
+        //hr
+        eleDiv.innerHTML += "<hr/>"
+      }
+    } //end of namespace以外
+
+
+    tooltip.innerHTML = "" // ツールチップを空にする
+    tooltip.append(eleH2, eleDiv)
+  }
+}
+

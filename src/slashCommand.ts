@@ -24,26 +24,26 @@ export const slashCommandItems = () => {
     run(uuid, "Archives", "PARA")
   })
   logseq.Editor.registerSlashCommand("📧 New Page / [Inbox]", async () => {
-    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, logseq.settings!.inboxName)
+    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, logseq.settings!.inboxName, "")
   })
   logseq.Editor.registerSlashCommand("✈️ New Project Page / [Projects]", async () => {
-    combinationNewPage(`✈️ ${t("New Project Page")}`, "Projects")
+    combinationNewPage(`✈️ ${t("New Project Page")}`, "Projects", "")
   })
 }
 
-export const run = async (uuid: string, addProperty: string, addType: string) => {
+export const run = async (uuid: string, addPropValue: string, propName: string) => {
   //右サイドバーに開いたブロックからスラッシュコマンドを実行した場合の処理
   const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null
   if (page) {
     //cancel same page
-    if (page.originalName === addProperty) return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")
+    if (page.originalName === addPropValue) return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")
     //INBOXを覗いてジャーナルはキャンセル
-    if (addType !== "INBOX"
+    if (propName !== "INBOX"
       && page['journal?'] === true) return logseq.UI.showMsg(t("Journals cannot be tagged."), "warning")
-    
+
     const getCurrentTree = await logseq.Editor.getPageBlocksTree(page.originalName) as BlockEntity[] | null
     //ページプロパティに追加(更新をおこなう)
-    if (getCurrentTree) await updatePageProperty(addProperty, page, addType, getCurrentTree[0].uuid)
+    if (getCurrentTree) await updatePageProperty(addPropValue, page, propName, getCurrentTree[0].uuid)
   } else {
     logseq.UI.showMsg(t("The current page is not found."), "warning")
   }

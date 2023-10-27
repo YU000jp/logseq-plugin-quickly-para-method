@@ -1,11 +1,18 @@
-import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { removePopup } from './lib'
+import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { reflectProperty, removePopup } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from './RecodePageTop'
+import { updatePageProperty } from './property'
 
-
-// ページを作成するダイアログを表示する
-export const combinationNewPage = async (title: string, tags: string) => {
+/**
+ * 新しいページを作成するためのダイアログを表示する
+ * 
+ * @param title - ページ名
+ * @param tags - タグに追加する文字列 (ページ名)
+ * @param inputValue - ページのタイトルの初期値
+ * @param flagNotRecode - ページを記録しない場合はtrue
+ */
+export const combinationNewPage = async (title: string, tags: string, inputValue: string) => {
   logseq.provideUI({
     attrs: {
       title,
@@ -13,7 +20,7 @@ export const combinationNewPage = async (title: string, tags: string) => {
     key: "openQuickly",
     reset: true,
     template: `
-        <p>${t("New Page Title")}: <input id="newPageTitle" type="text" style="width:340px"/>
+        <p>${t("New Page Title")}: <input id="newPageTitle" type="text" style="width:340px"${inputValue ? `value="${inputValue}"` : ""}/>
         <button id="CreatePageButton">${t("Submit")}</button></p>
         `,
     style: {
@@ -48,19 +55,30 @@ function eventListener(tags: string): () => void {
 
         //ページが存在しないことを確認する
         if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) {
-          const createPage = await logseq.Editor.createPage(inputTitle, tags === logseq.settings!.inboxName ? {} : { tags }, { createFirstBlock: false, redirect: true })
-          if (createPage) {
-            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
 
-            // ページを作成したら、ページに日付を記録する
-            setTimeout(async() => {
-              const success: boolean = await RecodeDateToPageTop(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
-              if (success) logseq.UI.showMsg(t("Create a new page"), "success")
-            }, 100) 
-            
+          //ページが存在しない場合に実行する
+          const createPage = await logseq.Editor.createPage(
+            inputTitle, // 入力されたページ名
+            tags === "" || tags === logseq.settings!.inboxName ? {} //タグが空の場合や、INBOXの場合はタグを追加しない
+              : { tags:[tags] }, // ページタグをつける
+            {
+              createFirstBlock: true, // ページの最初のブロックを作成する
+              redirect: false // リダイレクトはしない
+            })
+
+          //ページが作成されなかった場合
+          if (createPage === null) return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+
+          //ページが作成された場合
+          const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
+
+          setTimeout(async () => {
+            const success: boolean = await RecodeDateToPageTop(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
+            if (success) logseq.UI.showMsg(t("Create a new page"), "success")
             // 右サイドバーにページを開く
             logseq.Editor.openInRightSidebar(createPage.uuid)
-          }
+          }, 100)
+
         } else {
           //ページが存在していた場合
 
@@ -80,3 +98,31 @@ function eventListener(tags: string): () => void {
   }
 }
 
+
+export const combinationNamespace = async (tags: string, namespaceName: string) => {
+
+  //ページが存在しないことを確認する
+  const page = await logseq.Editor.getPage(namespaceName) as PageEntity | null
+  if (page) {
+    //ページが存在していた場合
+
+    ///ページタグをつける (反映処理も含まれる)
+    updatePageProperty(namespaceName, page, "Free", page.uuid)
+    logseq.UI.showMsg(t("The Page already exists"), "warning")
+
+  } else {
+
+    //ページが存在しない場合に実行する
+    const createPage = await logseq.Editor.createPage(
+      namespaceName, // 入力されたページ名
+      { tags:[tags] }, // ページタグをつける
+      {
+        createFirstBlock: true, // ページの最初のブロックを作成する
+        redirect: true // ページにリダイレクトする
+      })
+
+    if (createPage) logseq.UI.showMsg(t("Create a new page"), "success")
+    else return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+
+  }
+}

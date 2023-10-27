@@ -1,7 +1,7 @@
-import '@logseq/libs'; //https://plugins-doc.logseq.com/
+import '@logseq/libs' //https://plugins-doc.logseq.com/
 import { LSPluginBaseInfo } from '@logseq/libs/dist/LSPlugin'
-import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
-import { combinationNewPage } from './combination'
+import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
+import { combinationNamespace, combinationNewPage } from './combination'
 import { copyPageTitleLink, createPageForPARA, removePopup, renameProperty } from './lib'
 import { openMenuFromToolbar } from './menu'
 import { runCommand } from './property'
@@ -102,16 +102,36 @@ const model = (popup: string) => logseq.provideModel({
 
   },
 
+  // namespaceの新規ページ作成
+  namespaceNewPage: (e) => {
+    removePopup() // ポップアップを閉じる
+
+    const pageName: string = e.dataset.old // ページ名
+    const namespaceName: string = e.dataset.namespace // namespace名
+    if (namespaceName && pageName) combinationNamespace(pageName, namespaceName)
+    else logseq.UI.showMsg(t("Failed (Can not get the current page)"), "error")
+  },
+
   // 新規プロジェクト作成ダイアログを開く
   NewProject: () => {
     removePopup() // ポップアップを閉じる
-    combinationNewPage(`✈️ ${t("New Project Page")} / [Projects]`, "Projects")
+
+    // 新規ページを作成し、Projectsに記録する
+    combinationNewPage(
+      `✈️ ${t("New Project Page")} / [Projects]`,
+      "Projects",
+      "")
   },
 
   // 受信トレイに入れる新規ページの作成ダイアログを開く
   NewPageInbox: () => {
     removePopup() // ポップアップを閉じる
-    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, logseq.settings!.inboxName)
+
+    // 新規ページを作成し、Inboxに記録する
+    combinationNewPage(
+      `📧 ${t("New page / [Inbox]")}`
+      , logseq.settings!.inboxName,
+      "")
   },
 
   // 設定ボタン
