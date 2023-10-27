@@ -31,10 +31,10 @@ export const openMenuFromToolbar = async () => {
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       <hr/>
-      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
       `
@@ -47,10 +47,10 @@ export const openMenuFromToolbar = async () => {
     <ul>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
-      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
     `
@@ -247,8 +247,8 @@ const createPickListSelect = (isPage: boolean): string => {
         </select>
       </span>
       <span>
-        ${isPage ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="pickListTagSubmitButton">${t("Tag")}</button></small> | ` : ""}
-        <small><button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">${t("Open")}</button></small>
+        ${isPage ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="pickListTagSubmitButton">🏷️${t("Tag")}</button></small> | ` : ""}
+        <small><button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small>
       </span>
     `
   }
