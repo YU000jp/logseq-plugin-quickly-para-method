@@ -1,6 +1,7 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
+import { removeEmptyBlockFirstLineAll } from './lib'
 
 
 /**
@@ -53,21 +54,6 @@ export const RecodeDateToPageTop = async (userDateFormat: string, targetPageName
       setTimeout(() => RecodeDateToPageTop(userDateFormat, targetPageName, pushPageLink, true), 100)
   }
   return false
-}
-
-const removeEmptyBlockFirstLineAll = async (blocks: BlockEntity[]) => {
-  const firstBlock = blocks[0] as BlockEntity
-  const children = firstBlock.children as BlockEntity[]
-  if (children && children.length > 0) {
-    for (let i = 0; i < children.length; i++) {
-      const child = children[i]
-      if (child.content === "")
-        await logseq.Editor.removeBlock(child.uuid)
-      // 子孫ブロックがある場合は探索する
-      if (child.children && child.children.length > 0)
-        await removeEmptyBlockFirstLineAll(child.children as BlockEntity[])
-    }
-  }
 }
 
 //月ごとにソートする場合

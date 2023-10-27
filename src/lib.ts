@@ -77,10 +77,38 @@ export const reflectProperty = async (blockUuid: string, flagLock?: boolean) => 
   }, 500)
 
 }
-export const renameProperty = async (oldName: string, newName: string) => {
+
+
+/**
+ * ページ名やプロパティ名を変更する関数 メッセージ付き
+ * @param oldName - 変更前のプロパティ名
+ * @param newName - 変更後のプロパティ名
+ * @returns Promise<void>
+ */
+export const renamePageAndProperty = async (oldName: string, newName: string) => {
   const oldPage = await logseq.Editor.getPage(oldName) as PageEntity | null
   if (!oldPage) return
   logseq.Editor.renamePage(oldName, newName)
   logseq.UI.showMsg(`${t("Renamed page")}`, "success")
+}
+
+
+/**
+ * 先頭行が空のブロックを全て削除する。
+ * @param blocksTree - 削除対象のブロックツリー
+ */
+export const removeEmptyBlockFirstLineAll = async (blocksTree: BlockEntity[]) => {
+  const firstBlock = blocksTree[0] as BlockEntity
+  const children = firstBlock.children as BlockEntity[]
+  if (children && children.length > 0) {
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i]
+      if (child.content === "")
+        await logseq.Editor.removeBlock(child.uuid)
+      // 子孫ブロックがある場合は探索する
+      if (child.children && child.children.length > 0)
+        await removeEmptyBlockFirstLineAll(child.children as BlockEntity[])
+    }
+  }
 }
 
