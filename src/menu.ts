@@ -7,7 +7,7 @@ let flagNamespace: boolean = false // ページ名に階層が含まれる場合
 export const openMenuFromToolbar = async () => {
   let template = "" // テンプレート(HTML)用
   let title = "" // タイトル用
-
+  let namespace = "" // namespace用
   // 現在のページを取得
   const getPage = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (getPage) {
@@ -28,7 +28,7 @@ export const openMenuFromToolbar = async () => {
     let printNamespace = ""
     flagNamespace = title.includes("/") as boolean
 
-    const namespace = flagNamespace ?
+    namespace = flagNamespace ?
       title.split("/").slice(-1)[0] //階層が含まれる場合
       : title //階層が含まれない場合
     const printCopyButton = `<button data-on-click="copyPageTitleLink" title="${t("Copy current full page name to clipboard")}">📋</button>`
@@ -53,7 +53,7 @@ export const openMenuFromToolbar = async () => {
     template = `
   <div style="user-select: none" title="">
     <ul>
-      <li class="para-away"><span>${t("Into [Inbox]")}</span><span><button data-on-click="Inbox" title="${t("Into [Inbox]")}">📧</button> | <button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button data-on-click="Inbox" title="${t("Into [Inbox]")}">📧</button> | <button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       ${printNamespace}
       <hr/>
@@ -118,30 +118,36 @@ export const openMenuFromToolbar = async () => {
   })
 
   // ボタン操作 (Shiftキーに対応させるため)
-  setTimeout(eventListener, 100)
+  setTimeout(() => eventListener({ namespace }), 100)
 
 }
 
 
 // イベントリスナー
-const eventListener = () => {
+const eventListener = (get: { namespace: string }) => {
   // それぞれの開くボタン
-  if (flagNamespace) openPageButton("paraOpenButtonNamespace", "namespace") // namespaceの場合は、data-namespaceの値を取得
-  openPageButton("pickListOpenButton", "pickListSelect") //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
+  if (flagNamespace) openPageButton("paraOpenButtonNamespace", get.namespace) // namespaceの場合は、data-namespaceの値を取得
+  openPageButton("pickListOpenButton", "pickListSelect", { pickListSelect: true }) //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
   openPageButton("paraOpenButtonInbox", logseq.settings!.inboxName) //Inbox
   openPageButton("paraOpenButtonProjects", "Projects")
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
   // ツールチップ
-  tooltip("📇", "paraCheckboxNamespace", "paraTooltipNamespace", "namespace")
+  tooltip("📧", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
+  tooltip("📇", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
   tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
   tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
   tooltip("🌍", "paraCheckboxR", "paraTooltipR", "Resources")
   tooltip("🧹", "paraCheckboxA", "paraTooltipA", "Archives")
 }
 
-const openPageButton = (elementId: string, pageName: string) => {
+const openPageButton = (
+  elementId: string,
+  pageName: string,
+  flag?: {
+    pickListSelect?: boolean,
+  }) => {
   // namespaceやpickListSelectの場合は、個別に値を取得する
 
   if (!pageName) return
@@ -149,16 +155,12 @@ const openPageButton = (elementId: string, pageName: string) => {
   if (button) {
     button.addEventListener("click", async ({ shiftKey }) => {
 
-      if (pageName === "pickListSelect") {
+      if (flag && flag.pickListSelect === true) {
         // ピックリストの場合は、selectの値を取得
         const selectValue = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
         if (selectValue !== "") openPageFromPageName(selectValue, shiftKey)
-      } else if (pageName === "namespace") {
-        // namespaceの場合は、data-namespaceの値を取得
-        const namespace = button.dataset.namespace
-        if (namespace) openPageFromPageName(namespace, shiftKey)
       } else
-        // ピックリスト以外の場合は、valueをそのまま渡す
+        // ピックリスト以外の場合は、pageNameをそのまま渡す
         if (pageName !== "") openPageFromPageName(pageName, shiftKey)
 
     })
@@ -167,10 +169,18 @@ const openPageButton = (elementId: string, pageName: string) => {
 
 
 // ツールチップ
-const tooltip = (titleIcon: string, checkboxEleId: string, tooltipEleId: string, pageName: string) => {
+const tooltip = (
+  titleIcon: string,
+  checkboxEleId: string,
+  tooltipEleId: string,
+  pageName: string,
+  flag?: {
+    namespace?: boolean,
+    inbox?: boolean
+  }) => {
 
 
-  const showList = tooltipCreateList(titleIcon, pageName)
+  const showList = tooltipCreateList(titleIcon, pageName, flag)
 
 
 
@@ -217,7 +227,13 @@ const createPickListSelect = (isPage: boolean): string => {
 }
 
 
-const tooltipCreateList = (titleIcon: string, pageName: string) => {
+const tooltipCreateList = (
+  titleIcon: string,
+  pageName: string,
+  flag?: {
+    namespace?: boolean,
+    inbox?: boolean
+  }) => {
   return async (tooltip: HTMLDivElement) => {
     // チェックボックスがチェックされたら、ツールチップを表示
     //h2
@@ -227,11 +243,11 @@ const tooltipCreateList = (titleIcon: string, pageName: string) => {
     const eleDiv = document.createElement("div") as HTMLDivElement
 
 
-    if (pageName === "namespace") {
+    if (flag && flag.namespace === true) {
       //namespaceの場合
       eleH2.title = t("Pages in this namespace")
       //data - namespaceの値を取得
-      const namespace = tooltip.dataset.namespace
+      const namespace = pageName
       if (!namespace) return logseq.UI.showMsg("Cannot get the page name", "warning")
 
 
