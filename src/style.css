@@ -56,13 +56,18 @@ body>div {
               outline: 6px solid var(--ls-guideline-color);
               outline-offset: 3px;
               cursor: zoom-out;
-              backdrop-filter: blur(30px);
+              backdrop-filter: blur(100px);
               font-size: .96em;
 
               &>h2 {
-                padding-left: 0.5em;
+                padding-left: .3em;
                 margin-top: 1em;
-                margin-bottom: 0.5em;
+                margin-bottom: 1em;
+              }
+
+              & h3 {
+                margin-top: 1em;
+                margin-bottom: 1em;
               }
 
               &>div {
@@ -70,11 +75,15 @@ body>div {
                 margin-bottom: 1em;
 
                 & a {
-                  text-decoration: underline;
+                  text-decoration: none;
 
                   &:hover {
-                    text-decoration: none;
+                    text-decoration: underline;
                   }
+                }
+
+                & ul {
+                  list-style: decimal;
                 }
               }
             }

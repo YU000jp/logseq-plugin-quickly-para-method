@@ -25,16 +25,16 @@ export const openMenuFromToolbar = async () => {
     // タグボタンの表示は、Journalページではなく、paraページでもない場合のみ
     const flagTagButton: boolean = getPage['journal?'] === false && flagPARA === false
     template = `
-  <div style="user-select: none">
+  <div style="user-select: none" title="">
     <ul>
-      <li><button data-on-click="copyPageTitleLink">📋 ${t("Copy the page name to clipboard")}</button></li>
+      <li><button data-on-click="copyPageTitleLink" title="${title}">📋 ${t("Copy the page name to clipboard")}</button></li>
       <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       <hr/>
-      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Projects">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="AreasOfResponsibility">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Resources">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="Archives">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
       `
@@ -43,14 +43,14 @@ export const openMenuFromToolbar = async () => {
     // ページが存在しない場合
     title = "⚓"
     template = `
-    <div title="" style="user-select: none">
+    <div title="" style="user-select: none" title="">
     <ul>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
-      <li class="para-away"><label><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
     </ul>
     <hr/>
     `
@@ -83,7 +83,7 @@ export const openMenuFromToolbar = async () => {
       bottom: "unset",
       right: "1em",
       top: "4em",
-      paddingLeft: "1.6em",
+      paddingLeft: "1em",
       paddingTop: "0.7em",
       backgroundColor: 'var(--ls-primary-background-color)',
       color: 'var(--ls-primary-text-color)',
@@ -106,10 +106,10 @@ const eventListener = () => {
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
   // ツールチップ
-  tooltip("paraCheckboxP", "paraTooltipP", "Projects")
-  tooltip("paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
-  tooltip("paraCheckboxR", "paraTooltipR", "Resources")
-  tooltip("paraCheckboxA", "paraTooltipA", "Archives")
+  tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
+  tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
+  tooltip("🌍", "paraCheckboxR", "paraTooltipR", "Resources")
+  tooltip("🧹", "paraCheckboxA", "paraTooltipA", "Archives")
 }
 
 const openPageButton = (elementId: string, value: string) => {
@@ -132,7 +132,7 @@ const openPageButton = (elementId: string, value: string) => {
 
 
 // ツールチップ
-const tooltip = (checkboxEleId, tooltipEleId: string, pageName: string) => {
+const tooltip = (titleIcon: string, checkboxEleId: string, tooltipEleId: string, pageName: string) => {
 
 
   const showList = async (tooltip) => {
@@ -140,7 +140,7 @@ const tooltip = (checkboxEleId, tooltipEleId: string, pageName: string) => {
 
     //h2
     const eleH2 = document.createElement("h2") as HTMLHeadingElement
-    eleH2.innerText = pageName + " " + t("List")
+    eleH2.innerText = `${titleIcon} ${pageName} ${t("List")}`
     eleH2.title = t("Pages tagged with")
     //div
     const eleDiv = document.createElement("div") as HTMLDivElement
@@ -182,29 +182,51 @@ const tooltip = (checkboxEleId, tooltipEleId: string, pageName: string) => {
         return a["updated-at"] > b["updated-at"] ? -1 : 1
       })
 
-      //リスト作成、各ページのリンクを作成
-      for (const pageName of pageList) {
-        if (!pageName) continue
-        const name = pageName["original-name"]
-        const eleA = document.createElement("a") as HTMLAnchorElement
-        //文字数は14文字までに制限
-        eleA.innerText = name.length > 34 ? `${name.slice(0, 34)}...` : name
-        eleA.dataset.pageName = name
-        const updated = new Date(pageName["updated-at"]).toLocaleString()
-        //Shiftキー
-        eleA.title = `"${pageName['original-name']}"\n\n(${t("Updated at")}: ${updated})\n`
-        const eleLi = document.createElement("li") as HTMLLIElement
-        eleLi.append(eleA)
-        eleUl.append(eleLi)
-        setTimeout(() => {
-          // リンクをクリックしたら、ページを開く
-          eleA.addEventListener("click", function (this, { shiftKey }) {
-            openPageFromPageName(this.dataset.pageName as string, shiftKey)
-          })
-        }, 100)
+      // 日付を月ごとにグループ化するためのオブジェクト
+      const pagesByMonth: {
+        [key: string]: {
+          "original-name": string,
+          "updated-at": string
+        }[]
+      } = {}
+
+      // ページ名を月ごとにグループ化する
+      for (const page of pageList) {
+        const updatedAt = new Date(page["updated-at"])
+        const month = updatedAt.getMonth() + 1 // 月の値を取得
+        const monthKey = `${updatedAt.getFullYear()}-${month.toString().padStart(2, "0")}` // キーを作成
+        if (!pagesByMonth[monthKey]) {
+          pagesByMonth[monthKey] = []
+        }
+        //original-nameだけでなくupdated-atを追加
+        pagesByMonth[monthKey].push(page)
       }
 
-      eleDiv.append(eleUl) //ulをdivに追加
+      // 月ごとにページ名を表示する
+      for (const monthKey in pagesByMonth) {
+        const pages = pagesByMonth[monthKey]
+        //年月を取得
+        const month = new Date(monthKey).toLocaleDateString("default", { year: "numeric", month: "long" })
+        // 更新月
+        eleDiv.innerHTML += `<h3>${month} <small>(${t("Updated month")})</small></h3>`
+        const eleUl = document.createElement("ul") as HTMLUListElement
+        for (const page of pages) {
+          const pageName = page['original-name']
+          const eleLi = document.createElement("li") as HTMLLIElement
+          const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+          const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
+          eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Updated at")}: ${createdString}">${pageNameString}</a>`
+          eleUl.append(eleLi)
+          setTimeout(() => {
+            eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+              openPageFromPageName(this.dataset.pageName as string, shiftKey)
+            })
+          }, 100)
+        }
+        eleDiv.append(eleUl)
+      }
+      //hr
+      eleDiv.innerHTML += "<hr/>"
     }
 
     tooltip.innerHTML = "" // ツールチップを空にする
@@ -247,7 +269,7 @@ const createPickListSelect = (isPage: boolean): string => {
         </select>
       </span>
       <span>
-        ${isPage ? `<small><button title="${t("Tag the current page (tags property)")}" data-on-click="pickListTagSubmitButton">🏷️${t("Tag")}</button></small> | ` : ""}
+        ${isPage ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️${t("Tag")}</button></small> | ` : ""}
         <small><button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small>
       </span>
     `
