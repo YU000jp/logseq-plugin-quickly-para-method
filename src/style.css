@@ -42,7 +42,7 @@ body>div {
             margin-left: .5em;
 
             & button {
-              font-size: 1.3em;
+              font-size: 1.5em;
 
               &:hover {
                 text-decoration: underline;
@@ -52,6 +52,13 @@ body>div {
 
           &>label>span {
             cursor: pointer;
+
+            &:first-child {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: wrap;
+              word-break: break-all;
+            }
 
             &>input[type=checkbox] {
               display: none;
@@ -83,6 +90,10 @@ body>div {
 
                 &#paraTooltipA {
                   transform: translate(-3%, -57%);
+                }
+
+                &#paraTooltipInbox {
+                  transform: translate(-3%, -20%);
                 }
 
                 &>h2 {
