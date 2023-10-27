@@ -239,7 +239,7 @@ const createPickListSelect = (isPage: boolean): string => {
     select = `
       <span>
         <select id="pickListSelect" title="${t("Pick List")}">
-          <option value="">${t("Pick List")}</option>
+          <option value="">${t("🗒️ Pick List")}</option>
           ${pickList.map((item) => {
       const label = item.length > 14 ? `${item.slice(0, 14)}...` : item
       return `<option value="${item}">${label}</option>`
