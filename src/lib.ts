@@ -24,7 +24,7 @@ export const copyPageTitleLink = async () => {
     // focus the window
     window.focus()
     navigator.clipboard.writeText(text)
-    logseq.UI.showMsg(t("Copy page title link"), "success")
+    logseq.UI.showMsg(t("Copy current full page name to clipboard"), "success")
   }
 }
 

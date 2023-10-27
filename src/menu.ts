@@ -31,7 +31,7 @@ export const openMenuFromToolbar = async () => {
     const namespace = flagNamespace ?
       title.split("/").slice(-1)[0] //階層が含まれる場合
       : title //階層が含まれない場合
-    const printCopyButton = `<button data-on-click="copyPageTitleLink" title="${t("Copy the page name to clipboard")}">📋</button>`
+    const printCopyButton = `<button data-on-click="copyPageTitleLink" title="${t("Copy current full page name to clipboard")}">📋</button>`
     if (flagNamespace) {
       const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
       if (pageCheck) {
@@ -235,7 +235,7 @@ const tooltipCreateList = (titleIcon: string, pageName: string) => {
       if (!namespace) return logseq.UI.showMsg("Cannot get the page name", "warning")
 
 
-      logseq.UI.showMsg(namespace, "info")
+      //logseq.UI.showMsg(namespace, "info")
 
       const queryPageName = namespace.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
@@ -295,7 +295,7 @@ const tooltipCreateList = (titleIcon: string, pageName: string) => {
       eleH2.title = t("Pages tagged with")
       const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
-      logseq.UI.showMsg(pageName, "info")
+      //logseq.UI.showMsg(pageName, "info")
 
 
       // ページ名と更新日時を取得するクエリ
