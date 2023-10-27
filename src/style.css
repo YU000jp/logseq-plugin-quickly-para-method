@@ -31,90 +31,99 @@ body>div {
         padding-top: 1em;
         padding-bottom: .5em;
 
-        /* ツールチップ */
-        & ul>li.para-away>label>span {
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-
-          &>input[type=checkbox] {
-            display: none;
-
-            &+div {
-              overflow: auto;
-              width: 350px;
-              min-height: 200px;
-              max-height: 620px;
-              color: var(--ls-primary-text-color);
-              background-color: var(--ls-primary-background-color);
-              padding: 1em;
-              position: absolute;
-              z-index: 1;
-              border-radius: 0.2em;
-              outline: 6px solid var(--ls-guideline-color);
-              outline-offset: 3px;
-              cursor: zoom-out;
-              font-size: .96em;
-
-              &:not(#paraTooltipNamespace, #paraTooltipA) {
-                transform: translate(-3%, -50%);
-              }
-
-              &#paraTooltipNamespace {
-                transform: translate(-3%, -17%);
-              }
-
-              &#paraTooltipA {
-                transform: translate(-3%, -57%);
-              }
-
-              &>h2 {
-                padding-left: .3em;
-                margin-top: 1em;
-                margin-bottom: 1em;
-              }
-
-              & h3 {
-                margin-top: 1em;
-                margin-bottom: 1em;
-              }
-
-              &>div {
-                margin-top: 1em;
-                margin-bottom: 1em;
-
-                & a {
-                  text-decoration: none;
-
-                  &:hover {
-                    text-decoration: underline;
-                  }
-                }
-
-                & ul {
-                  list-style: decimal;
-                }
-              }
-            }
-
-            &:not(:checked)+div {
-              display: none;
-            }
-
-            &:checked+div {
-              transition: .2s;
-              display: block;
-            }
-          }
-        }
-
-        & li.para-away {
+        & ul>li.para-away {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding-right: 1em;
+
+          &>label+span,
+          &>span+span {
+            margin-left: .5em;
+
+            & button {
+              font-size: 1.3em;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+
+          &>label>span {
+            cursor: pointer;
+
+            &>input[type=checkbox] {
+              display: none;
+
+              /* ツールチップ */
+              &+div {
+                overflow: auto;
+                width: 350px;
+                min-height: 200px;
+                max-height: 620px;
+                color: var(--ls-primary-text-color);
+                background-color: var(--ls-primary-background-color);
+                padding: 1em;
+                position: absolute;
+                z-index: 1;
+                border-radius: 0.2em;
+                outline: 6px solid var(--ls-guideline-color);
+                outline-offset: 3px;
+                cursor: zoom-out;
+                font-size: .96em;
+
+                &:not(#paraTooltipNamespace, #paraTooltipA) {
+                  transform: translate(-3%, -50%);
+                }
+
+                &#paraTooltipNamespace {
+                  transform: translate(-3%, -17%);
+                }
+
+                &#paraTooltipA {
+                  transform: translate(-3%, -57%);
+                }
+
+                &>h2 {
+                  padding-left: .3em;
+                  margin-top: 1em;
+                  margin-bottom: 1em;
+                }
+
+                & h3 {
+                  margin-top: 1em;
+                  margin-bottom: 1em;
+                }
+
+                &>div {
+                  margin-top: 1em;
+                  margin-bottom: 1em;
+
+                  & a {
+                    text-decoration: none;
+
+                    &:hover {
+                      text-decoration: underline;
+                    }
+                  }
+
+                  & ul {
+                    list-style: decimal;
+                  }
+                }
+              }
+
+              &:not(:checked)+div {
+                display: none;
+              }
+
+              &:checked+div {
+                transition: .2s;
+                display: block;
+              }
+            }
+          }
         }
 
         & input {
@@ -126,23 +135,23 @@ body>div {
         & button {
           border: 1px solid var(--ls-secondary-background-color);
           box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
-          text-decoration: underline;
+          text-decoration: unset;
 
           &:hover {
             background-color: var(--ls-secondary-background-color);
             color: var(--ls-secondary-text-color);
-            text-decoration: unset;
+            text-decoration: underline;
           }
         }
 
         & h2 {
-          font-size: 1.3em;
+          font-size: 1.15em;
           margin-left: -.8em;
           margin-bottom: .5em;
         }
 
         & h3 {
-          font-size: 1em;
+          font-size: 1.04em;
           margin-left: -.6em;
         }
 
@@ -151,7 +160,8 @@ body>div {
           border: 1px solid var(--ls-secondary-text-color);
           background: var(--ls-secondary-background-color);
           color: var(--ls-primary-text-color);
-          margin-top: .5em;
+          margin-top: .3em;
+          margin-bottom: .8em;
         }
       }
     }

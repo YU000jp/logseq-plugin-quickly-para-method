@@ -26,31 +26,41 @@ export const openMenuFromToolbar = async () => {
 
     // ページ名に階層が含まれる場合は、階層を削除したページ名を表示する
     let printNamespace = ""
-    flagNamespace = title.includes("/")
+    flagNamespace = title.includes("/") as boolean
 
     const namespace = flagNamespace ?
       title.split("/").slice(-1)[0] //階層が含まれる場合
       : title //階層が含まれない場合
-    const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
-    if (pageCheck) {
-      // ページが存在する場合
-      printNamespace = `<li class="para-away" style="margin-top:.5em"><label title="<Namespace> ${t("Open the list")}"><span>${namespace}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span><small><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} ${namespace}">🏷️${t("Tag")}</button></small> | <small><button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄${t("Open")}</button></small></span></li>`
+    const printCopyButton = `<button data-on-click="copyPageTitleLink" title="${t("Copy the page name to clipboard")}">📋</button>`
+    if (flagNamespace) {
+      const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
+      if (pageCheck) {
+        // ページが存在する場合
+        //ページ名を省略する
+        const titleString = namespace.length > 28 ? `${namespace.slice(0, 28)}...` : namespace
+        //タグ、開くボタンを表示する
+        printNamespace = `<li class="para-away"><label title="<Namespace> ${t("Open the list")}"><span>📇 ${titleString}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${printCopyButton} | <button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} ${namespace}">🏷️</button> | <button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄</button></span></li>`
+      } else {
+        //  ページが存在しない場合
+        //タグ、開くボタンを表示しない
+        printNamespace = `<li class="para-away"><label><span><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${namespace}">📇 <small>${t("New page using the sub page name (namespace)")}</small></button></span></label><span>${printCopyButton}</span></li>`
+      }
     } else {
-      //  ページが存在しない場合
-      printNamespace = `<li><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${namespace}">📇 ${t("New page using the sub page name (namespace)")}</button></li>`
+      // 階層が含まれない場合
+      //タグ、開くボタンを表示しない
+      printNamespace = `<li class="para-away"><label title="${t("Open the list")}"><span>📇 ${namespace}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${printCopyButton}</span></li>`
     }
     template = `
   <div style="user-select: none" title="">
     <ul>
-      <li><button data-on-click="copyPageTitleLink" title="${title}">📋 ${t("Copy the page name to clipboard")}</button></li>
-      <li><button data-on-click="Inbox">/📧 ${t("Into [Inbox]")}</button></li>
-      ${printNamespace}
+      <li class="para-away"><span>${t("Into [Inbox]")}</span><span><button data-on-click="Inbox" title="${t("Into [Inbox]")}">📧</button> | <button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
+      ${printNamespace}
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️${t("Tag")}</button></small> | ` : ''}<small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button> | ` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button> | ` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️</button> | ` : ''}<button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️</button> | ` : ''}<button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
       `
@@ -63,10 +73,10 @@ export const openMenuFromToolbar = async () => {
     <ul>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><small><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><small><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><small><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><small><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
     `
@@ -75,9 +85,9 @@ export const openMenuFromToolbar = async () => {
   template += `
   <ul title="">
   <h2>${t("Combination Menu")}</h2>
-  <h3>${t("New page")} +</h3>
-  <li><button data-on-click="NewPageInbox">/📧 ${t("Into [Inbox]")}</button></li>
-  <li><button data-on-click="NewProject">/✈️ ${t("Page-Tag")} [Projects]</button></li> 
+  <h3><u>${t("New page")}</u> +</h3>
+  <li><button data-on-click="NewPageInbox">📧 ${t("Into [Inbox]")}</button></li>
+  <li><button data-on-click="NewProject">✈️ ${t("Page-Tag")} [Projects]</button></li> 
   </ul>
   <hr/>
   <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
@@ -118,6 +128,7 @@ const eventListener = () => {
   // それぞれの開くボタン
   if (flagNamespace) openPageButton("paraOpenButtonNamespace", "namespace") // namespaceの場合は、data-namespaceの値を取得
   openPageButton("pickListOpenButton", "pickListSelect") //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
+  openPageButton("paraOpenButtonInbox", logseq.settings!.inboxName) //Inbox
   openPageButton("paraOpenButtonProjects", "Projects")
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
@@ -197,8 +208,8 @@ const createPickListSelect = (isPage: boolean): string => {
         </select>
       </span>
       <span>
-        ${isPage ? `<small><button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️${t("Tag")}</button></small> | ` : ""}
-        <small><button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄${t("Open")}</button></small>
+        ${isPage ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️</button> | ` : ""}
+        <button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>
       </span>
     `
   }
@@ -224,7 +235,7 @@ const tooltipCreateList = (titleIcon: string, pageName: string) => {
       if (!namespace) return logseq.UI.showMsg("Cannot get the page name", "warning")
 
 
-      logseq.UI.showMsg(namespace, "success")
+      logseq.UI.showMsg(namespace, "info")
 
       const queryPageName = namespace.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
@@ -284,7 +295,7 @@ const tooltipCreateList = (titleIcon: string, pageName: string) => {
       eleH2.title = t("Pages tagged with")
       const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
-      logseq.UI.showMsg(pageName, "success")
+      logseq.UI.showMsg(pageName, "info")
 
 
       // ページ名と更新日時を取得するクエリ
