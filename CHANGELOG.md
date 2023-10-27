@@ -1,3 +1,17 @@
+# [1.7.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.6.0...v1.7.0) (2023-10-27)
+
+
+### Bug Fixes
+
+* Show message when open page ([83d7486](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/83d748629c3c83ab8bc71de0b3fdcf0cc3fcdae5))
+
+
+### Features
+
+* **Add:** Menu > Quick List ([071906e](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/071906e5fb8f09ce50dcebd6fdab72b662336f5d))
+* **Add:** Menu > Quick List > Inbox ([ef64a8e](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/ef64a8e08ea50ad56e378f270a81d208dbdbe6ee))
+* **Add:** Menu > Quick List > Namespace ([6494ac9](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/6494ac9ff050014ffded44838a50641ac866f025))
+
 # [1.6.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.5.0...v1.6.0) (2023-10-26)
 
 
