@@ -32,50 +32,61 @@ body>div {
         padding-bottom: .5em;
 
         /* ツールチップ */
-        & ul>li.para-away>label>span>input[type=checkbox] {
-          display: none;
+        & ul>li.para-away>label>span {
 
-          &+div {
+          &:hover {
+            text-decoration: underline;
+          }
 
-            overflow: auto;
-            min-width: 340px;
-            max-width: 660px;
-            min-height: 200px;
-            max-height: 620px;
-            color: var(--ls-primary-text-color);
-            padding: 1em;
-            position: absolute;
-            transform: translate(-10%, -50%);
-            z-index: 1;
-            border-radius: 0.2em;
-            outline: 6px solid var(--ls-guideline-color);
-            outline-offset: 3px;
-            cursor: zoom-out;
-            backdrop-filter: blur(30px);
-            font-size: .96em;
+          &>input[type=checkbox] {
+            display: none;
 
-            & a {
-              text-decoration: underline;
+            &+div {
+              overflow: auto;
+              min-width: 340px;
+              max-width: 660px;
+              min-height: 200px;
+              max-height: 620px;
+              color: var(--ls-primary-text-color);
+              padding: 1em;
+              position: absolute;
+              transform: translate(-10%, -50%);
+              z-index: 1;
+              border-radius: 0.2em;
+              outline: 6px solid var(--ls-guideline-color);
+              outline-offset: 3px;
+              cursor: zoom-out;
+              backdrop-filter: blur(30px);
+              font-size: .96em;
 
-              &:hover {
-                text-decoration: none;
+              &>h2 {
+                padding-left: 0.5em;
+                margin-top: 1em;
+                margin-bottom: 0.5em;
               }
 
+              &>div {
+                margin-top: 1em;
+                margin-bottom: 1em;
+
+                & a {
+                  text-decoration: underline;
+
+                  &:hover {
+                    text-decoration: none;
+                  }
+                }
+              }
             }
 
-            & h2 {
-              padding-left: 0.5em;
+            &:not(:checked)+div {
+              display: none;
             }
 
-          }
-
-          &:not(:checked)+div {
-            display: none;
-          }
-
-          &:checked+div {
-            transition: .2s;
-            display: block;
+            &:checked+div {
+              transition: .2s;
+              display: block;
+            }
           }
         }
 

@@ -18,6 +18,7 @@
   "Inbox": "受信トレイ",
   "Into [Inbox]": "受信トレイに入れる",
   "Journals cannot be tagged.": "日誌にタグを付けることはできません。",
+  "Pages tagged with" : "タグ付けされたページ",
   "List": "リスト",
   "Menu > Pick-list options": "メニュー > 選択リストの項目作成",
   "New page": "新規ページ",
@@ -25,7 +26,7 @@
   "New Page Title": "新規ページのタイトル",
   "New Project Page": "✈️ 新規プロジェクトのページ",
   "No need to tag the current page.": "現在のページにタグを付ける必要はありません。",
-  "No pages found.": "ページが見つかりません",
+  "No pages found for this page tag." : "このページタグに一致するページは見つかりませんでした。",
   "Open": "開く",
   "Open PARA method menu": "PARAメソッド メニューを開く",
   "Opened page in main content": "メインコンテンツでページを開きました",
@@ -52,5 +53,6 @@
   "The current page is not found.": "現在のページが見つかりません。",
   "The Page already exists": "ページはすでに存在します",
   "The title of current page": "現在のページのタイトル",
+  "Updated at": "更新日時",
   "Whether to add page tag": "ページタグを追加するかどうか"
 }

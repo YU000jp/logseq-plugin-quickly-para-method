@@ -1,4 +1,4 @@
-import { BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { openPageFromPageName } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { el } from 'date-fns/locale'
@@ -136,52 +136,79 @@ const tooltip = (checkboxEleId, tooltipEleId: string, pageName: string) => {
 
 
   const showList = async (tooltip) => {
-        // チェックボックスがチェックされたら、ツールチップを表示
+    // チェックボックスがチェックされたら、ツールチップを表示
 
-        //h2
-        const eleH2 = document.createElement("h2") as HTMLHeadingElement
-        eleH2.innerText = pageName
-        //hr
-        const eleHr = document.createElement("hr") as HTMLHRElement
-        //div
-        const eleDiv = document.createElement("div") as HTMLDivElement
-        //ul
-        const eleUl = document.createElement("ul") as HTMLUListElement
+    //h2
+    const eleH2 = document.createElement("h2") as HTMLHeadingElement
+    eleH2.innerText = pageName + " " + t("List")
+    eleH2.title = t("Pages tagged with")
+    //div
+    const eleDiv = document.createElement("div") as HTMLDivElement
+    //ul
+    const eleUl = document.createElement("ul") as HTMLUListElement
 
-        //バックリンクを取得
-        const pageLinkedRefs = await logseq.Editor.getPageLinkedReferences(pageName) as [page: PageEntity, blocks: BlockEntity[]][] | null
-        if (!pageLinkedRefs) return
-        //ページ名とUuidを取得し、リストにする
-        const pageList = pageLinkedRefs.map((page) => page[0].originalName)
-        if (pageList.length === 0) {
-          // ページが存在しない場合
-          //eleDiv.innerHTML = t("No pages found.")
-        } else {
 
-          //リスト作成、各ページのリンクを作成
-          for (const pageName of pageList) {
-            const eleA = document.createElement("a") as HTMLAnchorElement
-            //文字数は14文字までに制限
-            eleA.innerText = pageName.length > 34 ? `${pageName.slice(0, 34)}...` : pageName
-            eleA.dataset.pageName = pageName
-            eleA.title = pageName
-            const eleLi = document.createElement("li") as HTMLLIElement
-            eleLi.append(eleA)
-            eleUl.append(eleLi)
-            setTimeout(() => {
-              // リンクをクリックしたら、ページを開く
-              eleA.addEventListener("click", function (this, { shiftKey }) {
-                // uuidがない場合は、処理を終了
-                if (!this.dataset.pageName) return logseq.UI.showMsg("Cannot get the page name", "error")
-                openPageFromPageName(this.dataset.pageName, shiftKey)
-              })
-            }, 100)
-          }
+    // ページ名を取得するクエリ
 
-          eleDiv.append(eleUl) //ulをdivに追加
-        }
+    const queryPageName = pageName.toLowerCase() // ページ名を小文字にする必要がある
 
-        tooltip.append(eleH2, eleHr, eleDiv) // ツールチップにエレメントを追加
+    const query = `
+    [:find (pull ?p [:block/original-name :block/updated-at])
+            :in $ ?name
+            :where
+            [?t :block/name ?name]
+            [?p :block/tags ?t]]
+    `
+    let result = await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null
+    if (!result) return logseq.UI.showMsg("Cannot get the page name", "error")
+    result = result.flat() as { "original-name": string, "updated-at": string }[] | null
+
+    //ページ名の配列にする
+    let pageList = result.map((item) => {
+      return {
+        "original-name": item["original-name"], // ページ名
+        "updated-at": item["updated-at"], // 更新日時
+      }
+    }) as { "original-name": string, "updated-at": string }[]
+
+
+    if (pageList.length === 0) {
+      //このページタグに一致するページは見つかりませんでした。
+      eleDiv.innerHTML = t("No pages found for this page tag.")
+    } else {
+
+      // ページ名を、日付順に並び替える
+      pageList = pageList.sort((a, b) => {
+        return a["updated-at"] > b["updated-at"] ? -1 : 1
+      })
+
+      //リスト作成、各ページのリンクを作成
+      for (const pageName of pageList) {
+        if (!pageName) continue
+        const name = pageName["original-name"]
+        const eleA = document.createElement("a") as HTMLAnchorElement
+        //文字数は14文字までに制限
+        eleA.innerText = name.length > 34 ? `${name.slice(0, 34)}...` : name
+        eleA.dataset.pageName = name
+        const updated = new Date(pageName["updated-at"]).toLocaleString()
+        //Shiftキー
+        eleA.title = `"${pageName['original-name']}"\n\n(${t("Updated at")}: ${updated})\n`
+        const eleLi = document.createElement("li") as HTMLLIElement
+        eleLi.append(eleA)
+        eleUl.append(eleLi)
+        setTimeout(() => {
+          // リンクをクリックしたら、ページを開く
+          eleA.addEventListener("click", function (this, { shiftKey }) {
+            openPageFromPageName(this.dataset.pageName as string, shiftKey)
+          })
+        }, 100)
+      }
+
+      eleDiv.append(eleUl) //ulをdivに追加
+    }
+
+    tooltip.innerHTML = "" // ツールチップを空にする
+    tooltip.append(eleH2, eleDiv) // ツールチップにエレメントを追加
   }
 
 
@@ -192,13 +219,10 @@ const tooltip = (checkboxEleId, tooltipEleId: string, pageName: string) => {
       const tooltip = parent.document.getElementById(tooltipEleId) as HTMLDivElement | null
       if (!tooltip) return
       if (tooltipCheckbox.checked) {
-
-        // チェックボックスがチェックされたら、ツールチップを表示
+        // labelタグ連携で、チェックボックスがチェックされたら、ツールチップを表示
+        tooltip.innerHTML = t("Loading...")
+        tooltip.title = ""
         showList(tooltip)
-
-      } else {
-        // ツールチップを閉じたら、中身を空にする
-        tooltip.innerHTML = ""
       }
     })
   }
