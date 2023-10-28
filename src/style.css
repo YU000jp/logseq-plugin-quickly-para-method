@@ -31,6 +31,10 @@ body>div {
         padding-top: 1em;
         padding-bottom: .5em;
 
+        & span.tabler-icons {
+          font-family:  "tabler-icons";
+        }
+
         &>p {
           & span.tabler-icons {
             font-size: 1.5em;
