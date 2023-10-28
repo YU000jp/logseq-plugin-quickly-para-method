@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.0...v1.8.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **bug:** CSS tabler-icons ([5d52e87](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/5d52e879f25c9f6cd09f20b3c6f7470b094d6eb0))
+
 # [1.8.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.7.1...v1.8.0) (2023-10-28)
 
 
