@@ -1,8 +1,9 @@
-# Logseq プラグイン: *PARA メソッドを迅速に*
+# Logseq プラグイン: *Quickly PARA MEthod*
 
 [English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
 
 - PARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
+- クイックメニュー
 
 [![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![ライセンス](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
@@ -18,8 +19,12 @@
 
 ## 概要
 
-* メニューから選択して、現在のページに、PARAメソッドのページタグを追加します。
+* クイックメニューから選択して、現在のページに、PARAメソッドのページタグを追加します。
 * 追加したときに、そのPARA メソッドのページに、日付とリンクを記録します（オプション）。
+* 「受信トレイ」機能があります。ページを途中で中断した場合に、受信トレイのページにリンクを保存できます。月ごとに分類されます。
+* 「namespaceクエリー検索」機能があります。
+  - 同じ名称を持つページを検索したり、階層構造を気にせず、関連ページを探しリストアップします。
+* 同じ階層に新しいページを作成したり、サブページを追加できる機能が提供されています。
 
 [使い方] ページタグプロパティを設定
 
