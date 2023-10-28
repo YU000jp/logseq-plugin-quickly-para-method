@@ -86,11 +86,11 @@ export const openMenuFromToolbar = async () => {
   }
 
   template += `
-    <ul title="">
+    <ul title="" id="para-menu-combination">
       <h2>${t("Combination Menu")}</h2>
       <h3>${t("New page")} ></h3>
       <li class="para-away">
-        <span><small>(${t("Top level")})</small></span>
+        <label><span class="not-cursor-pointer"><small>(${t("Top level")})</small></span></label>
         <span>
         <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Top level")} > ${t("Into [Inbox]")}">📦</button>|<button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
         </span>
@@ -101,7 +101,7 @@ export const openMenuFromToolbar = async () => {
     sameLevel = title.split("/").slice(0, -1).join("/") + "/"
     template += `
       <li class="para-away">
-        <span title="${t("Same level")}">${sameLevel}</span>
+        <label><span class="not-cursor-pointer" title="${t("Same level")}">${sameLevel}</span></label>
         <span>
           <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>|<button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
         </span>
@@ -111,11 +111,11 @@ export const openMenuFromToolbar = async () => {
   if (title) {
     template += `
       <li class="para-away">
-      <span title="${t("Sub page")}">${title}/</span>
-      <span>
-        <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
-      </span>
-    </li> 
+        <label><span class="not-cursor-pointer" title="${t("Sub page")}">${title}/</span></label>
+        <span>
+          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
+        </span>
+      </li> 
             `
   }
   template += `
@@ -248,7 +248,7 @@ const createPickListSelect = (isPage: boolean): string => {
     select = `<small>${t("Please set the pick list in the plugin settings.")}</small>`
   } else {
     select = `
-      <span>
+      <label><span>
         <select id="pickListSelect" title="${t("Pick List")}">
           <option value="">🗒️ ${t("Pick List")}</option>
           ${pickList.map((item) => {
@@ -256,7 +256,7 @@ const createPickListSelect = (isPage: boolean): string => {
       return `<option value="${item}">${label}</option>`
     }).join("")}
         </select>
-      </span>
+      </span></label>
       <span>
         ${isPage ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️</button>|` : ""}<button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>
       </span>
@@ -620,8 +620,8 @@ const tooltipCreateList = (
         //hr
         eleDiv.innerHTML += "<hr/>"
 
-        // 「そのページタグが付けられたページが一覧で表示されます。」というメッセージをいれる
-        eleDiv.innerHTML += `<p><small>${t("Pages tagged with that page tag are displayed in a list.")}</small></p>`
+        // 「このタグが付けられたページが一覧で表示されます。」というメッセージをいれる
+        eleDiv.innerHTML += `<p><small>${t("Pages tagged with that tag are displayed in a list.")}</small></p>`
       }
     } //end of namespace以外
 

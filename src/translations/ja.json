@@ -31,7 +31,7 @@
   "Page-Tag": "ページタグ",
   "Pages in the inbox": "受信トレイにあるページ",
   "Pages tagged with": "タグ付けされたページ (ページタグ)",
-  "Pages tagged with that page tag are displayed in a list.": "そのページタグが付けられたページが一覧表示されます。",
+  "Pages tagged with that tag are displayed in a list.": "このタグが付けられたページが一覧表示されます。",
   "Pages that contain the same name as the page name are displayed.": "ページ名と同じ名前を含んでいるページが表示されます。",
   "Pick List": "選択リスト",
   "Please set the pick list in the plugin settings.": "プラグイン設定で選択リストを設定してください。",
