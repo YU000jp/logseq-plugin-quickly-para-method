@@ -99,20 +99,19 @@ export const openMenuFromToolbar = async () => {
       `
   let sameLevel = ""
   if (flagNamespace) {
-    sameLevel = title.split("/").slice(0, -1).join(" / ") + " /"
+    sameLevel = title.split("/").slice(0, -1).join("/")
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel}</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel.replaceAll("/"," / ")}</span></label>
         <span>
           <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
       </li>
       `
   }
   if (title !== undefined && title !== "⚓") {
-    const titleString = title.replaceAll("/", " / ")
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${titleString} /</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${title.replaceAll("/", " / ")} /</span></label>
         <span>
           <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button><button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
         </span>
