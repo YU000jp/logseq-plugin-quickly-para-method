@@ -20,9 +20,10 @@
 
 * Select from the quick menu to add PARA method page tags to the current page.
 * When added, record the date and link on the PARA method page (optional).
-* There is a "inbox" feature. If interrupted, a link can be saved to the inbox page. It is categorized by month.
-* There is a "namespace query search" feature.
-  - Search for pages with the same name or explore related pages without worrying about the hierarchical structure and list them.
+* Inbox feature
+  > If interrupted, a link can be saved to the inbox page. It is categorized by month.
+* "namespace query search" feature
+  > Search for pages with the same name or explore related pages without worrying about the hierarchical structure and list them.
 * The ability to create a new page in the same hierarchy or add a sub page is provided.
 
 [How to use] Set page-tags property
