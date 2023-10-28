@@ -50,6 +50,14 @@ body>div {
             }
           }
 
+          &>label>span,
+          &>span {
+            &+span {
+              display: flex;
+              flex-wrap: nowrap;
+            }
+          }
+
           &>label>span {
             cursor: pointer;
 
