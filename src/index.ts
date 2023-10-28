@@ -112,7 +112,7 @@ const model = (popup: string) => logseq.provideModel({
     else logseq.UI.showMsg(t("Failed (Can not get the current page)"), "error")
   },
 
-  // 新規プロジェクト作成ダイアログを開く
+  // 新規プロジェクト (作成ダイアログを開く)
   NewProject: () => {
     removePopup() // ポップアップを閉じる
 
@@ -123,7 +123,7 @@ const model = (popup: string) => logseq.provideModel({
       "")
   },
 
-  // 受信トレイに入れる新規ページの作成ダイアログを開く
+  // 受信トレイに入れる新規ページ (作成ダイアログを開く)
   NewPageInbox: () => {
     removePopup() // ポップアップを閉じる
 
@@ -132,6 +132,17 @@ const model = (popup: string) => logseq.provideModel({
       `📧 ${t("New page / [Inbox]")}`
       , logseq.settings!.inboxName,
       "")
+  },
+  // 同じ階層レベルに新規ページ (作成ダイアログを開く)
+  NewPageSameLevel: (e) => {
+    removePopup() // ポップアップを閉じる
+
+    const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
+    // 新規ページを作成し、同じ階層レベルに記録する
+    combinationNewPage(
+      `📄 ${t("New page / Same level")}`,
+      "",
+      sameLevel+"/")
   },
 
   // 設定ボタン

@@ -91,6 +91,7 @@ export const openMenuFromToolbar = async () => {
   <h3><u>${t("New page")}</u> +</h3>
   <li><button data-on-click="NewPageInbox">📧 ${t("Into [Inbox]")}</button></li>
   <li><button data-on-click="NewProject">✈️ ${t("Page-Tag")} [Projects]</button></li> 
+  ${flagNamespace ? `<li><button data-on-click="NewPageSameLevel" data-same-level="${title.split("/").slice(0, -1).join("/")}">${t("Same hierarchy level")}</button></li>` : ""}
   </ul>
   <hr/>
   <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
