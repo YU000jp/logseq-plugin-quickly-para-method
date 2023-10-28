@@ -118,9 +118,21 @@ const model = (popup: string) => logseq.provideModel({
 
     // 新規ページを作成し、Projectsに記録する
     combinationNewPage(
-      `✈️ ${t("New Project Page")} / [Projects]`,
+      `✈️ [Projects] > ${t("New page")}`,
       "Projects",
       "")
+  },
+
+  // 同じ階層レベルに新規プロジェクト (作成ダイアログを開く)
+  NewProjectSameLevel: (e) => {
+    removePopup() // ポップアップを閉じる
+
+    const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
+    // 新規ページを作成し、同じ階層レベルに記録する
+    combinationNewPage(
+      `✈️ [Projects] > ${t("New page")}`,
+      "Projects",
+      sameLevel+"/")
   },
 
   // 受信トレイに入れる新規ページ (作成ダイアログを開く)
@@ -129,10 +141,23 @@ const model = (popup: string) => logseq.provideModel({
 
     // 新規ページを作成し、Inboxに記録する
     combinationNewPage(
-      `📧 ${t("New page / [Inbox]")}`
+      `📧 ${logseq.settings!.inboxName} > ${t("New page")}`
       , logseq.settings!.inboxName,
       "")
   },
+
+  // 同じ階層レベルで、受信トレイに入れる新規ページ (作成ダイアログを開く)
+  NewPageInboxSameLevel: (e) => {
+    removePopup() // ポップアップを閉じる
+
+    const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
+    // 新規ページを作成し、同じ階層レベルに記録する
+    combinationNewPage(
+      `📧 ${logseq.settings!.inboxName} > ${t("New page")}`
+      , logseq.settings!.inboxName,
+      sameLevel+"/")
+  },
+
   // 同じ階層レベルに新規ページ (作成ダイアログを開く)
   NewPageSameLevel: (e) => {
     removePopup() // ポップアップを閉じる
@@ -140,7 +165,7 @@ const model = (popup: string) => logseq.provideModel({
     const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
     // 新規ページを作成し、同じ階層レベルに記録する
     combinationNewPage(
-      `📄 ${t("New page / Same level")}`,
+      `📄 ${t("New page")}`,
       "",
       sameLevel+"/")
   },

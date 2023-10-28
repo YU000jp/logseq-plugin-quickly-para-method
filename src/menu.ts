@@ -86,15 +86,30 @@ export const openMenuFromToolbar = async () => {
   }
 
   template += `
-  <ul title="">
-  <h2>${t("Combination Menu")}</h2>
-  <h3><u>${t("New page")}</u> +</h3>
-  <li><button data-on-click="NewPageInbox">📧 ${t("Into [Inbox]")}</button></li>
-  <li><button data-on-click="NewProject">✈️ ${t("Page-Tag")} [Projects]</button></li> 
-  ${flagNamespace ? `<li><button data-on-click="NewPageSameLevel" data-same-level="${title.split("/").slice(0, -1).join("/")}">${t("Same hierarchy level")}</button></li>` : ""}
-  </ul>
-  <hr/>
-  <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
+    <ul title="">
+      <h2>${t("Combination Menu")}</h2>
+      <li class="para-away">
+        <span>${t("New page")}</span>
+        <span>
+          <button data-on-click="NewPageInbox" title="${t("Into [Inbox]")}">📧</button>|<button data-on-click="NewProject" title="${t("Page-Tag")} [Projects]">✈️</button>
+        </span>
+      </li>
+      `
+  if (flagNamespace) {
+    const sameLevel = title.split("/").slice(0, -1).join("/")
+    template += `
+      <li class="para-away">
+        <span title="${sameLevel}">${t("New page")} (${t("Same hierarchy level")})</span>
+        <span>
+            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} (${t("Same hierarchy level")})" data-same-level="${sameLevel}">📧</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] (${t("Same hierarchy level")})" data-same-level="${sameLevel}">✈️</button>
+        </span>
+      </li> 
+            `
+  }
+  template += `
+    </ul>
+    <hr/>
+    <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
   </div>
   `
 

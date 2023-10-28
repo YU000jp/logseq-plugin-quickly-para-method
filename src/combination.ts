@@ -20,7 +20,7 @@ export const combinationNewPage = async (title: string, tags: string, inputValue
     key: "openQuickly",
     reset: true,
     template: `
-        <p>${t("New Page Title")}: <input id="newPageTitle" type="text" style="width:340px"${inputValue ? `value="${inputValue}"` : ""}/>
+        <p>${t("New page")}: <input id="newPageTitle" type="text" style="width:340px"${inputValue ? `value="${inputValue}"` : ""}/>
         <button id="CreatePageButton">${t("Submit")}</button></p>
         `,
     style: {
