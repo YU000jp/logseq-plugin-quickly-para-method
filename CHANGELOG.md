@@ -1,3 +1,12 @@
+## [1.7.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.7.0...v1.7.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **bug:** Menu > Inbox > display always ([ffb6adb](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/ffb6adbf7700d8e1b84fca3e631562ce357f3b42))
+* **bug:** Menu > Quick List > cannot open page ([6dcd1c1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/6dcd1c1c3d621d5923500d52169e3635fb5e3187))
+* **bug:** Menu > Quick List > Inbox (sort by month) ([da8ccb8](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/da8ccb8d019ef7d0fde9736a15dd15debdf877cb))
+
 # [1.7.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.6.0...v1.7.0) (2023-10-27)
 
 
