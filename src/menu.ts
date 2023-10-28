@@ -35,17 +35,18 @@ export const openMenuFromToolbar = async () => {
     const printCopyButton = `<button data-on-click="copyPageTitleLink" title="${t("Copy current full page name to clipboard")}">📋</button>`
     if (flagNamespace) {
       const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
-      if (pageCheck) {
-        // ページが存在する場合
-        //ページ名を省略する
-        const titleString = namespace.length > 28 ? `${namespace.slice(0, 28)}...` : namespace
-        //タグ、開くボタンを表示する
-        printNamespace = `<li class="para-away"><label title="<Namespace> ${t("Open the list")}"><span style="font-size:.88em">📇 ${titleString}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${printCopyButton}|<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} ${namespace}">🏷️</button>|<button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄</button></span></li>`
-      } else {
-        //  ページが存在しない場合
-        //タグ、開くボタンを表示しない
-        printNamespace = `<li class="para-away"><label><span><button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${namespace}">📇 <small>${t("New page using the sub page name (namespace)")}</small></button></span></label><span>${printCopyButton}</span></li>`
-      }
+      //ページ名を省略する
+      const titleString = namespace.length > 28 ? `${namespace.slice(0, 28)}...` : namespace
+      printNamespace = `<li class="para-away"><label title="<Namespace> ${t("Open the list")}"><span style="font-size:.88em">📇 ${titleString}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${//ページが存在する場合とそうでない場合
+        pageCheck ?
+          // ページが存在する場合
+          //タグ、開くボタンを表示する
+          `${printCopyButton}|<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} '${namespace}'">🏷️</button>|<button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄</button></span></li>`
+          :
+          //  ページが存在しない場合
+          //タグ、開くボタンを表示しない
+          `<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("New page using the sub page name (namespace)")}\n'${namespace}'">🆕</button>|${printCopyButton}</span></li>`
+        }`
     } else {
       // 階層が含まれない場合
       //タグ、開くボタンを表示しない
