@@ -23,12 +23,6 @@ export const slashCommandItems = () => {
   logseq.Editor.registerSlashCommand("🧹 Page-Tag [Archives]", async ({ uuid }) => {
     run(uuid, "Archives", "PARA")
   })
-  logseq.Editor.registerSlashCommand("📧 New Page / [Inbox]", async () => {
-    combinationNewPage(`📧 ${t("New page / [Inbox]")}`, logseq.settings!.inboxName, "")
-  })
-  logseq.Editor.registerSlashCommand("✈️ New Project Page / [Projects]", async () => {
-    combinationNewPage(`✈️ ${t("New Project Page")}`, "Projects", "")
-  })
 }
 
 export const run = async (uuid: string, addPropValue: string, propName: string) => {

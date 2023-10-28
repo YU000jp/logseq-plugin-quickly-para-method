@@ -47,8 +47,6 @@ Logseq マーケットプレイスからインストール
        1. `🏠 Page-tag [Areas of responsibility]`
        1. `🌍 Page-tag [Resources]`
        1. `🧹 Page-tag [Archives]`
-       1. `📧 New Page / [Inbox]`
-       1. `✈️ New Project Page / [Projects]`
 
 - プラグイン設定
 
