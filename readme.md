@@ -46,6 +46,7 @@ Install from Logseq Marketplace
 
   1. Open the menu on click the top toolbar button `⚓`
      > The menu varies in its content depending on whether the single page is open or not.
+          > First, the button is hidden by Logseq. Click this button (![icon](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) on the toolbar. And select this (![image](https://github.com/YU000jp/logseq-plugin-side-block/assets/111847207/726d00da-f665-4eb1-ac15-77e10a24dcae)). After that, the #️⃣ button will appear on the toolbar.
   1. Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
      - On non-journal pages. Right sidebar too.
        1. `📧 Into [Inbox]`
