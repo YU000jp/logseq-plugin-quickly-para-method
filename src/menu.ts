@@ -246,7 +246,7 @@ const tooltipCreateList = (
 
     if (flag && flag.namespace === true) {
       //namespaceの場合
-      eleH2.title = t("Pages in this namespace")
+
       //data - namespaceの値を取得
       const namespace = pageName
       if (!namespace) return logseq.UI.showMsg("Cannot get the page name", "warning")
@@ -294,15 +294,25 @@ const tooltipCreateList = (
         const pageName = page['original-name']
         const eleLi = document.createElement("li") as HTMLLIElement
         const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
-        eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}">${pageNameString}</a>`
+        const aEle = document.createElement("a") as HTMLAnchorElement
+        aEle.dataset.pageName = pageName
+        aEle.title = pageName
+        aEle.innerText = pageNameString
+        aEle.id = `para-tooltip-namespace--${pageName}`
+        eleLi.append(aEle)
         eleUl.append(eleLi)
         setTimeout(() => {
-          eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+          parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
             openPageFromPageName(this.dataset.pageName as string, shiftKey)
           })
         }, 100)
       }
-      eleDiv.append(eleH2, eleUl)
+      eleDiv.append(eleUl)
+
+      //hr
+      eleDiv.innerHTML += "<hr/>"
+      // 「ページ名に同じ名称を含んでいるページを一覧表示します」という内容でメッセージを表示する
+      eleDiv.innerHTML += `<p><small>${t("Pages that contain the same name as the page name are displayed.")}</small></p>`
 
 
       //end of namespace
@@ -390,17 +400,26 @@ const tooltipCreateList = (
                 // 正しい日付形式でない場合は、スキップする
                 if (receiveDate.toString() === "Invalid Date") continue
                 const receiveString = receiveDate.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
-                eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${receiveString}">${pageNameString}</a>`
+                //eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${receiveString}">${pageNameString}</a>`
+                const aEle = document.createElement("a") as HTMLAnchorElement
+                aEle.dataset.pageName = pageName
+                aEle.title = `${pageName}\n\n${t("Received at")}: ${receiveString}`
+                aEle.innerText = pageNameString
+                aEle.id = `para-tooltip-inbox-m--${pageName}`
+                eleLi.append(aEle)
                 eleUl.append(eleLi)
                 setTimeout(() => {
-                  eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+                  parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
                     openPageFromPageName(this.dataset.pageName as string, shiftKey)
                   })
                 }, 100)
               }
               eleDiv.append(eleUl)
+              //hr
+              eleDiv.innerHTML += "<hr/>"
             }
 
+            //end of 月ごとにページ名を表示する
           }
 
         }//end of サブサブブロックがある場合
@@ -439,19 +458,27 @@ const tooltipCreateList = (
             const eleLi = document.createElement("li") as HTMLLIElement
             const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
             const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
-            eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${dayString}">${pageNameString}</a>`
-
+            const aEle = document.createElement("a") as HTMLAnchorElement
+            aEle.dataset.pageName = pageName
+            aEle.title = `${pageName}\n\n${t("Received at")}: ${dayString}`
+            aEle.innerText = pageNameString
+            aEle.id = `para-tooltip-inbox--${pageName}`
+            eleLi.append(aEle)
             eleUl.append(eleLi)
             setTimeout(() => {
-              eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+              parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
                 openPageFromPageName(this.dataset.pageName as string, shiftKey)
               })
             }, 100)
           }
           eleDiv.append(eleUl)
+          //hr
+          eleDiv.innerHTML += "<hr/>"
 
         }//end of サブブロックがある場合
 
+        // 「そのInboxページの最初の行に含まれるサブブロックのリンクが表示されています」というメッセージをいれる
+        eleDiv.innerHTML += `<p><small>${t("The links contained in the sub-blocks of the first line of that Inbox page are displayed.")}</small></p>`
       }//end of inboxのサブブロックがある場合
 
       //end of inbox
@@ -525,10 +552,15 @@ const tooltipCreateList = (
             const eleLi = document.createElement("li") as HTMLLIElement
             const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
             const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
-            eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Updated at")}: ${createdString}">${pageNameString}</a>`
+            const aEle = document.createElement("a") as HTMLAnchorElement
+            aEle.dataset.pageName = pageName
+            aEle.title = `${pageName}\n\n${t("Updated at")}: ${createdString}`
+            aEle.innerText = pageNameString
+            aEle.id = `para-tooltip-page-tag--${pageName}`
+            eleLi.append(aEle)
             eleUl.append(eleLi)
             setTimeout(() => {
-              eleLi.querySelector("a")?.addEventListener("click", function (this, { shiftKey }) {
+              parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
                 openPageFromPageName(this.dataset.pageName as string, shiftKey)
               })
             }, 100)
@@ -537,6 +569,9 @@ const tooltipCreateList = (
         }
         //hr
         eleDiv.innerHTML += "<hr/>"
+
+        // 「そのページタグが付けられたページが一覧で表示されます。」というメッセージをいれる
+        eleDiv.innerHTML += `<p><small>${t("Pages tagged with that page tag are displayed in a list.")}</small></p>`
       }
     } //end of namespace以外
 
