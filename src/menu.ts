@@ -96,13 +96,14 @@ export const openMenuFromToolbar = async () => {
         </span>
       </li>
       `
+  let sameLevel = ""
   if (flagNamespace) {
-    const sameLevel = title.split("/").slice(0, -1).join("/") + "/"
+    sameLevel = title.split("/").slice(0, -1).join("/") + "/"
     template += `
       <li class="para-away">
         <span title="${t("Same level")}">${sameLevel}</span>
         <span>
-          <button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
+          <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>|<button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
         </span>
       </li>
       `
@@ -112,7 +113,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
       <span title="${t("Sub page")}">${title}/</span>
       <span>
-          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
+        <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
       </span>
     </li> 
             `
@@ -148,13 +149,21 @@ export const openMenuFromToolbar = async () => {
   })
 
   // ボタン操作 (Shiftキーに対応させるため)
-  setTimeout(() => eventListener({ namespace }), 100)
+  setTimeout(() => eventListener({
+    namespace,
+    sameLevel,
+    title
+  }), 100)
 
 }
 
 
 // イベントリスナー
-const eventListener = (get: { namespace: string }) => {
+const eventListener = (get: {
+  namespace: string
+  sameLevel: string
+  title: string
+}) => {
   // それぞれの開くボタン
   if (flagNamespace) openPageButton("paraOpenButtonNamespace", get.namespace) // namespaceの場合は、data-namespaceの値を取得
   openPageButton("pickListOpenButton", "pickListSelect", { pickListSelect: true }) //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
@@ -163,6 +172,7 @@ const eventListener = (get: { namespace: string }) => {
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
+  if(get.sameLevel)openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
   // ツールチップ
   tooltip("📧", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
   tooltip("📇", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
