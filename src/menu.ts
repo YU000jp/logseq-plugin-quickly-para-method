@@ -99,11 +99,17 @@ export const openMenuFromToolbar = async () => {
     const sameLevel = title.split("/").slice(0, -1).join("/")
     template += `
       <li class="para-away">
-        <span title="${sameLevel}">${t("New page")} (${t("Same hierarchy level")})</span>
+        <span title="${sameLevel}">${t("New page")} (${t("Same level")})</span>
         <span>
-            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} (${t("Same hierarchy level")})" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] (${t("Same hierarchy level")})" data-same-level="${sameLevel}">✈️</button>
+            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} > ${t("Same level")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] > ${t("Same level")}" data-same-level="${sameLevel}">✈️</button>
         </span>
-      </li> 
+      </li>
+      <li class="para-away">
+      <span title="${title}/">${t("New page")} (${t("Sub page")})</span>
+      <span>
+          <button data-on-click="NewPageSameLevel" data-same-level="${title}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} > (${t("Sub page")})" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] > ${t("Sub page")}" data-same-level="${title}">✈️</button>
+      </span>
+    </li> 
             `
   }
   template += `
