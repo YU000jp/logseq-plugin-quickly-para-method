@@ -59,7 +59,7 @@
   "The Page already exists": "ページはすでに存在します",
   "The current page does not need to be tagged.": "現在のページにタグを付ける必要はありません。",
   "The current page is not found.": "現在のページが見つかりません。",
-  "The links contained in the sub-blocks of the first line of that Inbox page are displayed.": "受信トレイのページの先頭行のサブブロックに含まれるリンクが表示されます。",
+  "The pages contained in the sub-blocks of the first line of that Inbox page are displayed.": "受信トレイのページの先頭行のサブブロックに含まれるページが表示されます。",
   "The title of current page": "現在のページのタイトル",
   "Top level": "トップレベル",
   "Update order": "更新順",

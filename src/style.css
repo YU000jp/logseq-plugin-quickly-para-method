@@ -31,13 +31,19 @@ body>div {
         padding-top: 1em;
         padding-bottom: .5em;
 
-        &>h2 {
-          padding-left: .3em;
+        &>p {
+          & span.tabler-icons {
+            font-size: 1.5em;
+          }
+        }
+        & h2 {
+          margin-left: -0.8em;
           margin-top: 1em;
           margin-bottom: 1em;
         }
 
         & h3 {
+          margin-left: -0.5em;
           margin-top: 1em;
           margin-bottom: 1em;
         }
@@ -48,7 +54,7 @@ body>div {
           }
 
           &#para-menu-combination>li.para-away>label+span>button {
-            font-size: 1.3em;
+            font-size: 1.35em;
           }
 
           &>li.para-away {
@@ -59,6 +65,10 @@ body>div {
             margin-top: .8em;
 
             &>label {
+
+              &>span>span.tabler-icons {
+                font-size: 1.5em;
+              }
               &+span {
                 margin-left: .5em;
                 display: flex;
@@ -127,6 +137,12 @@ body>div {
 
                     &#paraTooltipInbox {
                       transform: translate(-3%, -20%);
+                    }
+
+                    & h2 {
+                      font-size: 1.15em;
+                      margin-left: -.8em;
+                      margin-bottom: .8em;
                     }
 
                     &>div {

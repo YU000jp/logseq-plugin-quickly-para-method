@@ -36,33 +36,34 @@ export const openMenuFromToolbar = async () => {
     if (flagNamespace) {
       const pageCheck = await logseq.Editor.getPage(namespace) as PageEntity | null
       //ページ名を省略する
-      const titleString = namespace.length > 28 ? `${namespace.slice(0, 28)}...` : namespace
-      printNamespace = `<li class="para-away"><label title="<Namespace> ${t("Open the list")}"><span style="font-size:.88em">📇 ${titleString}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${//ページが存在する場合とそうでない場合
+      const titleString = (namespace.length > 28 ? `${namespace.slice(0, 28)}...` : namespace).replaceAll("/", " / ")
+
+      printNamespace = `<li class="para-away"><label title="<Namespace> ${t("Open the list")}"><span style="font-size:.88em"><span class="tabler-icons">&#xee17;</span> ${titleString}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${//ページが存在する場合とそうでない場合
         pageCheck ?
           // ページが存在する場合
           //タグ、開くボタンを表示する
-          `${printCopyButton}|<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} '${namespace}'">🏷️</button>|<button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄</button></span></li>`
+          `${printCopyButton}<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("Tag")} '${namespace}'">🏷️</button><button id="paraOpenButtonNamespace" title="${t("Press Shift key at the same time to open in sidebar")}" data-namespace="${namespace}">📄</button></span></li>`
           :
           //  ページが存在しない場合
           //タグ、開くボタンを表示しない
-          `<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("New page using the sub page name (namespace)")}\n'${namespace}'">🆕</button>|${printCopyButton}</span></li>`
+          `<button data-on-click="namespaceNewPage" data-namespace="${namespace}" data-old="${title}" title="${t("New page using the sub page name (namespace)")}\n'${namespace}'"><span class="tabler-icons">&#xeaa0;</span></button>${printCopyButton}</span></li>`
         }`
     } else {
       // 階層が含まれない場合
       //タグ、開くボタンを表示しない
-      printNamespace = `<li class="para-away"><label title="${t("Open the list")}"><span style="font-size:.88em">📇 ${namespace}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${printCopyButton}</span></li>`
+      printNamespace = `<li class="para-away"><label title="${t("Open the list")}"><span style="font-size:.88em"><span class="tabler-icons">&#xee17;</span> ${namespace}<input id="paraCheckboxNamespace" type="checkbox"/><div id="paraTooltipNamespace" data-namespace="${namespace}"></div></span></label><span>${printCopyButton}</span></li>`
     }
     template = `
   <div style="user-select: none" title="">
     <ul>
-      <li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>|`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       ${title === logseq.settings!.inboxName ? "" : printNamespace}
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>|` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>|` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️</button>|` : ''}<button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️</button>|` : ''}<button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️</button>` : ''}<button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️</button>` : ''}<button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
       `
@@ -73,7 +74,7 @@ export const openMenuFromToolbar = async () => {
     template = `
     <div title="" style="user-select: none" title="">
     <ul>
-      ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
+      ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
@@ -88,11 +89,11 @@ export const openMenuFromToolbar = async () => {
   template += `
     <ul title="" id="para-menu-combination">
       <h2>${t("Combination Menu")}</h2>
-      <h3>${t("New page")} ></h3>
+      <h3>${t("New page")} +</h3>
       <li class="para-away">
-        <label><span class="not-cursor-pointer"><small>(${t("Top level")})</small></span></label>
+        <label><span class="not-cursor-pointer"><span class="tabler-icons">&#xee0d;</span> <small>(${t("Top level")})</small></span></label>
         <span>
-        <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Top level")} > ${t("Into [Inbox]")}">📦</button>|<button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
+        <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Top level")} > ${t("Into [Inbox]")}">📦</button><button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
         </span>
       </li>
       `
@@ -101,9 +102,9 @@ export const openMenuFromToolbar = async () => {
     sameLevel = title.split("/").slice(0, -1).join("/") + "/"
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Same level")}">${sameLevel}</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel}</span></label>
         <span>
-          <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>|<button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
+          <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
         </span>
       </li>
       `
@@ -111,9 +112,9 @@ export const openMenuFromToolbar = async () => {
   if (title) {
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Sub page")}">${title}/</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${title}/</span></label>
         <span>
-          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
+          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button><button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
         </span>
       </li> 
             `
@@ -121,7 +122,7 @@ export const openMenuFromToolbar = async () => {
   template += `
     </ul>
     <hr/>
-    <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}">⚙️</a> | <small><a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank">GitHub</a></small></p>
+    <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}"><span class="tabler-icons">&#xeb20;</span></a> | <a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank""><small>GitHub</smalL> <span class="tabler-icons">&#xec1c;</span></a></p>
   </div>
   `
 
@@ -174,8 +175,8 @@ const eventListener = (get: {
   openPageButton("paraOpenButtonArchives", "Archives")
   if(get.sameLevel)openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
   // ツールチップ
-  tooltip("📧", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
-  tooltip("📇", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
+  tooltip("<span class=\"tabler-icons\">&#xeae5;</span>", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
+  tooltip("<span class=\"tabler-icons\">&#xee17;</span>", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
   tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
   tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
   tooltip("🌍", "paraCheckboxR", "paraTooltipR", "Resources")
@@ -250,7 +251,7 @@ const createPickListSelect = (isPage: boolean): string => {
     select = `
       <label><span>
         <select id="pickListSelect" title="${t("Pick List")}">
-          <option value="">🗒️ ${t("Pick List")}</option>
+          <option value=""><span class="tabler-icons">&#xeb1d;</span> ${t("Pick List")}</option>
           ${pickList.map((item) => {
       const label = item.length > 14 ? `${item.slice(0, 14)}...` : item
       return `<option value="${item}">${label}</option>`
@@ -258,7 +259,7 @@ const createPickListSelect = (isPage: boolean): string => {
         </select>
       </span></label>
       <span>
-        ${isPage ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️</button>|` : ""}<button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>
+        ${isPage ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="pickListTagSubmitButton">🏷️</button>` : ""}<button id="pickListOpenButton" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button>
       </span>
     `
   }
@@ -327,7 +328,7 @@ const tooltipCreateList = (
 
 
       //h2
-      eleH2.innerText = `${titleIcon} ' ${namespace} ' ${t("List")}`
+      eleH2.innerHTML = `${titleIcon} ' ${namespace} ' ${t("List")}`
 
       // ページ名を表示する
       const eleUl = document.createElement("ul") as HTMLUListElement
@@ -524,8 +525,8 @@ const tooltipCreateList = (
 
         }//end of サブブロックがある場合
 
-        // 「そのInboxページの最初の行に含まれるサブブロックのリンクが表示されています」というメッセージをいれる
-        eleDiv.innerHTML += `<p><small>${t("The links contained in the sub-blocks of the first line of that Inbox page are displayed.")}</small></p>`
+        // 「そのInboxページの最初の行に含まれるサブブロックのページが表示されています」というメッセージをいれる
+        eleDiv.innerHTML += `<p><small>${t("The pages contained in the sub-blocks of the first line of that Inbox page are displayed.")}</small></p>`
       }//end of inboxのサブブロックがある場合
 
       //end of inbox
