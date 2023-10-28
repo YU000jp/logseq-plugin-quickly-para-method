@@ -1,3 +1,18 @@
+# [1.8.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.7.1...v1.8.0) (2023-10-28)
+
+
+### Bug Fixes
+
+* **bug:** Menu > text overflow ([40af237](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/40af237fd4dcac46d0dedaea94e56599299aa9c5))
+
+
+### Features
+
+* **Add:** Menu > combination > Create page same level ([884ad06](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/884ad061665dd9274b4aa8fff7a14d733be5531d))
+* **Add:** Menu > combination > New page each ([5632871](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/56328716fad938b209879e151e0a8b270da700a9))
+* **Add:** Menu > combination > New sub page ([722f429](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/722f4291d075261e3486ae4a74a839a72ea74ade))
+* **Add:** Menu > Combination > same level page access (open page) ([3b25928](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/3b25928617c35af8c91ae22c5156ff5a628b84b1))
+
 ## [1.7.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.7.0...v1.7.1) (2023-10-28)
 
 
