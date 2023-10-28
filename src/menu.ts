@@ -99,20 +99,20 @@ export const openMenuFromToolbar = async () => {
       `
   let sameLevel = ""
   if (flagNamespace) {
-    sameLevel = title.split("/").slice(0, -1).join("/") + "/"
+    sameLevel = title.split("/").slice(0, -1).join(" / ") + " /"
     template += `
       <li class="para-away">
         <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel}</span></label>
         <span>
           <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
-        </span>
       </li>
       `
   }
-  if (title !==undefined && title !== "⚓") {
+  if (title !== undefined && title !== "⚓") {
+    const titleString = title.replaceAll("/", " / ")
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${title}/</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${titleString} /</span></label>
         <span>
           <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button><button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
         </span>
@@ -173,7 +173,7 @@ const eventListener = (get: {
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
-  if(get.sameLevel)openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
+  if (get.sameLevel) openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
   // ツールチップ
   tooltip("<span class=\"tabler-icons\">&#xeae5;</span>", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
   tooltip("<span class=\"tabler-icons\">&#xee17;</span>", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
@@ -335,7 +335,7 @@ const tooltipCreateList = (
       for (const page of result) {
         const pageName = page['original-name']
         const eleLi = document.createElement("li") as HTMLLIElement
-        const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+        const pageNameString = pageTitleLimit(pageName,42)
         const aEle = document.createElement("a") as HTMLAnchorElement
         aEle.dataset.pageName = pageName
         aEle.title = pageName
@@ -443,7 +443,7 @@ const tooltipCreateList = (
               for (const page of pages) {
                 const pageName = page['original-name']
                 const eleLi = document.createElement("li") as HTMLLIElement
-                const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+                const pageNameString = pageTitleLimit(pageName,42)
                 const receiveDate: Date | null = page["receive-date"]
                 // 正しい日付形式でない場合は、スキップする
                 if (receiveDate.toString() === "Invalid Date") continue
@@ -504,7 +504,7 @@ const tooltipCreateList = (
 
             //ページ名を表示する
             const eleLi = document.createElement("li") as HTMLLIElement
-            const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+            const pageNameString = pageTitleLimit(pageName,42)
             const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
             aEle.dataset.pageName = pageName
@@ -601,7 +601,7 @@ const tooltipCreateList = (
           for (const page of pages) {
             const pageName = page['original-name']
             const eleLi = document.createElement("li") as HTMLLIElement
-            const pageNameString = pageName.length > 32 ? `${pageName.slice(0, 32)}...` : pageName
+            const pageNameString = pageTitleLimit(pageName,42)
             const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
             aEle.dataset.pageName = pageName
@@ -631,4 +631,12 @@ const tooltipCreateList = (
     tooltip.append(eleH2, eleDiv)
   }
 }
+
+const pageTitleLimit = (pageName: string,length:number) => (
+  pageName.length > length ?
+    //後方の文字を残す
+    `...${pageName.slice(-length)}`
+    : pageName).replaceAll("/", " / "
+    )
+
 
