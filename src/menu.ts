@@ -77,10 +77,10 @@ export const openMenuFromToolbar = async () => {
       ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
     `
@@ -109,7 +109,7 @@ export const openMenuFromToolbar = async () => {
       </li>
       `
   }
-  if (title) {
+  if (title !==undefined && title !== "⚓") {
     template += `
       <li class="para-away">
         <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${title}/</span></label>
