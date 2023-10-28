@@ -97,7 +97,7 @@ export const openMenuFromToolbar = async () => {
       </li>
       `
   if (flagNamespace) {
-    const sameLevel = title.split("/").slice(0, -1).join("/")+"/"
+    const sameLevel = title.split("/").slice(0, -1).join("/") + "/"
     template += `
       <li class="para-away">
         <span title="${t("Same level")}">${sameLevel}</span>
@@ -105,6 +105,10 @@ export const openMenuFromToolbar = async () => {
           <button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
         </span>
       </li>
+      `
+  }
+  if (title) {
+    template += `
       <li class="para-away">
       <span title="${t("Sub page")}">${title}/</span>
       <span>
@@ -305,6 +309,8 @@ const tooltipCreateList = (
       }
 
       // ページ名を、名称順に並び替える
+      eleDiv.title = t("Name order")
+      eleH2.title = t("Name order")
       result = result.sort((a, b) => {
         return a["original-name"] > b["original-name"] ? 1 : -1
       })
@@ -348,7 +354,7 @@ const tooltipCreateList = (
       eleH2.innerHTML = `${titleIcon} ${pageName}`
 
 
-      eleH2.title = t("Pages in the inbox")
+
       const blocksEntity = await logseq.Editor.getPageBlocksTree(logseq.settings!.inboxName) as BlockEntity[] | null
       if (!blocksEntity) return logseq.UI.showMsg("Cannot get the page name", "warning")
       const firstBlock = blocksEntity[0]
@@ -361,8 +367,10 @@ const tooltipCreateList = (
         eleDiv.innerHTML = t("No pages found for this inbox.")
         return tooltip.append(eleH2, eleDiv)
       } else {
-        //inboxのサブブロックがある場合
 
+        //inboxのサブブロックがある場合
+        eleH2.title = t("Pages in the inbox")
+        eleDiv.title = t("Receive order")
         //サブブロックの中にある、すべてのサブブロック(children)を取得する
         let subSubBlocks = subBlocks.map((item) => item.children).flat() as BlockEntity[] | null
         // contentが""を除外する
@@ -513,13 +521,11 @@ const tooltipCreateList = (
       //end of inbox
     } else {
 
-
-
       //ページタグを一覧表示する (PARAの場合)
 
 
       eleH2.innerHTML = `${titleIcon} ' ${pageName} ' <small>${t("List")}</small>`
-      eleH2.title = t("Pages tagged with")
+      eleH2.title = t("Update order") + " > " + t("Pages tagged with")
       const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
       //logseq.UI.showMsg(pageName, "info")
@@ -548,6 +554,7 @@ const tooltipCreateList = (
       } else {
 
         // ページ名を、日付順に並び替える
+        eleDiv.title = t("Update order")
         result = result.sort((a, b) => {
           return a["updated-at"] > b["updated-at"] ? -1 : 1
         })
@@ -578,7 +585,7 @@ const tooltipCreateList = (
           //年月を取得
           const month = new Date(monthKey).toLocaleDateString("default", { year: "numeric", month: "long" })
           // 更新月
-          eleDiv.innerHTML += `<h3>${month} <small>(${t("Updated month")})</small></h3>`
+          eleDiv.innerHTML += `<h3>${month}</h3>`
           const eleUl = document.createElement("ul") as HTMLUListElement
           for (const page of pages) {
             const pageName = page['original-name']
