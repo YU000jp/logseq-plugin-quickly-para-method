@@ -88,26 +88,27 @@ export const openMenuFromToolbar = async () => {
   template += `
     <ul title="">
       <h2>${t("Combination Menu")}</h2>
+      <h3>${t("New page")} ></h3>
       <li class="para-away">
-        <span>${t("New page")}</span>
+        <span><small>(${t("Top level")})</small></span>
         <span>
-          <button data-on-click="NewPageInbox" title="${t("Into [Inbox]")}">📦</button>|<button data-on-click="NewProject" title="${t("Page-Tag")} [Projects]">✈️</button>
+        <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Top level")} > ${t("Into [Inbox]")}">📦</button>|<button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
         </span>
       </li>
       `
   if (flagNamespace) {
-    const sameLevel = title.split("/").slice(0, -1).join("/")
+    const sameLevel = title.split("/").slice(0, -1).join("/")+"/"
     template += `
       <li class="para-away">
-        <span title="${sameLevel}">${t("New page")} (${t("Same level")})</span>
+        <span title="${t("Same level")}">${sameLevel}</span>
         <span>
-            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} > ${t("Same level")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] > ${t("Same level")}" data-same-level="${sameLevel}">✈️</button>
+          <button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
         </span>
       </li>
       <li class="para-away">
-      <span title="${title}/">${t("New page")} (${t("Sub page")})</span>
+      <span title="${t("Sub page")}">${title}/</span>
       <span>
-          <button data-on-click="NewPageSameLevel" data-same-level="${title}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} > (${t("Sub page")})" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] > ${t("Sub page")}" data-same-level="${title}">✈️</button>
+          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}">🆕</button>|<button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button>|<button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
       </span>
     </li> 
             `

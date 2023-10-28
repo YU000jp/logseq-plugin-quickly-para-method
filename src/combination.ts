@@ -1,5 +1,5 @@
-import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { reflectProperty, removePopup } from './lib'
+import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { removePopup } from './lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from './RecodePageTop'
 import { updatePageProperty } from './property'
@@ -20,7 +20,7 @@ export const combinationNewPage = async (title: string, tags: string, inputValue
     key: "openQuickly",
     reset: true,
     template: `
-        <p>${t("New page")}: <input id="newPageTitle" type="text" style="width:340px"${inputValue ? `value="${inputValue}"` : ""}/>
+        <p>${t("New page")}: <input id="newPageTitle" type="text" style="width:420px"${inputValue ? ` value="${inputValue}"` : ""}/>
         <button id="CreatePageButton">${t("Submit")}</button></p>
         `,
     style: {
@@ -60,7 +60,7 @@ function eventListener(tags: string): () => void {
           const createPage = await logseq.Editor.createPage(
             inputTitle, // 入力されたページ名
             tags === "" || tags === logseq.settings!.inboxName ? {} //タグが空の場合や、INBOXの場合はタグを追加しない
-              : { tags:[tags] }, // ページタグをつける
+              : { tags: [tags] }, // ページタグをつける
             {
               createFirstBlock: true, // ページの最初のブロックを作成する
               redirect: false // リダイレクトはしない
@@ -115,7 +115,7 @@ export const combinationNamespace = async (tags: string, namespaceName: string) 
     //ページが存在しない場合に実行する
     const createPage = await logseq.Editor.createPage(
       namespaceName, // 入力されたページ名
-      { tags:[tags] }, // ページタグをつける
+      { tags: [tags] }, // ページタグをつける
       {
         createFirstBlock: true, // ページの最初のブロックを作成する
         redirect: true // ページにリダイレクトする
