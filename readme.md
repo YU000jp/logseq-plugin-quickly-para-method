@@ -45,9 +45,9 @@ Install from Logseq Marketplace
 - From the menu or slashcommand
 
   1. Open the menu on click the top toolbar button `⚓`
-     > The menu varies in its content depending on whether the single page is open or not.
-          > First, the button is hidden by Logseq. Click this button (![icon](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) on the toolbar. And select this (![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)). After that, the ⚓ button will appear on the toolbar.
-  1. Slash Command [#14](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/14)
+     - The menu varies in its content depending on whether the single page is open or not.
+     > First, the button is hidden by Logseq. Click this button (![icon](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) on the toolbar. And select this (![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)). After that, the ⚓ button will appear on the toolbar.
+  1. Slash Command
      - On non-journal pages. Right sidebar too.
        1. `📧 Into [Inbox]`
        1. `✈️ Page-tag [Projects]`
