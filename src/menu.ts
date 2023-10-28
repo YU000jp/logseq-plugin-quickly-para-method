@@ -59,10 +59,10 @@ export const openMenuFromToolbar = async () => {
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       ${title === logseq.settings!.inboxName ? "" : printNamespace}
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>|` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>|` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️</button>|` : ''}<button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️</button>|` : ''}<button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>|` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>|` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Resources">🏷️</button>|` : ''}<button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Archives">🏷️</button>|` : ''}<button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
       `
@@ -76,10 +76,10 @@ export const openMenuFromToolbar = async () => {
       ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span>📧 ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ [Projects]<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 [Areas of responsibility]<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 [Resources]<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
-      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 [Archives]<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span><button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🌍 Resources<input id="paraCheckboxR" type="checkbox"/><div id="paraTooltipR"></div></span></label><span><button id="paraOpenButtonResources" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      <li class="para-away"><label title="${t("Open the list")}"><span>/🧹 Archives<input id="paraCheckboxA" type="checkbox"/><div id="paraTooltipA"></div></span></label><span><button id="paraOpenButtonArchives" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
     </ul>
     <hr/>
     `
@@ -91,7 +91,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
         <span>${t("New page")}</span>
         <span>
-          <button data-on-click="NewPageInbox" title="${t("Into [Inbox]")}">📧</button>|<button data-on-click="NewProject" title="${t("Page-Tag")} [Projects]">✈️</button>
+          <button data-on-click="NewPageInbox" title="${t("Into [Inbox]")}">📦</button>|<button data-on-click="NewProject" title="${t("Page-Tag")} [Projects]">✈️</button>
         </span>
       </li>
       `
@@ -101,7 +101,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
         <span title="${sameLevel}">${t("New page")} (${t("Same hierarchy level")})</span>
         <span>
-            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} (${t("Same hierarchy level")})" data-same-level="${sameLevel}">📧</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] (${t("Same hierarchy level")})" data-same-level="${sameLevel}">✈️</button>
+            <button data-on-click="NewPageSameLevel" data-same-level="${sameLevel}">🆕</button><button data-on-click="NewPageInboxSameLevel" title="${t("Into [Inbox]")} (${t("Same hierarchy level")})" data-same-level="${sameLevel}">📦</button>|<button data-on-click="NewProjectSameLevel" title="${t("Page-Tag")} [Projects] (${t("Same hierarchy level")})" data-same-level="${sameLevel}">✈️</button>
         </span>
       </li> 
             `
@@ -229,7 +229,7 @@ const createPickListSelect = (isPage: boolean): string => {
     select = `
       <span>
         <select id="pickListSelect" title="${t("Pick List")}">
-          <option value="">${t("🗒️ Pick List")}</option>
+          <option value="">🗒️ ${t("Pick List")}</option>
           ${pickList.map((item) => {
       const label = item.length > 14 ? `${item.slice(0, 14)}...` : item
       return `<option value="${item}">${label}</option>`
@@ -256,7 +256,6 @@ const tooltipCreateList = (
     // チェックボックスがチェックされたら、ツールチップを表示
     //h2
     const eleH2 = document.createElement("h2") as HTMLHeadingElement
-    eleH2.innerHTML = `${titleIcon} ${pageName} ${flag && flag.inbox ? "" : `<small>${t("List")}</small>`}`
     //div
     const eleDiv = document.createElement("div") as HTMLDivElement
 
@@ -303,8 +302,10 @@ const tooltipCreateList = (
         return a["original-name"] > b["original-name"] ? 1 : -1
       })
 
+
       //h2
-      eleH2.innerText = `${titleIcon} ${namespace} ${t("List")}`
+      eleH2.innerText = `${titleIcon} ' ${namespace} ' ${t("List")}`
+
       // ページ名を表示する
       const eleUl = document.createElement("ul") as HTMLUListElement
       for (const page of result) {
@@ -334,7 +335,11 @@ const tooltipCreateList = (
 
       //end of namespace
     } else if (flag && flag.inbox === true) {
+
       //inboxの場合
+
+      eleH2.innerHTML = `${titleIcon} ${pageName}`
+
 
       eleH2.title = t("Pages in the inbox")
       const blocksEntity = await logseq.Editor.getPageBlocksTree(logseq.settings!.inboxName) as BlockEntity[] | null
@@ -502,7 +507,11 @@ const tooltipCreateList = (
     } else {
 
 
-      //ページタグを一覧表示する
+
+      //ページタグを一覧表示する (PARAの場合)
+
+
+      eleH2.innerHTML = `${titleIcon} ' ${pageName} ' <small>${t("List")}</small>`
       eleH2.title = t("Pages tagged with")
       const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
