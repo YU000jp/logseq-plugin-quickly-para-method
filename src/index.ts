@@ -150,7 +150,7 @@ const model = (popup: string) => logseq.provideModel({
   // 設定ボタン
   PARAsettingButton: () => logseq.showSettingsUI(),
 
-  // ページタイトルのリンクをコピー
+  // ページ名のリンクをコピー
   copyPageTitleLink: () => copyPageTitleLink(),
 
 })/* end_model */

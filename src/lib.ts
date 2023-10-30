@@ -16,7 +16,7 @@ export const removePopup = () => {
 }
 
 
-// ページタイトルリンクをコピー
+// ページ名リンクをコピー
 export const copyPageTitleLink = async () => {
   const page = await logseq.Editor.getCurrentPage() as PageEntity | null
   if (page) {
