@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.1...v1.8.2) (2023-10-30)
+
+
+### Bug Fixes
+
+* **CSS:** Menu ([22c1c40](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/22c1c40d2700c79a0e2d7d4ec62796cfe6347013))
+
 ## [1.8.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.0...v1.8.1) (2023-10-28)
 
 
