@@ -31,7 +31,7 @@ export const run = async (uuid: string, addPropValue: string, propName: string) 
   if (page) {
     //cancel same page
     if (page.originalName === addPropValue) return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")
-    //INBOXを覗いてジャーナルはキャンセル
+    //INBOXを覗いて日誌はキャンセル
     if (propName !== "INBOX"
       && page['journal?'] === true) return logseq.UI.showMsg(t("Journals cannot be tagged."), "warning")
 

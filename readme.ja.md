@@ -48,7 +48,7 @@ Logseq マーケットプレイスからインストール
      - ページが単独で開いているかどうかに応じてメニューの内容が異なります。
      > 最初、このボタンはLogseqによって非表示にされています。ツールバーのこのボタン (![アイコン](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) をクリックし、その後、この(![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)) を選択します。その後、ツールバーに ⚓ ボタンが表示されます。
   1. スラッシュコマンド
-     - ジャーナルページ以外でも、右サイドバーでも。
+     - 日誌ページ以外でも、右サイドバーでも。
        1. `📧 Into [Inbox]`
        1. `✈️ Page-tag [Projects]`
        1. `🏠 Page-tag [Areas of responsibility]`
