@@ -32,7 +32,7 @@ body>div {
         padding-bottom: .5em;
 
         & span.tabler-icons {
-          font-family:  "tabler-icons";
+          font-family: "tabler-icons";
         }
 
         &>p {
@@ -40,6 +40,7 @@ body>div {
             font-size: 1.5em;
           }
         }
+
         & h2 {
           margin-left: -0.8em;
           margin-top: 1em;
@@ -70,27 +71,19 @@ body>div {
 
             &>label {
 
-              &>span>span.tabler-icons {
-                font-size: 1.5em;
-              }
-              &+span {
-                margin-left: .5em;
-                display: flex;
-                flex-wrap: nowrap;
-
-                & button {
-
-                  &:hover {
-                    text-decoration: underline;
-                  }
-                }
-              }
-
-              &>span:not(.not-cursor-pointer) {
-                cursor: pointer;
-              }
-
               &>span {
+
+                &:hover {
+                  text-decoration: underline;
+                }
+
+                &>span.tabler-icons {
+                  font-size: 1.5em;
+                }
+
+                &:not(.not-cursor-pointer) {
+                  cursor: pointer;
+                }
 
                 & select#pickListSelect {
                   border-radius: 4px;
@@ -181,6 +174,19 @@ body>div {
                   }
                 }
               }
+
+              &+span {
+                margin-left: .5em;
+                display: flex;
+                flex-wrap: nowrap;
+
+                & button {
+
+                  &:hover {
+                    text-decoration: underline;
+                  }
+                }
+              }
             }
           }
 
@@ -217,5 +223,10 @@ body>div {
         }
       }
     }
+  }
+
+  &[data-ref="quickly-para-method"]:hover {
+    outline: 6px solid var(--ls-quaternary-background-color);
+    outline-offset: 6px;
   }
 }
