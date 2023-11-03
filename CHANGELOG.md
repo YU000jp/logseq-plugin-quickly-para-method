@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.2...v1.8.3) (2023-11-03)
+
+
+### Bug Fixes
+
+* **bug:** menu > page name query ([841d84b](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/841d84bf02a81d42f38f1284787b40f8ddb4fb43))
+
 ## [1.8.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.1...v1.8.2) (2023-10-30)
 
 
