@@ -1,7 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { openPageFromPageName } from './lib'
-import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { format, parse } from 'date-fns'
+import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import { openPageFromPageName } from './lib'
 let flagNamespace: boolean = false // ページ名に階層が含まれる場合のフラグ
 
 // ツールバーからPARAメニューを開く
@@ -102,7 +102,7 @@ export const openMenuFromToolbar = async () => {
     sameLevel = title.split("/").slice(0, -1).join("/")
     template += `
       <li class="para-away">
-        <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel.replaceAll("/"," / ")}</span></label>
+        <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel.replaceAll("/", " / ")}</span></label>
         <span>
           <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
       </li>
@@ -332,9 +332,21 @@ const tooltipCreateList = (
       // ページ名を表示する
       const eleUl = document.createElement("ul") as HTMLUListElement
       for (const page of result) {
-        const pageName = page['original-name']
+        // original-nameを取得
+        let pageName = page['original-name']
+        // ec7fbafb-4e59-44a6-9927-ac34d099f085
+        // このようなUuidが含まれる場合
+        if (pageName.match(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/)) {
+          // ブロックを取得
+          const page = await logseq.Editor.getPage(pageName) as PageEntity | null
+          if (!page) continue
+          pageName = page.originalName as string
+        }
+        // 表示用にページ名を短縮する
+        if(!pageName) continue
+        let pageNameString = pageTitleSlash(pageName)
+
         const eleLi = document.createElement("li") as HTMLLIElement
-        const pageNameString = pageTitleLimit(pageName,42)
         const aEle = document.createElement("a") as HTMLAnchorElement
         aEle.dataset.pageName = pageName
         aEle.title = pageName
@@ -442,7 +454,8 @@ const tooltipCreateList = (
               for (const page of pages) {
                 const pageName = page['original-name']
                 const eleLi = document.createElement("li") as HTMLLIElement
-                const pageNameString = pageTitleLimit(pageName,42)
+                if(!pageName) continue
+                const pageNameString = pageTitleSlash(pageName)
                 const receiveDate: Date | null = page["receive-date"]
                 // 正しい日付形式でない場合は、スキップする
                 if (receiveDate.toString() === "Invalid Date") continue
@@ -503,7 +516,8 @@ const tooltipCreateList = (
 
             //ページ名を表示する
             const eleLi = document.createElement("li") as HTMLLIElement
-            const pageNameString = pageTitleLimit(pageName,42)
+            if(!pageName) continue
+            const pageNameString = pageTitleSlash(pageName)
             const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
             aEle.dataset.pageName = pageName
@@ -600,7 +614,8 @@ const tooltipCreateList = (
           for (const page of pages) {
             const pageName = page['original-name']
             const eleLi = document.createElement("li") as HTMLLIElement
-            const pageNameString = pageTitleLimit(pageName,42)
+            if(!pageName) continue
+            const pageNameString = pageTitleSlash(pageName)
             const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
             aEle.dataset.pageName = pageName
@@ -631,11 +646,6 @@ const tooltipCreateList = (
   }
 }
 
-const pageTitleLimit = (pageName: string,length:number) => (
-  pageName.length > length ?
-    //後方の文字を残す
-    `...${pageName.slice(-length)}`
-    : pageName).replaceAll("/", " / "
-    )
-
-
+// 「hls__」と「hls/」をPDF/に変換する
+// 「/」を「 / 」に変換する
+const pageTitleSlash = (pageName: string) => pageName.replace("hls__", "PDF/").replace("hls/", "PDF/").replaceAll("/", " / ")

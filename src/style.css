@@ -73,6 +73,10 @@ body>div {
 
               &>span {
 
+                &>div[data-namespace]>div>ul {
+                  font-size: .92em;
+                }
+
                 &:hover {
                   text-decoration: underline;
                 }
