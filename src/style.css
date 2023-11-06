@@ -1,7 +1,7 @@
 
 body>div {
   &#root>div>main {
-    & article>div[data-id="quickly-para-method"] {
+    & article>div[data-id="logseq-plugin-quickly-para-method"] {
       & div.heading-item {
         margin-top: 3em;
         border-top-width: 1px;
@@ -22,7 +22,7 @@ body>div {
     }
   }
 
-  &#quickly-para-method--openQuickly {
+  &#logseq-plugin-quickly-para-method--openQuickly {
     &>div {
       &.draggable-handle>div.th h3 {
         font-size: .9em;
