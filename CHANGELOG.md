@@ -1,3 +1,10 @@
+## [1.8.5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.4...v1.8.5) (2023-11-06)
+
+
+### Bug Fixes
+
+* **bug:** CSS not applied to menu ([7c8ead3](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/7c8ead3ee73a9637b83f6899ac50b600093532ec))
+
 ## [1.8.4](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.3...v1.8.4) (2023-11-06)
 
 
