@@ -96,6 +96,7 @@ body>div {
                   background-color: var(--ls-secondary-background-color);
                   color: var(--ls-primary-text-color);
                   margin-top: .3em;
+                  font-family: "tabler-icons";
                 }
 
                 &:first-child {
