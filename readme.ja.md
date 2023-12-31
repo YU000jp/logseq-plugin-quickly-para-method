@@ -55,6 +55,20 @@ Logseq マーケットプレイスからインストール
        1. `🌍 Page-tag [Resources]`
        1. `🧹 Page-tag [Archives]`
 
+- ページの行にリストを設置する (オプション)
+
+```clojure
+
+{{query (page-tags [[Projects]])}}
+
+{{query (page-tags [[Areas of responsibility]])}}
+
+{{query (page-tags [[Resources]])}}
+
+{{query (page-tags [[Archives]])}}
+
+```
+
 - プラグイン設定
 
    > [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
