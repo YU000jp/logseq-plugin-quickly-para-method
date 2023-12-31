@@ -55,6 +55,20 @@ Install from Logseq Marketplace
        1. `🌍 Page-tag [Resources]`
        1. `🧹 Page-tag [Archives]`
 
+- Inline query (option)
+
+```clojure
+
+{{query (page-tags [[Projects]])}}
+
+{{query (page-tags [[Areas of responsibility]])}}
+
+{{query (page-tags [[Resources]])}}
+
+{{query (page-tags [[Archives]])}}
+
+```
+
 - Plugin Settings
 
    > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
