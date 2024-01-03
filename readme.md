@@ -41,7 +41,7 @@
 Learn the PARA method
 
 > Helps organize pages in the Logseq graph.
-1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
+1. [PARA method guide](https://workflowy.com/systems/para-method/)
 
 Install from Logseq Marketplace
 
