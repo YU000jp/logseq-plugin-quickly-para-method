@@ -3,7 +3,6 @@
 [English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
 
 - PARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
-- クイックメニュー
 
 [![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
 [![ライセンス](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
@@ -12,12 +11,10 @@
 
 ---
 
-## PARA メソッドを学ぶ
-
-> Logseq グラフ内のページを整理するのに役立ちます。
-1. [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
-
 ## 概要
+- クイックメニュー
+
+  ![quicklyparajp](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/5bb2a839-5801-48dd-bc17-ad465f868adb)
 
 * クイックメニューから選択して、現在のページに、PARAメソッドのページタグを追加します。
 * 追加したときに、そのPARA メソッドのページに、日付とリンクを記録します（オプション）。
@@ -27,13 +24,14 @@
    > 同じ名称を持つページを検索したり、階層構造を気にせず、関連ページを探しリストアップします。
 * 同じ階層に新しいページを作成したり、サブページを追加できる機能が提供されています。
 
-[使い方] ページタグプロパティを設定
-
-  ![画像](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
-
 ---
 
 ## はじめに
+
+PARA メソッドを学ぶ
+
+> Logseq グラフ内のページを整理するのに役立ちます。
+1. [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
 Logseq マーケットプレイスからインストール
   - 上部右側のツールバーで [`---`] をクリックして [`プラグイン`] を開きます。 `マーケットプレイス` を選択します。検索フィールドに `PARA` と入力し、検索結果から選択してインストールします。
@@ -42,7 +40,11 @@ Logseq マーケットプレイスからインストール
 
 ### 使用方法
 
-- メニューまたはスラッシュコマンドから
+ページタグプロパティを設定
+
+  ![画像](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
+
+- メニューまたはスラッシュコマンドから、新規もしくは既存のページに対して、Projects、Areas of responsibility、Resourceのいずれかとしてタグ付けをします
 
   1. 上部ツールバーのボタン `⚓` をクリックしてメニューを開きます
      - ページが単独で開いているかどうかに応じてメニューの内容が異なります。
@@ -54,6 +56,9 @@ Logseq マーケットプレイスからインストール
        1. `🏠 Page-tag [Areas of responsibility]`
        1. `🌍 Page-tag [Resources]`
        1. `🧹 Page-tag [Archives]`
+
+1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
+    > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
 
 - ページの行にリストを設置する (オプション)
 
