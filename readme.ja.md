@@ -2,27 +2,30 @@
 
 [English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
 
-- PARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
+- LogseqでPARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
+- Projects、Areas of responsibility、Resources、Archivesの各ページに分類するために、**ページタグとしてマークします**。
 
 [![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
-[![ライセンス](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
 [![ダウンロード数](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
  公開日: 2023/06/12
 
 ---
 
 ## 概要
-- クイックメニュー
 
-  ![quicklyparajp](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/5bb2a839-5801-48dd-bc17-ad465f868adb)
+- ツールバーのボタンもしくはページタイトルを右クリックして、専用のクイックメニューを開きます
 
-* クイックメニューから選択して、現在のページに、PARAメソッドのページタグを追加します。
-* 追加したときに、そのPARA メソッドのページに、日付とリンクを記録します（オプション）。
+  ![quicklyparajp](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/9e15d931-f7a8-483e-aec0-e1511514d4ad)
+
+* クイックメニューから選択して、現在のページもしくは新規のページに対して、Projects、Areas of responsibility、Resourceのいずれかとしてタグ付けをします
+* 追加したときに、そのタグ名のページの先頭行に、日付とリンクが記帳されます
+   > この機能はオプションなのでオフにできます
 * 「受信トレイ」機能
    > ページを途中で中断した場合に、受信トレイのページにリンクを保存できます。月ごとに分類されます。
-* 「namespaceクエリー検索」機能
-   > 同じ名称を持つページを検索したり、階層構造を気にせず、関連ページを探しリストアップします。
-* 同じ階層に新しいページを作成したり、サブページを追加できる機能が提供されています。
+* 「ページ名 単語検索」機能
+   > 同じ単語を持つページ名を探します。階層構造に関わらず、関連するページをリストアップします。
+* サブページなどのページ作成機能
+   > 現在のページの階層もしくはその上の階層にサブページを作成するための機能です。
 
 ---
 
@@ -40,25 +43,23 @@ Logseq マーケットプレイスからインストール
 
 ### 使用方法
 
-ページタグプロパティを設定
+1. ページタグをつける方法
 
-  ![画像](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
-
-- メニューまたはスラッシュコマンドから、新規もしくは既存のページに対して、Projects、Areas of responsibility、Resourceのいずれかとしてタグ付けをします
-
-  1. 上部ツールバーのボタン `⚓` をクリックしてメニューを開きます
-     - ページが単独で開いているかどうかに応じてメニューの内容が異なります。
-     > 最初、このボタンはLogseqによって非表示にされています。ツールバーのこのボタン (![アイコン](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) をクリックし、その後、この(![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)) を選択します。その後、ツールバーに ⚓ ボタンが表示されます。
-  1. スラッシュコマンド
-     - 日誌ページ以外でも、右サイドバーでも。
-       1. `📧 Into [Inbox]`
-       1. `✈️ Page-tag [Projects]`
-       1. `🏠 Page-tag [Areas of responsibility]`
-       1. `🌍 Page-tag [Resources]`
-       1. `🧹 Page-tag [Archives]`
-
-1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
-    > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
+   - メニューまたはスラッシュコマンドから、現在のページにページタグをつけます。
+   
+     1. 上部ツールバーのボタン `⚓` をクリックしてメニューを開きます
+        - ページが単独で開いているかどうかに応じてメニューの内容が異なります。
+        > 最初、このボタンはLogseqによって非表示にされています。ツールバーのこのボタン (![アイコン](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) をクリックし、その後、この(![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)) を選択します。その後、ツールバーに ⚓ ボタンが表示されます。
+     1. スラッシュコマンド
+        - 日誌ページ以外でも、右サイドバーでも。
+          1. `📧 Into [Inbox]`
+          1. `✈️ Page-tag [Projects]`
+          1. `🏠 Page-tag [Areas of responsibility]`
+          1. `🌍 Page-tag [Resources]`
+          1. `🧹 Page-tag [Archives]`
+   
+   1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
+       > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
 
 - ページの行にリストを設置する (オプション)
 
