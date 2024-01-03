@@ -167,14 +167,14 @@ const eventListener = (get: {
   // それぞれの開くボタン
   if (flagNamespace) openPageButton("paraOpenButtonNamespace", get.namespace) // namespaceの場合は、data-namespaceの値を取得
   openPageButton("pickListOpenButton", "pickListSelect", { pickListSelect: true }) //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
-  openPageButton("paraOpenButtonInbox", logseq.settings!.inboxName) //Inbox
+  openPageButton("paraOpenButtonInbox", logseq.settings!.inboxName as string) //Inbox
   openPageButton("paraOpenButtonProjects", "Projects")
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
   if (get.sameLevel) openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
   // ツールチップ
-  tooltip("<span class=\"tabler-icons\">&#xeae5;</span>", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName, { inbox: true })
+  tooltip("<span class=\"tabler-icons\">&#xeae5;</span>", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName as string, { inbox: true })
   tooltip("<span class=\"tabler-icons\">&#xee17;</span>", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
   tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
   tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
@@ -242,7 +242,7 @@ const tooltip = (
 
 // ピックリストの行を作成
 const createPickListSelect = (isPage: boolean): string => {
-  const pickList = logseq.settings?.pickList?.split("\n") ?? []
+  const pickList = (logseq.settings?.pickList as string).split("\n") ?? []
   let select = ""
   if (pickList.length === 0) {
     select = `<small>${t("Please set the pick list in the plugin settings.")}</small>`
@@ -377,7 +377,7 @@ const tooltipCreateList = (
 
 
 
-      const blocksEntity = await logseq.Editor.getPageBlocksTree(logseq.settings!.inboxName) as BlockEntity[] | null
+      const blocksEntity = await logseq.Editor.getPageBlocksTree(logseq.settings!.inboxName as string) as BlockEntity[] | null
       if (!blocksEntity) return logseq.UI.showMsg("Cannot get the page name", "warning")
       const firstBlock = blocksEntity[0]
       //一行目のサブブロックを取得

@@ -9,7 +9,7 @@ export const slashCommandItems = () => {
   // スラッシュコマンドは、翻訳禁止！
 
   logseq.Editor.registerSlashCommand("📧 Into [Inbox]", async ({ uuid }) => {
-    run(uuid, logseq.settings!.inboxName, "INBOX")
+    run(uuid, logseq.settings!.inboxName as string, "INBOX")
   })
   logseq.Editor.registerSlashCommand("✈️ Page-Tag [Projects]", async ({ uuid }) => {
     run(uuid, "Projects", "PARA")
