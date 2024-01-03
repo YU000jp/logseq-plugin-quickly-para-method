@@ -15,7 +15,7 @@
 
 - Right-click on the toolbar button or page title to open a dedicated quick menu
 
-  ![quickMenu](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/4357bb4f-29c8-4acb-9d27-9f0b39278a3f)
+  ![quickMenu](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/7cadd395-51f2-40a8-af85-3b29946af9ee)
 
 * Select from the quick menu to tag the current page or a new page as Projects, Areas of responsibility, or Resources
 * When added, the date and link will be recorded on the first line of the page with that tag name.
