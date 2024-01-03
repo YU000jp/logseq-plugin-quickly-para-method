@@ -13,18 +13,21 @@
 
 ## Overview
 
-- Right-click on the toolbar button or page title to open a dedicated quick menu
+* Right-click on the toolbar button or page title to open a dedicated quick menu
 
-  ![quickMenu](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/7cadd395-51f2-40a8-af85-3b29946af9ee)
-
-* Select from the quick menu to tag the current page or a new page as Projects, Areas of responsibility, or Resources
-* When added, the date and link will be recorded on the first line of the page with that tag name.
-    > This feature is optional and can be turned off
-* "Inbox" feature
+   ![quickMenu](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/7cadd395-51f2-40a8-af85-3b29946af9ee)
+   
+1. Set page-tags property
+   * Select from the quick menu to tag the current page or a new page as Projects, Areas of responsibility, or Resources
+   * When added, the date and link will be recorded on the first line of the page with that tag name.
+       > This feature is optional and can be turned off
+   * Once a project is complete and the page content is no longer expected to evolve, tag it in Archives.
+       > In that case, PARA page tags will not be duplicated. Once tag Archives, it will be removed from Projects.
+1. "Inbox" feature
     > You can save a link to a page in the inbox if you leave the page midway through. Sorted by month.
-* "Page name word search" function
+1. "Page name word search" function
     > Find page names with the same word. List related pages regardless of their hierarchical structure.
-* Page creation functions such as sub page
+1. Page creation functions such as sub page
     > This is a function to create a sub page at the current page level or at the level above it.
 
 ---
@@ -60,9 +63,6 @@ Install from Logseq Marketplace
           1. `🧹 Page-tag [Archives]`
 
 ![singleJournaldemo](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a2c9cfb6-88a5-4af5-a90f-26b619ac53bb)
-
-  1. Once a project is complete and the page content is no longer expected to evolve, tag it in Archives.
-      > In that case, PARA page tags will not be duplicated. Once tag Archives, it will be removed from Projects.
 
 - Inline query (option)
 
