@@ -3,36 +3,36 @@
 [English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
 
 - Provide a workflow that helps organize pages, which tend to be large, using the PARA method.
+- **Mark as a page tag** to classify it into Projects, Areas of responsibility, Resources, and Archives pages.
 
 [![latest release version](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
-[![License](https://img.shields.io/github/license/YU000jp/logseq-plugin-quickly-para-method?color=blue)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/LICENSE)
 [![Downloads](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
  Published 2023/06/12
 
 ---
 
-## Learn the PARA method
-
-> Helps organize pages in the Logseq graph.
-1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
-
 ## Overview
 
-* Select from the quick menu to add PARA method page tags to the current page.
-* When added, record the date and link on the PARA method page (optional).
-* Inbox feature
-  > If interrupted, a link can be saved to the inbox page. It is categorized by month.
-* "namespace query search" feature
-  > Search for pages with the same name or explore related pages without worrying about the hierarchical structure and list them.
-* The ability to create a new page in the same hierarchy or add a sub page is provided.
+- Right-click on the toolbar button or page title to open a dedicated quick menu
 
-[How to use] Set page-tags property
-
-  ![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/3eacdfdb-daa3-4786-9ce6-9ee056760f55)
+* Select from the quick menu to tag the current page or a new page as Projects, Areas of responsibility, or Resources
+* When added, the date and link will be recorded on the first line of the page with that tag name.
+    > This feature is optional and can be turned off
+* "Inbox" feature
+    > You can save a link to a page in the inbox if you leave the page midway through. Sorted by month.
+* "Page name word search" function
+    > Find page names with the same word. List related pages regardless of their hierarchical structure.
+* Page creation functions such as sub page
+    > This is a function to create a sub page at the current page level or at the level above it.
 
 ---
 
 ## Getting Started
+
+Learn the PARA method
+
+> Helps organize pages in the Logseq graph.
+1. [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
 
 Install from Logseq Marketplace
 
@@ -42,18 +42,23 @@ Install from Logseq Marketplace
 
 ### Usage
 
-- From the menu or slashcommand
+1. Set page-tags property
 
-  1. Open the menu on click the top toolbar button `⚓`
-     - The menu varies in its content depending on whether the single page is open or not.
-     > First, the button is hidden by Logseq. Click this button (![icon](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) on the toolbar. And select this (![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)). After that, the ⚓ button will appear on the toolbar.
-  1. Slash Command
-     - On non-journal pages. Right sidebar too.
-       1. `📧 Into [Inbox]`
-       1. `✈️ Page-tag [Projects]`
-       1. `🏠 Page-tag [Areas of responsibility]`
-       1. `🌍 Page-tag [Resources]`
-       1. `🧹 Page-tag [Archives]`
+    - From quick menu or slash command
+
+      1. Open the menu on click the top toolbar button `⚓`
+        - The menu varies in its content depending on whether the single page is open or not.
+        > First, the button is hidden by Logseq. Click this button (![icon](https://github.com/YU000jp/logseq-plugin-bullet-point-custom-icon/assets/111847207/136f9d0f-9dcf-4942-9821-c9f692fcfc2f)) on the toolbar. And select this (![image](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/bfe90d5e-7ee4-4455-8b29-4c2908b1c9df)). After that, the ⚓ button will appear on the toolbar.
+      1. Slash Command
+        - On non-journal pages. Right sidebar too.
+          1. `📧 Into [Inbox]`
+          1. `✈️ Page-tag [Projects]`
+          1. `🏠 Page-tag [Areas of responsibility]`
+          1. `🌍 Page-tag [Resources]`
+          1. `🧹 Page-tag [Archives]`
+
+  1. Once a project is complete and the page content is no longer expected to evolve, tag it in Archives.
+      > In that case, PARA page tags will not be duplicated. Once tag Archives, it will be removed from Projects.
 
 - Inline query (option)
 
@@ -78,7 +83,6 @@ Install from Logseq Marketplace
   1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
      > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
   1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-     > Color the left menu title and page content.
   1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
      > Change the display position of page tags and hierarchy in page content.
 

@@ -60,8 +60,8 @@ Logseq マーケットプレイスからインストール
 
    ![singleJournalJa1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/ac4562eb-e67e-46cc-8b51-2653857cf43e)
 
-   1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
-       > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
+1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
+   > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
 
 - ページの行にリストを設置する (オプション)
 
