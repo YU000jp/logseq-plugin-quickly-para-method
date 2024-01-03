@@ -11,6 +11,10 @@
 
 ---
 
+* Image of the **PARA method**
+
+   ![PARAイラスト](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/17767165-679a-4572-8519-db48abfc7f30)
+
 ## Overview
 
 * Right-click on the toolbar button or page title to open a dedicated quick menu
