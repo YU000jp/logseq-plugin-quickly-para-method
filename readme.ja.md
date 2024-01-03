@@ -57,7 +57,9 @@ Logseq マーケットプレイスからインストール
           1. `🏠 Page-tag [Areas of responsibility]`
           1. `🌍 Page-tag [Resources]`
           1. `🧹 Page-tag [Archives]`
-   
+
+   ![singleJournalJa1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/ac4562eb-e67e-46cc-8b51-2653857cf43e)
+
    1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
        > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
 
@@ -82,9 +84,8 @@ Logseq マーケットプレイスからインストール
 - おすすめのプラグイン
 
   1. [Favorite tree プラグイン](https://github.com/sethyuan/logseq-plugin-favorite-tree)
-     > 左メニューに PARA リストを表示します。PARA の各ページをユーザーお気に入りに登録します。ページタグが一覧表示されます。
+     > Projectsなど各ページを、ページとしてお気に入りに登録してください。そうすると、左メニューに、そのページに対してタグ付けされたページがリストアップされます。
   2. [Panel Coloring プラグイン](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-     > 左メニュータイトルとページコンテンツに色をつけます。
   3. [Page-tags and Hierarchy プラグイン](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
      > ページコンテンツ内のページタグと階層の表示位置を変更します。
 
