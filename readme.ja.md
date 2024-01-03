@@ -36,11 +36,6 @@
 
 ## はじめに
 
-PARA メソッドを学ぶ
-
-> Logseq グラフ内のページを整理するのに役立ちます。
-1. [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Learn-the-PARA-method)
-
 Logseq マーケットプレイスからインストール
   - 上部右側のツールバーで [`---`] をクリックして [`プラグイン`] を開きます。 `マーケットプレイス` を選択します。検索フィールドに `PARA` と入力し、検索結果から選択してインストールします。
 
@@ -101,6 +96,8 @@ Logseq マーケットプレイスからインストール
   > [ディスカッション](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) タブに移動して、質問やこの種の情報を見つけるために行きます。
 
 ## 先行技術とクレジット
+
+リンク > [PARAメソッド (Workflowly ガイド)](https://workflowy.com/systems/para-method/)
 
 Logseq プラグイン > [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
   > ほぼ同様の機能を提供していますが、ページタグを使うか、独自のプロパティを使うかの違いがあります。
