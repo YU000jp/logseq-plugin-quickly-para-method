@@ -81,19 +81,18 @@ Logseq マーケットプレイスからインストール
 
    > [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
 
-- おすすめのプラグイン
-
-  1. [Favorite tree プラグイン](https://github.com/sethyuan/logseq-plugin-favorite-tree)
-     > Projectsなど各ページを、ページとしてお気に入りに登録してください。そうすると、左メニューに、そのページに対してタグ付けされたページがリストアップされます。
-  2. [Panel Coloring プラグイン](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-  3. [Page-tags and Hierarchy プラグイン](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
-     > ページコンテンツ内のページタグと階層の表示位置を変更します。
-
 ---
 
 ## ショーケース / 質問 / アイデア / ヘルプ
 
   > [ディスカッション](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) タブに移動して、質問やこの種の情報を見つけるために行きます。
+
+- おすすめのプラグイン
+  1. [Favorite tree プラグイン](https://github.com/sethyuan/logseq-plugin-favorite-tree)
+     > Projectsなど各ページを、ページとしてお気に入りに登録してください。そうすると、左メニューに、そのページに対してタグ付けされたページがリストアップされます。
+  2. [Panel Coloring プラグイン](https://github.com/YU000jp/logseq-plugin-panel-coloring)
+  3. [Page-tags and Hierarchy プラグイン](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+     > ページコンテンツ内のページタグと階層の表示位置を変更します。
 
 ## 先行技術とクレジット
 

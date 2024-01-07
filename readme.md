@@ -86,19 +86,18 @@ Install from Logseq Marketplace
 
    > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
 
-- Recommend plugin
-
-  1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
-     > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
-  1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
-  1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
-     > Change the display position of page tags and hierarchy in page content.
-
 ---
 
 ## Showcase / Questions / Ideas / Help
 
   > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
+
+- Recommend plugin
+  1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
+     > To show the PARA list on left menu. Register each page of PARA to user favorites. Page tags are listed.
+  1. [Panel Coloring plugin](https://github.com/YU000jp/logseq-plugin-panel-coloring)
+  1. [Page-tags and Hierarchy plugin](https://github.com/YU000jp/logseq-page-tags-and-hierarchy)
+     > Change the display position of page tags and hierarchy in page content.
 
 ## Prior art & Credit
 
