@@ -77,10 +77,6 @@ Logseq マーケットプレイスからインストール
 
 ```
 
-- プラグイン設定
-
-   > [文書はこちら](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
-
 ---
 
 ## ショーケース / 質問 / アイデア / ヘルプ
