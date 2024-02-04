@@ -2,6 +2,7 @@ import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { removeEmptyBlockFirstLineAll } from './lib'
+import { sortByMonth } from './lib'
 
 
 /**
@@ -15,10 +16,11 @@ export const RecodeDateToPageTop = async (userDateFormat: string, targetPageName
   const blocks = await logseq.Editor.getPageBlocksTree(targetPageName) as BlockEntity[]
   if (blocks.length > 0) {
 
-    const flagArchives: boolean = logseq.settings!.archivesDone === true && targetPageName === "Archives"
+    const flagArchives: boolean = logseq.settings!.archivesDone === true
+      && targetPageName === "Archives"
 
     //先頭行の子孫にある空ブロックを削除
-    await removeEmptyBlockFirstLineAll(blocks)
+    await removeEmptyBlockFirstLineAll(blocks[0])
 
     const insertContent = `${flagArchives === true ? "DONE" : "" // Archivesページの場合はDONEを追加
       } [[${format(new Date(), userDateFormat) //日付リンク
@@ -31,12 +33,10 @@ export const RecodeDateToPageTop = async (userDateFormat: string, targetPageName
       const success: boolean = await sortByMonth(blocks, insertContent)
       if (success === false) return false
 
-    } else {
-
+    } else
       // 先頭行の下に追記する
       await logseq.Editor.insertBlock(blocks[0].uuid, insertContent, { sibling: false }) // ブロックのサブ行に追記
 
-    }
 
     if (flagArchives === true) logseq.UI.showMsg(t("[DONE] marked and added date to the top of the page"), "success", { timeout: 3000 })
     else logseq.UI.showMsg(t("Added date to the top of the page"), "success", { timeout: 3000 })
@@ -55,49 +55,3 @@ export const RecodeDateToPageTop = async (userDateFormat: string, targetPageName
   }
   return false
 }
-
-//月ごとにソートする場合
-const sortByMonth = async (blocks: BlockEntity[], insertContent: string): Promise<boolean> => {
-
-  //同じ月のサブ行がある場合はそのブロックのサブ行に追記する
-  const monthFormat = format(new Date(), "yyyy/MM")
-  const firstBlock = blocks[0] as BlockEntity
-  const children = firstBlock.children as BlockEntity[]
-  //childrenのcontentが日付フォーマットと一致するか確認(先頭が 「### 」から始まる)
-  const monthString = logseq.settings!.sortByMonthLink ? `### [[${monthFormat}]]` : `### ${monthFormat}`
-  if (children && children.length > 0) {
-
-    const child = children.find(child => child.content.startsWith(monthString))
-    if (child) {
-      //マッチした場合
-
-      //insertContentがすでにサブ行に記録されていないか調べる
-      const subChildren = child.children as BlockEntity[] | undefined
-      if (subChildren
-        && subChildren.length > 0
-        && subChildren.find(subChild => subChild.content === insertContent)) {
-        logseq.UI.showMsg(t("Failed (Already recorded)"), "warning") // すでに記録されている場合は終了
-        return false
-      } else {
-        //そのブロックのサブ行に追記する
-        await logseq.Editor.insertBlock(child.uuid, insertContent, { sibling: false })
-        return true
-        // ここで成功として終了
-      }
-    }
-  }
-
-  //マッチしない場合
-
-  //先頭行の下に、新しいブロックを作成して月分類のブロックを作成し、その中にサブ行を追記する
-  const newBlock = await logseq.Editor.insertBlock(firstBlock.uuid, monthString, { sibling: false }) as BlockEntity | null // ブロックのサブ行に追記
-  if (!newBlock) {
-    //年のためエラー処理
-    logseq.UI.showMsg(t("Failed (Cannot create a new block in first block of the page)"), "error")
-    return false
-  }
-  // ブロックのサブ行に追記
-  await logseq.Editor.insertBlock(newBlock.uuid, insertContent, { sibling: false })
-  return true
-}
-

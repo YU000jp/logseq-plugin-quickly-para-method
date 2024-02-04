@@ -27,7 +27,7 @@ export const slashCommandItems = () => {
 
 export const run = async (uuid: string, addPropValue: string, propName: string) => {
   //右サイドバーに開いたブロックからスラッシュコマンドを実行した場合の処理
-  const page = await getPageEntityFromBlockUuid(uuid) as PageEntity | null
+  const page = await getPageEntityFromBlockUuid(uuid) as { journal?: PageEntity["journal?"], originalName: PageEntity["originalName"], properties: PageEntity["properties"] } | null
   if (page) {
     //cancel same page
     if (page.originalName === addPropValue) return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")

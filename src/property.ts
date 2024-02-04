@@ -1,5 +1,5 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from './RecodePageTop'
 import { reflectProperty, removePopup } from './lib'
 
@@ -15,7 +15,7 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
   if (addPropPageName === "") return logseq.UI.showMsg(t("Cancel"), "warning")
 
   // 現在のページを取得する
-  const getCurrent = await logseq.Editor.getCurrentPage() as PageEntity | null
+  const getCurrent = await logseq.Editor.getCurrentPage() as { name: PageEntity["name"]; properties: PageEntity["properties"], originalName: PageEntity["originalName"] } | null
   if (getCurrent) {
     // 現在のページと同じ名前のプロパティを追加しようとした場合はキャンセルとする
     if (getCurrent.name === addPropPageName
@@ -43,7 +43,7 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
  * @param type 追加するプロパティのタイプ (INBOXかPARA、Free)
  * @param uuid ページの最初のブロックのUUID
  */
-export const updatePageProperty = async (addPropPageName: string, targetPageEntity: PageEntity, type: string, uuid: string) => {
+export const updatePageProperty = async (addPropPageName: string, targetPageEntity: { properties: PageEntity["properties"], originalName: PageEntity["originalName"] }, type: string, uuid: string) => {
 
   const message = () => {
     if (type === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "success", { timeout: 3000 })

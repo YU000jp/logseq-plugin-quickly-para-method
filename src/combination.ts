@@ -54,7 +54,7 @@ function eventListener(tags: string): () => void {
         processing = true
 
         //ページが存在しないことを確認する
-        if ((await logseq.Editor.getPage(inputTitle) as PageEntity | null) === null) {
+        if ((await logseq.Editor.getPage(inputTitle) as { uuid: PageEntity["uuid"] } | null) === null) {
 
           //ページが存在しない場合に実行する
           const createPage = await logseq.Editor.createPage(
@@ -70,7 +70,7 @@ function eventListener(tags: string): () => void {
           if (createPage === null) return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
 
           //ページが作成された場合
-          const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
+          const { preferredDateFormat } = await logseq.App.getUserConfigs() as { preferredDateFormat: AppUserConfigs["preferredDateFormat"] }
 
           setTimeout(async () => {
             const success: boolean = await RecodeDateToPageTop(preferredDateFormat, tags, " [[" + createPage.originalName + "]]")
@@ -102,7 +102,7 @@ function eventListener(tags: string): () => void {
 export const combinationNamespace = async (tags: string, namespaceName: string) => {
 
   //ページが存在しないことを確認する
-  const page = await logseq.Editor.getPage(namespaceName) as PageEntity | null
+  const page = await logseq.Editor.getPage(namespaceName) as { properties: PageEntity["properties"], originalName: PageEntity["originalName"], uuid: PageEntity["uuid"] } | null
   if (page) {
     //ページが存在していた場合
 
