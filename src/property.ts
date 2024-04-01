@@ -1,7 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from './RecodePageTop'
-import { reflectProperty, removePopup } from './lib'
+import { removePopup } from './lib'
 
 
 /**
@@ -129,14 +129,12 @@ const updatePageProperties = (addPropPageName: string, targetProperty: string, p
   //ユーザーによる操作を停止する
   logseq.showMainUI()
 
+
+  logseq.Editor.removeBlockProperty(firstBlockUuid, targetProperty) // プロパティを削除
+  // ページのプロパティを更新
+  logseq.Editor.editBlock(firstBlockUuid)
   setTimeout(() => {
-
-    // ページのプロパティを更新
-    logseq.Editor.upsertBlockProperty(firstBlockUuid, targetProperty, properties[targetProperty])
-
-    // ページタグを反映する
-    reflectProperty(firstBlockUuid)
-
+    logseq.Editor.insertAtEditingCursor(`\n${targetProperty}:: ${[properties[targetProperty]]},\n`) // アナログで追加
   }, 100)
 
   // ユーザーによる操作を再開する

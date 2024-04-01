@@ -55,32 +55,6 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
 
 
 /**
- * ブロックにあるプロパティを強制的に反映させる
- * @param blockUuid 対象ブロック(一行目)のUUID
- * @param flagLock ユーザーによる操作を停止するかどうか
- */
-export const reflectProperty = async (blockUuid: string, flagLock?: boolean) => {
-
-  //ユーザーによる操作を停止する
-  if (flagLock) logseq.showMainUI()
-  // ブロックの編集を終了する
-  logseq.Editor.restoreEditingCursor()
-  setTimeout(async () => {
-    // ブロックを編集する
-    logseq.Editor.editBlock(blockUuid)
-    setTimeout(() => {
-      //改行を挿入
-      logseq.Editor.insertAtEditingCursor(",\n")
-      // ユーザーによる操作を再開する
-      if (flagLock) logseq.hideMainUI()
-    },
-      100)
-  }, 500)
-
-}
-
-
-/**
  * ページ名やプロパティ名を変更する関数 メッセージ付き
  * @param oldName - 変更前のプロパティ名
  * @param newName - 変更後のプロパティ名
