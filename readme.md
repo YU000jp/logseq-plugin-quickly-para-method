@@ -68,6 +68,16 @@ Install from Logseq Marketplace
 
 ![singleJournaldemo](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/a2c9cfb6-88a5-4af5-a90f-26b619ac53bb)
 
+- Plugin Settings
+
+   > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
+
+---
+
+## Showcase / Questions / Ideas / Help
+
+  > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
+
 - Inline query (option)
 
 ```clojure
@@ -81,16 +91,6 @@ Install from Logseq Marketplace
 {{query (page-tags [[Archives]])}}
 
 ```
-
-- Plugin Settings
-
-   > [Document here](https://github.com/YU000jp/logseq-plugin-quickly-para-method/wiki/Plugin-settings)
-
----
-
-## Showcase / Questions / Ideas / Help
-
-  > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
 
 - Recommend plugin
   1. [Favorite tree plugin](https://github.com/sethyuan/logseq-plugin-favorite-tree)
