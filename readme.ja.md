@@ -63,6 +63,12 @@ Logseq マーケットプレイスからインストール
 1. プロジェクトなどが完了しページコンテンツが進展する見込みがなくなったら、Archivesにタグ付けします。
    > その際、PARAのページタグは重複しません。Archivesにタグ付けしたら、Projectsから外れます。       
 
+---
+
+## ショーケース / 質問 / アイデア / ヘルプ
+
+  > [ディスカッション](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) タブに移動して、質問やこの種の情報を見つけるために行きます。
+
 - ページの行にリストを設置する (オプション)
 
 ```clojure
@@ -76,12 +82,6 @@ Logseq マーケットプレイスからインストール
 {{query (page-tags [[Archives]])}}
 
 ```
-
----
-
-## ショーケース / 質問 / アイデア / ヘルプ
-
-  > [ディスカッション](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) タブに移動して、質問やこの種の情報を見つけるために行きます。
 
 - おすすめのプラグイン
   1. [Favorite tree プラグイン](https://github.com/sethyuan/logseq-plugin-favorite-tree)
