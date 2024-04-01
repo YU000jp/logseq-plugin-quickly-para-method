@@ -1,3 +1,15 @@
+## [1.8.6](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.5...v1.8.6) (2024-04-01)
+
+
+### Bug Fixes
+
+* **bug:** Bug caused by comma "to force page-tags to be reflected" [#25](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/25) ([eddb08d](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/eddb08d4f6053ac7c92f5614270567a0e3a99148))
+
+
+### Performance Improvements
+
+* Reduce the amount handled ([f227cd5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/f227cd54c42ae3308a77bbe8911da3786dd4035d))
+
 ## [1.8.5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.4...v1.8.5) (2023-11-06)
 
 
