@@ -1,13 +1,13 @@
 # Logseq プラグイン: *Quickly PARA method*
 
-[English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md)
-
 - LogseqでPARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
 - Projects、Areas of responsibility、Resources、Archivesの各ページに分類するために、**ページタグとしてマークします**。
 
-[![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
-[![ダウンロード数](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
- 公開日: 2023/06/12
+<div align="right">
+
+[English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md) [![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
+[![ダウンロード数](https://img.shields.io/github/downloads/YU000jp/logseq-plugin-quickly-para-method/total.svg)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases) 公開日: 2023/06/12 <a href="https://www.buymeacoffee.com/yu000japan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a pizza&emoji=🍕&slug=yu000japan&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff" /></a>
+ </div>
 
 ---
 
@@ -92,13 +92,8 @@ Logseq マーケットプレイスからインストール
 
 ## 先行技術とクレジット
 
-リンク > [PARAメソッド (Workflowly ガイド)](https://workflowy.com/systems/para-method/)
-
-Logseq プラグイン > [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
+- リンク > [PARAメソッド (Workflowly ガイド)](https://workflowy.com/systems/para-method/)
+- Logseq プラグイン > [georgeguimaraes/ add PARA properties](https://github.com/georgeguimaraes/logseq-plugin-add-PARA-properties)
   > ほぼ同様の機能を提供していますが、ページタグを使うか、独自のプロパティを使うかの違いがあります。
-
-アイコン > [icooon-mono.com](https://icooon-mono.com/10204-%e9%8c%a8%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e3%81%9d%e3%81%ae4/)
-
-製作者 > [YU000jp](https://github.com/YU000jp)
-
-<a href="https://www.buymeacoffee.com/yu000japan"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a pizza&emoji=🍕&slug=yu000japan&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff" /></a>
+- アイコン > [icooon-mono.com](https://icooon-mono.com/10204-%e9%8c%a8%e3%81%ae%e3%82%a2%e3%82%a4%e3%82%b3%e3%83%b3%e3%81%9d%e3%81%ae4/)
+- 製作者 > @[YU000jp](https://github.com/YU000jp)
