@@ -76,7 +76,7 @@ Install from Logseq Marketplace
 
 ## Showcase / Questions / Ideas / Help
 
-  > Go to the [discussion](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
+  > Go to the [Discussions](https://github.com/YU000jp/logseq-plugin-quickly-para-method/discussions) tab to ask and find this kind of things.
 
 - Inline query (option)
 
