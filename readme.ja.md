@@ -3,6 +3,9 @@
 - LogseqでPARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
 - Projects、Areas of responsibility、Resources、Archivesの各ページに分類するために、**ページタグとしてマークします**。
 
+> [!WARNING]
+>このプラグインはLogseq dbバージョンでは動作しません。
+
 <div align="right">
 
 [English](https://github.com/YU000jp/logseq-plugin-quickly-para-method) | [日本語](https://github.com/YU000jp/logseq-plugin-quickly-para-method/blob/main/readme.ja.md) [![最新リリースバージョン](https://img.shields.io/github/v/release/YU000jp/logseq-plugin-quickly-para-method)](https://github.com/YU000jp/logseq-plugin-quickly-para-method/releases)
