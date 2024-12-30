@@ -18,6 +18,11 @@
 
    ![PARAイラスト](https://github.com/YU000jp/logseq-plugin-quickly-para-method/assets/111847207/17767165-679a-4572-8519-db48abfc7f30)
 
+## 新機能 🆕
+
+- Batchビュー
+  > ![image](https://github.com/user-attachments/assets/cf149d8c-11e2-4f8f-95da-f32ae20cdb6c)
+
 ## 概要
 
 - ツールバーのボタンもしくはページタイトルを右クリックして、専用のクイックメニューを開きます
