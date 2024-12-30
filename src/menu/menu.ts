@@ -1,7 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format, parse } from 'date-fns'
-import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
-import { openPageFromPageName } from './lib'
+import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
+import { openPageFromPageName } from './../lib'
 let flagNamespace: boolean = false // ページ名に階層が含まれる場合のフラグ
 
 // ツールバーからPARAメニューを開く
@@ -56,7 +56,7 @@ export const openMenuFromToolbar = async () => {
     template = `
   <div style="user-select: none" title="">
     <ul>
-      <li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
+      ${logseq.settings!.inboxEnable as boolean === true ? `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>` : ""}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
       ${title === logseq.settings!.inboxName ? "" : printNamespace}
       <hr/>
@@ -74,7 +74,7 @@ export const openMenuFromToolbar = async () => {
     template = `
     <div title="" style="user-select: none" title="">
     <ul>
-      ${title === logseq.settings!.inboxName ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
+      ${title === logseq.settings!.inboxName || logseq.settings!.inboxEnable as boolean === false ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
@@ -343,7 +343,7 @@ const tooltipCreateList = (
           pageName = page.originalName as string
         }
         // 表示用にページ名を短縮する
-        if(!pageName) continue
+        if (!pageName) continue
         let pageNameString = pageTitleSlash(pageName)
 
         const eleLi = document.createElement("li") as HTMLLIElement
@@ -454,7 +454,7 @@ const tooltipCreateList = (
               for (const page of pages) {
                 const pageName = page['original-name']
                 const eleLi = document.createElement("li") as HTMLLIElement
-                if(!pageName) continue
+                if (!pageName) continue
                 const pageNameString = pageTitleSlash(pageName)
                 const receiveDate: Date | null = page["receive-date"]
                 // 正しい日付形式でない場合は、スキップする
@@ -516,7 +516,7 @@ const tooltipCreateList = (
 
             //ページ名を表示する
             const eleLi = document.createElement("li") as HTMLLIElement
-            if(!pageName) continue
+            if (!pageName) continue
             const pageNameString = pageTitleSlash(pageName)
             const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
@@ -614,7 +614,7 @@ const tooltipCreateList = (
           for (const page of pages) {
             const pageName = page['original-name']
             const eleLi = document.createElement("li") as HTMLLIElement
-            if(!pageName) continue
+            if (!pageName) continue
             const pageNameString = pageTitleSlash(pageName)
             const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement

@@ -1,8 +1,7 @@
-import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { updatePageProperty } from './property'
-import { PageEntity, BlockEntity } from "@logseq/libs/dist/LSPlugin.user"
-import { getPageEntityFromBlockUuid } from "./lib"
-import { combinationNewPage } from "./combination"
+import { BlockEntity, PageEntity } from "@logseq/libs/dist/LSPlugin.user"
+import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import { getPageEntityFromBlockUuid } from "../lib"
+import { updatePageProperty } from '../menu/property'
 
 export const slashCommandItems = () => {
 

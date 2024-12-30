@@ -1,7 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { RecodeDateToPageTop } from './RecodePageTop'
-import { removePopup } from './lib'
+import { RecodeDateToPageTop } from '../menu/RecodePageTop'
+import { removePopup } from '../lib'
 
 
 /**
@@ -46,18 +46,21 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
 export const updatePageProperty = async (addPropPageName: string, targetPageEntity: { properties: PageEntity["properties"], originalName: PageEntity["originalName"] }, type: string, uuid: string) => {
 
   const message = () => {
-    if (type === "INBOX") logseq.UI.showMsg(t("Into [Inbox]"), "success", { timeout: 3000 })
-    else logseq.UI.showMsg(`${t("Page-Tag")} ${addPropPageName}`, "info", { timeout: 3000 })
+    if (type === "INBOX")
+      logseq.UI.showMsg(t("Into [Inbox]"), "success", { timeout: 3000 })
+    else
+      logseq.UI.showMsg(`${t("Page-Tag")} ${addPropPageName}`, "info", { timeout: 3000 })
   }
 
   // ページにプロパティを追加する
-  if (type !== "INBOX"
-    && logseq.settings!.booleanRecodeOnly === false //タグをつけない設定がオフの場合
+  if ((type !== "INBOX"
+    && logseq.settings!.booleanRecodeOnly === false) //タグをつけない設定がオフの場合
+    || (type === "INBOX"
+      && logseq.settings!.booleanInboxRecode === true) //INBOXかつタグをつける設定がオンの場合
   ) await updatePageProperties(addPropPageName, "tags", targetPageEntity.properties, type, uuid)
 
   // ページに日付を記録する
-  if ((type !== "PARA" // PARA以外
-    && type !== "Free" // Namespace以外
+  if ((type === "INBOX" // INBOXページ
     && logseq.settings?.switchRecodeDate === true) // 設定が有効
     // もしくは
     || (type === "PARA" // PARAページ

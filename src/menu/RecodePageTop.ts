@@ -1,8 +1,8 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { removeEmptyBlockFirstLineAll } from './lib'
-import { sortByMonth } from './lib'
+import { removeEmptyBlockFirstLineAll } from '../lib'
+import { sortByMonth } from '../lib/sort'
 
 
 /**

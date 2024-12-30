@@ -1,8 +1,8 @@
 import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
-import { removePopup } from './lib'
+import { removePopup } from '../lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { RecodeDateToPageTop } from './RecodePageTop'
-import { updatePageProperty } from './property'
+import { RecodeDateToPageTop } from '../menu/RecodePageTop'
+import { updatePageProperty } from '../menu/property'
 
 /**
  * 新しいページを作成するためのダイアログを表示する
