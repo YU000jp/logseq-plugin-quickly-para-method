@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.6...v1.9.0) (2024-12-30)
+
+
+### Features
+
+* **Add:** Batch board function ([005a092](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/005a0925ddccac66d78789d5a129caf753c96884))
+
 ## [1.8.6](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.5...v1.8.6) (2024-04-01)
 
 
