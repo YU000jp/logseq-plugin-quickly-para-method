@@ -1,6 +1,6 @@
 # Logseq プラグイン: *Quickly PARA method*
 
-- LogseqでPARA メソッドを用いて、ページを整理するのに役立つ ワークフローを提供します。
+- PARA メソッドを用いて、Logseqグラフ(ページ)を整理するのに役立つ ワークフローを提供します。
 - Projects、Areas of responsibility、Resources、Archivesの各ページに分類するために、**ページタグとしてマークします**。
 
 > [!WARNING]
