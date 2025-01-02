@@ -19,7 +19,7 @@ This plugin does not work with Logseq db version.
 
 ## New Feature
 
-- Batch View
+- Board View
   > ![image](https://github.com/user-attachments/assets/cf149d8c-11e2-4f8f-95da-f32ae20cdb6c)
 
 
@@ -35,8 +35,7 @@ This plugin does not work with Logseq db version.
        > This feature is optional and can be turned off
    * Once a project is complete and the page content is no longer expected to evolve, tag it in Archives.
        > In that case, PARA page tags will not be duplicated. Once tag Archives, it will be removed from Projects.
-1. "Inbox" feature
-    > You can save a link to a page in the inbox if you leave the page midway through. Sorted by month.
+1. ~~"Inbox" feature~~
 1. "Page name word search" function
     > Find page names with the same word. List related pages regardless of their hierarchical structure.
 1. Page creation functions such as sub page
