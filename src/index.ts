@@ -71,7 +71,6 @@ const main = async () => {
     createPageForPARA("Areas of responsibility", "🏠", true)
     createPageForPARA("Resources", "🌍", true)
     createPageForPARA("Archives", "🧹", true)
-    createPageForPARA(logseq.settings!.inboxName as string, "📧", false)
 
     //設定画面を開く
     setTimeout(() => logseq.showSettingsUI(), 300)
@@ -114,9 +113,6 @@ const main = async () => {
     newSet: LSPluginBaseInfo["settings"],
     oldSet: LSPluginBaseInfo["settings"]
   ) => {
-    //Inboxのページ名を変更
-    if (oldSet.inboxName !== newSet.inboxName)
-      renamePageAndProperty(oldSet.inboxName as string, newSet.inboxName as string)
 
     // スタイル変更時の処理
     if (newSet[keySettingsPageStyle] !== oldSet[keySettingsPageStyle]) {
@@ -131,13 +127,6 @@ const main = async () => {
       if (newSet.addLeftMenu === false)
         clearEleAll(`.${shortKey}--nav-header`)
       else
-        addLeftMenuNavHeaderForEachPARA()
-    }
-    if (oldSet.inboxEnable !== newSet.inboxEnable) {
-      if (newSet.inboxEnable === false) {
-        clearEleAll(`.${shortKey}--nav-header`)
-        addLeftMenuNavHeaderForEachPARA()
-      } else
         addLeftMenuNavHeaderForEachPARA()
     }
   }
@@ -161,9 +150,6 @@ const model = (popup: string) => logseq.provideModel({
     if (!parent.document.getElementById(popup))
       openMenuFromToolbar()
   },
-
-  // Inboxのコマンド呼び出し
-  Inbox: () => runCommand(logseq.settings!.inboxName as string, "INBOX"),
 
   // Projectsのコマンド呼び出し
   Projects: () => runCommand("Projects", "PARA"),
@@ -207,18 +193,6 @@ const model = (popup: string) => logseq.provideModel({
     combinationNewPage(
       `✈️ [Projects] > ${t("New page")}`,
       "Projects",
-      e.dataset.sameLevel ? e.dataset.sameLevel : "")
-  },
-
-
-  // 同じ階層レベルで、受信トレイに入れる新規ページ (作成ダイアログを開く)
-  NewPageInbox: (e) => {
-    removePopup() // ポップアップを閉じる
-
-    // 新規ページを作成し、同じ階層レベルに記録する
-    combinationNewPage(
-      `📧 ${logseq.settings!.inboxName} > ${t("New page")}`
-      , logseq.settings!.inboxName as string,
       e.dataset.sameLevel ? e.dataset.sameLevel : "")
   },
 

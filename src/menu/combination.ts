@@ -59,7 +59,7 @@ function eventListener(tags: string): () => void {
           //ページが存在しない場合に実行する
           const createPage = await logseq.Editor.createPage(
             inputTitle, // 入力されたページ名
-            tags === "" || tags === logseq.settings!.inboxName ? {} //タグが空の場合や、INBOXの場合はタグを追加しない
+            tags === ""? {} //タグが空の場合
               : { tags: [tags] }, // ページタグをつける
             {
               createFirstBlock: true, // ページの最初のブロックを作成する

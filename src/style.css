@@ -138,10 +138,6 @@ body>div {
                       transform: translate(-3%, -57%);
                     }
 
-                    &#paraTooltipInbox {
-                      transform: translate(-3%, -20%);
-                    }
-
                     & h2 {
                       font-size: 1.2em;
                       margin-left: -.8em;

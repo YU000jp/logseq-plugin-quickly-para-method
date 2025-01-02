@@ -6,10 +6,6 @@ import { updatePageProperty } from '../menu/property'
 export const slashCommandItems = () => {
 
   // スラッシュコマンドは、翻訳禁止！
-
-  logseq.Editor.registerSlashCommand("📧 Into [Inbox]", async ({ uuid }) => {
-    run(uuid, logseq.settings!.inboxName as string, "INBOX")
-  })
   logseq.Editor.registerSlashCommand("✈️ Page-Tag [Projects]", async ({ uuid }) => {
     run(uuid, "Projects", "PARA")
   })
@@ -31,9 +27,8 @@ export const run = async (uuid: string, addPropValue: string, propName: string) 
     //cancel same page
     if (page.originalName === addPropValue)
       return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning") // 現在のページにはタグを付ける必要がありません。
-    //INBOXを覗いて日誌はキャンセル
-    if (propName !== "INBOX"
-      && page['journal?'] === true)
+    //日誌はキャンセル
+    if (page['journal?'] === true)
       return logseq.UI.showMsg(t("Journals cannot be tagged."), "warning") // 日誌にはタグを付けることができません。
 
     const getCurrentTree = await logseq.Editor.getPageBlocksTree(page.originalName) as BlockEntity[] | null

@@ -42,32 +42,22 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
  * ページにプロパティを追加し、必要に応じて日付を記録する
  * @param addPropPageName 追加するページ名 ( [[ ]]なし )
  * @param targetPageEntity ターゲットのPageEntity
- * @param type 追加するプロパティのタイプ (INBOXかPARA、Free)
+ * @param type 追加するプロパティのタイプ (PARA、Free)
  * @param uuid ページの最初のブロックのUUID
  */
 export const updatePageProperty = async (addPropPageName: string, targetPageEntity: { properties: PageEntity["properties"], originalName: PageEntity["originalName"] }, type: string, uuid: string) => {
 
   const message = () => {
-    if (type === "INBOX")
-      logseq.UI.showMsg(t("Into [Inbox]"), "success", { timeout: 3000 })
-    else
-      logseq.UI.showMsg(`${t("Page-Tag")} ${addPropPageName}`, "info", { timeout: 3000 })
+    logseq.UI.showMsg(`${t("Page-Tag")} ${addPropPageName}`, "info", { timeout: 3000 })
   }
-
-  // ページにプロパティを追加する
-  if ((type !== "INBOX" //タグをつけない設定がオフの場合
-    && logseq.settings!.booleanRecodeOnly === false)
-    || (type === "INBOX" //INBOXかつタグをつける設定がオンの場合
-      && logseq.settings!.booleanInboxRecode === true))
+  // ページプロパティに追加
+  if ((type !== "PARA")
+    || (type === "PARA" && logseq.settings!.booleanRecodeOnly === false))
     await updatePageProperties(addPropPageName, "tags", targetPageEntity.properties, type, uuid)
 
-  // ページに日付を記録する
-  if ((type === "INBOX" // INBOXページ
-    && logseq.settings?.switchRecodeDate === true) // 設定が有効
-    // もしくは
-    || (type === "PARA" // PARAページ
-      && logseq.settings?.switchPARArecodeDate === true)) { // 設定が有効
-
+  // ページ先頭にログを追加
+  if (type === "PARA" // PARAページ
+    && logseq.settings?.switchPARArecodeDate === true) {
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
     setTimeout(async () => {
       const success: boolean = await RecodeDateToPageTop(preferredDateFormat, addPropPageName, " [[" + targetPageEntity.originalName + "]]")
@@ -84,7 +74,7 @@ export const updatePageProperty = async (addPropPageName: string, targetPageEnti
  * @param addPropPageName 追加するページ名 ( [[ ]]なし )
  * @param targetProperty 更新するプロパティ名
  * @param properties ページのプロパティ
- * @param type タイプ (INBOXかPARA)
+ * @param type タイプ PARA
  * @param firstBlockUuid ページの最初のブロックのUUID
  */
 const updatePageProperties = (addPropPageName: string, targetProperty: string, properties, type: string, firstBlockUuid: string) => {

@@ -23,7 +23,6 @@ export const openMenuFromToolbar = async () => {
       || title === "Areas of responsibility"
       || title === "Resources"
       || title === "Archives"
-      || title === logseq.settings!.inboxName
       ? true : false
     // タグボタンの表示は、Journalページではなく、paraページでもない場合のみ
     const flagTagButton: boolean = getPage['journal?'] === false && flagPARA === false
@@ -59,9 +58,8 @@ export const openMenuFromToolbar = async () => {
     template = `
   <div style="user-select: none" title="">
     <ul>
-      ${logseq.settings!.inboxEnable as boolean === true ? `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span>${title === logseq.settings!.inboxName ? "" : `<button data-on-click="Inbox" title="${t("Put current page in inbox")}">📦</button>`}<button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>` : ""}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(flagTagButton)}</li>
-      ${title === logseq.settings!.inboxName ? "" : printNamespace}
+      ${printNamespace}
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="Projects">🏷️</button>` : ''}<button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
       <li class="para-away"><label title="${t("Open the list")}"><span>🏠 Areas of responsibility<input id="paraCheckboxAreas" type="checkbox"/><div id="paraTooltipAreas"></div></span></label><span>${flagTagButton ? `<button title="${t("Tag the current page (Page-tag)")}" data-on-click="AreasOfResponsibility">🏷️</button>` : ''}<button id="paraOpenButtonAreas" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
@@ -77,7 +75,6 @@ export const openMenuFromToolbar = async () => {
     template = `
     <div title="" style="user-select: none" title="">
     <ul>
-      ${title === logseq.settings!.inboxName || logseq.settings!.inboxEnable as boolean === false ? "" : `<li class="para-away"><label title="${t("Open the list")}"><span><span class="tabler-icons">&#xeae5;</span> ${t("Inbox")}<input id="paraCheckboxInbox" type="checkbox"/><div id="paraTooltipInbox"></div></span></label><span><button id="paraOpenButtonInbox" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>`}
       <li style="margin-top:.6em" class="para-away">${createPickListSelect(false)}</li>
       <hr/>
       <li class="para-away"><label title="${t("Open the list")}"><span>✈️ Projects<input id="paraCheckboxP" type="checkbox"/><div id="paraTooltipP"></div></span></label><span><button id="paraOpenButtonProjects" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button></span></li>
@@ -96,7 +93,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
         <label><span class="not-cursor-pointer"><span class="tabler-icons">&#xee0d;</span> <small>(${t("Top level")})</small></span></label>
         <span>
-        <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Top level")} > ${t("Into [Inbox]")}">📦</button><button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
+        <button data-on-click="NewPage" data-same-level="" title="${t("Top level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewProject" title="${t("Top level")} > ${t("Page-Tag")} [Projects]">✈️</button>
         </span>
       </li>
       `
@@ -107,7 +104,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
         <label><span class="not-cursor-pointer" title="${t("Same level")}"><span class="tabler-icons">&#xee17;</span> ${sameLevel.replaceAll("/", " / ")}</span></label>
         <span>
-          <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Same level")} > ${t("Into [Inbox]")}" data-same-level="${sameLevel}">📦</button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
+          <button id="paraOpenButtonSameLevel" title="${t("Press Shift key at the same time to open in sidebar")}">📄</button><button data-on-click="NewPage" data-same-level="${sameLevel}" title="${t("Same level")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewProject" title="${t("Same level")} > ${t("Page-Tag")} [Projects]" data-same-level="${sameLevel}">✈️</button>
       </li>
       `
   }
@@ -116,7 +113,7 @@ export const openMenuFromToolbar = async () => {
       <li class="para-away">
         <label><span class="not-cursor-pointer" title="${t("Sub page")}"><span class="tabler-icons">&#xee17;</span> ${title.replaceAll("/", " / ")} /</span></label>
         <span>
-          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewPageInbox" title="${t("Sub page")} > ${t("Into [Inbox]")}" data-same-level="${title}/">📦</button><button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
+          <button data-on-click="NewPage" data-same-level="${title}/" title="${t("Sub page")} > ${t("New page")}"><span class="tabler-icons">&#xeaa0;</span></button><button data-on-click="NewProject" title="${t("Sub page")} > ${t("Page-Tag")} [Projects]" data-same-level="${title}/">✈️</button>
         </span>
       </li> 
             `
@@ -124,7 +121,7 @@ export const openMenuFromToolbar = async () => {
   template += `
     </ul>
     <hr/>
-    <p title=""><small>⚓ ${t("Quickly PARA method Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin Settings")}"><span class="tabler-icons">&#xeb20;</span></a> | <a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank""><small>GitHub</smalL> <span class="tabler-icons">&#xec1c;</span></a></p>
+    <p title=""><small>⚓ Quickly PARA method ${t("Plugin")}</small> | <a data-on-click="PARAsettingButton" title="${t("Plugin settings")}"><span class="tabler-icons">&#xeb20;</span></a> | <a href="https://github.com/YU000jp/logseq-plugin-quickly-para-method" title="(Github link)" target="_blank""><small>GitHub</smalL> <span class="tabler-icons">&#xec1c;</span></a></p>
   </div>
   `
 
@@ -170,14 +167,12 @@ const eventListener = (get: {
   // それぞれの開くボタン
   if (flagNamespace) openPageButton("paraOpenButtonNamespace", get.namespace) // namespaceの場合は、data-namespaceの値を取得
   openPageButton("pickListOpenButton", "pickListSelect", { pickListSelect: true }) //selectの値を取得 (別の場所に書くと、selectの値が取得できない)
-  openPageButton("paraOpenButtonInbox", logseq.settings!.inboxName as string) //Inbox
   openPageButton("paraOpenButtonProjects", "Projects")
   openPageButton("paraOpenButtonAreas", "Areas of responsibility")
   openPageButton("paraOpenButtonResources", "Resources")
   openPageButton("paraOpenButtonArchives", "Archives")
   if (get.sameLevel) openPageButton("paraOpenButtonSameLevel", get.sameLevel) // 同じ階層
   // ツールチップ
-  tooltip("<span class=\"tabler-icons\">&#xeae5;</span>", "paraCheckboxInbox", "paraTooltipInbox", logseq.settings!.inboxName as string, { inbox: true })
   tooltip("<span class=\"tabler-icons\">&#xee17;</span>", "paraCheckboxNamespace", "paraTooltipNamespace", get.namespace, { namespace: true })
   tooltip("✈️", "paraCheckboxP", "paraTooltipP", "Projects")
   tooltip("🏠", "paraCheckboxAreas", "paraTooltipAreas", "Areas of responsibility")
@@ -219,7 +214,6 @@ const tooltip = (
   pageName: string,
   flag?: {
     namespace?: boolean,
-    inbox?: boolean
   }) => {
 
 
@@ -274,7 +268,6 @@ const tooltipCreateList = (
   pageName: string,
   flag?: {
     namespace?: boolean,
-    inbox?: boolean
   }) => {
   return async (tooltip: HTMLDivElement) => {
     // チェックボックスがチェックされたら、ツールチップを表示
@@ -322,8 +315,8 @@ const tooltipCreateList = (
       }
 
       // ページ名を、名称順に並び替える
-      eleDiv.title = t("Name order")
-      eleH2.title = t("Name order")
+      eleDiv.title = t("order by name")
+      eleH2.title = t("order by name")
       result = result.sort((a, b) => {
         return a["original-name"] > b["original-name"] ? 1 : -1
       })
@@ -372,180 +365,6 @@ const tooltipCreateList = (
 
 
       //end of namespace
-    } else if (flag && flag.inbox === true) {
-
-      //inboxの場合
-
-      eleH2.innerHTML = `${titleIcon} ${pageName}`
-
-
-
-      const blocksEntity = await logseq.Editor.getPageBlocksTree(logseq.settings!.inboxName as string) as BlockEntity[] | null
-      if (!blocksEntity) return logseq.UI.showMsg("Cannot get the page name", "warning")
-      const firstBlock = blocksEntity[0]
-      //一行目のサブブロックを取得
-      let subBlocks = firstBlock.children as BlockEntity[] | null
-      // contentが""を除外する
-      if (subBlocks) subBlocks = subBlocks.filter((item) => item['content'] !== "")
-      if (!subBlocks) {
-        //inboxのサブブロックがない場合
-        eleDiv.innerHTML = t("No pages found for this inbox.")
-        return tooltip.append(eleH2, eleDiv)
-      } else {
-
-        //inboxのサブブロックがある場合
-        eleH2.title = t("Pages in the inbox")
-        eleDiv.title = t("Receive order")
-        //サブブロックの中にある、すべてのサブブロック(children)を取得する
-        let subSubBlocks = subBlocks.map((item) => item.children).flat() as BlockEntity[] | null
-        // contentが""を除外する
-        if (subSubBlocks) subSubBlocks = subSubBlocks.filter((item) => item['content'] !== "")
-
-        if (subSubBlocks && subSubBlocks.length > 0) {
-          //サブサブブロックがある場合
-          //サブブロックは[[YYYY/MM]]のような形式で月ごとの分類になっている
-          //サブサブブロックは「[[日付形式]] [[ページ名]]」という形式になっている
-          //月の分類ごとにグループ化する
-          const pagesByMonth: {
-            [key: string]: {
-              "original-name": string
-              "receive-date": Date
-            }[]
-          } = {}
-          for (const subSubBlock of subSubBlocks) {
-            //contentに含まれる日付を取得
-            let monthString = subSubBlock['content'].split("]] ")[0] as string | undefined
-            if (!monthString) continue
-
-            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-            const day: Date = parse(monthString.replace("[[", ""),  // [[を削除する
-              preferredDateFormat, new Date())// ユーザー日付形式から、YYYY/MMのような形式で作成する
-            // 正しい日付形式でない場合は、スキップする
-            if (day.toString() === "Invalid Date") continue
-            const monthKey = format(day, "yyyy/MM")
-            //月ごとにグループ化する
-            if (!pagesByMonth[monthKey]) {
-              pagesByMonth[monthKey] = []
-            }
-
-            //ページ名を取得する
-            let pageName = subSubBlock['content'].split("]] ")[1] as string | undefined
-            if (!pageName) continue
-            // [[ページ名]]で囲まれているので、ページ名を取得する
-            pageName = pageName.match(/\[\[(.+)\]\]/)?.[1] as string | undefined
-            if (!pageName) continue
-
-            //original-nameを追加
-            pagesByMonth[monthKey].push({
-              "original-name": pageName as string,
-              "receive-date": day as Date
-            })
-
-            //day(Date)でソートする
-            pagesByMonth[monthKey].sort((a, b) => {
-              return a["receive-date"] > b["receive-date"] ? -1 : 1
-            })
-
-            //月ごとにページ名を表示する
-            for (const monthKey in pagesByMonth) {
-              const pages = pagesByMonth[monthKey]
-              //年月を取得
-              const month = new Date(monthKey).toLocaleDateString("default", { year: "numeric", month: "long" })
-              // 更新月
-              eleDiv.innerHTML += `<h3>${month} <small>(${t("Received month")})</small></h3>`
-              const eleUl = document.createElement("ul") as HTMLUListElement
-              for (const page of pages) {
-                const pageName = page['original-name']
-                const eleLi = document.createElement("li") as HTMLLIElement
-                if (!pageName) continue
-                const pageNameString = pageTitleSlash(pageName)
-                const receiveDate: Date | null = page["receive-date"]
-                // 正しい日付形式でない場合は、スキップする
-                if (receiveDate.toString() === "Invalid Date") continue
-                const receiveString = receiveDate.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
-                //eleLi.innerHTML = `<a data-page-name="${pageName}" title="${pageName}\n\n${t("Received at")}: ${receiveString}">${pageNameString}</a>`
-                const aEle = document.createElement("a") as HTMLAnchorElement
-                aEle.dataset.pageName = pageName
-                aEle.title = `${pageName}\n\n${t("Received at")}: ${receiveString}`
-                aEle.innerText = pageNameString
-                aEle.id = `para-tooltip-inbox-m--${pageName}`
-                eleLi.append(aEle)
-                eleUl.append(eleLi)
-                setTimeout(() => {
-                  parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
-                    openPageFromPageName(this.dataset.pageName as string, shiftKey)
-                  })
-                }, 100)
-              }
-              eleDiv.append(eleUl)
-              //hr
-              eleDiv.innerHTML += "<hr/>"
-            }
-
-            //end of 月ごとにページ名を表示する
-          }
-
-        }//end of サブサブブロックがある場合
-
-
-        // 月ごとのソートがオフで、混合している場合も処理する
-        // contentに、先頭が「[[」で始まる場合は、サブブロックとして処理する
-        const subBlocksNotSortByMonth = subBlocks.filter((item) =>
-          item['content'].startsWith("[[")
-        )
-        if (subBlocksNotSortByMonth && subBlocksNotSortByMonth.length > 0) {
-
-          //サブブロックを表示する
-          const eleUl = document.createElement("ul") as HTMLUListElement
-          for (const subBlock of subBlocksNotSortByMonth) {
-            // contentに含まれるページ名を取得
-            // [[日付フォーマット]] [[ページ名]] という形式になっているので、2つ目を取得する
-            let pageName = subBlock['content'].split(" [[")[1] as string | undefined
-            if (!pageName) continue
-            // ]]を削除する
-            pageName = pageName.replace("]]", "")
-            if (!pageName) continue
-
-            // 1つ目の[[日付フォーマット]]を取得する
-            const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-            // [[を削除する
-            const dateString = subBlock['content'].split("]] ")[0].replace("[[", "") as string | undefined
-            if (!dateString) continue
-            const day: Date = parse( // 日付を作成
-              dateString,
-              preferredDateFormat, new Date())// ユーザー日付形式から、YYYY/MMのような形式で作成する
-            // 正しい日付形式でない場合は、スキップする
-            if (day.toString() === "Invalid Date") continue
-
-            //ページ名を表示する
-            const eleLi = document.createElement("li") as HTMLLIElement
-            if (!pageName) continue
-            const pageNameString = pageTitleSlash(pageName)
-            const dayString = day.toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric" })
-            const aEle = document.createElement("a") as HTMLAnchorElement
-            aEle.dataset.pageName = pageName
-            aEle.title = `${pageName}\n\n${t("Received at")}: ${dayString}`
-            aEle.innerText = pageNameString
-            aEle.id = `para-tooltip-inbox--${pageName}`
-            eleLi.append(aEle)
-            eleUl.append(eleLi)
-            setTimeout(() => {
-              parent.document.getElementById(aEle.id)?.addEventListener("click", function (this, { shiftKey }) {
-                openPageFromPageName(this.dataset.pageName as string, shiftKey)
-              })
-            }, 100)
-          }
-          eleDiv.append(eleUl)
-          //hr
-          eleDiv.innerHTML += "<hr/>"
-
-        }//end of サブブロックがある場合
-
-        // 「そのInboxページの最初の行に含まれるサブブロックのページが表示されています」というメッセージをいれる
-        eleDiv.innerHTML += `<p><small>${t("The pages contained in the sub-blocks of the first line of that Inbox page are displayed.")}</small></p>`
-      }//end of inboxのサブブロックがある場合
-
-      //end of inbox
     } else {
 
       //ページタグを一覧表示する (PARAの場合)

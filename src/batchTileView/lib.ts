@@ -5,11 +5,6 @@ import { keyLeftMenu, mainPageTitle, shortKey } from '..'
 export const addLeftMenuNavHeaderForEachPARA = () => {
   const paraItems = [
     {
-      icon: "&#xeae5;",
-      suffix: logseq.settings!.inboxName as string,
-      title: logseq.settings!.inboxName as string
-    },
-    {
       icon: "✈️",
       suffix: "projects",
       title: "Projects"
@@ -31,11 +26,7 @@ export const addLeftMenuNavHeaderForEachPARA = () => {
     },
   ]
 
-  paraItems.forEach(item => {
-    if (logseq.settings!.inboxEnable === false
-      && item.suffix === logseq.settings!.inboxName) return
-    addLeftMenuNavHeader(keyLeftMenu + "-" + item.suffix, item.icon, item.title, mainPageTitle)
-  })
+  paraItems.forEach(item => addLeftMenuNavHeader(keyLeftMenu + "-" + item.suffix, item.icon, item.title, mainPageTitle))
 }
 
 const addLeftMenuNavHeader = (divId: string, icon: string, title: string, baseName: string) => {
