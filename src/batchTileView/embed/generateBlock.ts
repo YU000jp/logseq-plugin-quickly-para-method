@@ -35,22 +35,22 @@ export const generateEmbed = async (
 
       let sibling = false
       const batch: IBatchBlock[] = []
-      switch (type) {
-        case "Projects":
-          sibling = eachCategoryCreateBatchEmbed(array, logseq.settings![keyCommonBatchBoardIncludeWord + type] as string, batch)
-          break
-        case "Areas of Responsibility":
-          sibling = eachCategoryCreateBatchEmbed(array, logseq.settings![keyCommonBatchBoardIncludeWord + "Areas"] as string, batch)
-          break
-        case "Resources":
-          sibling = eachCategoryCreateBatchEmbed(array, logseq.settings![keyCommonBatchBoardIncludeWord + type] as string, batch)
-          break
-        case "Archives":
-          sibling = eachCategoryCreateBatchEmbed(array, logseq.settings![keyCommonBatchBoardIncludeWord + type] as string, batch)
-          break
+      const typeMapping = {
+        "Projects": "Projects",
+        "Areas of Responsibility": "Areas",
+        "Resources": "Resources",
+        "Archives": "Archives"
       }
+      const settingKey = typeMapping[type as keyof typeof typeMapping]
+      if (settingKey)
+        sibling = eachCategoryCreateBatchEmbed(
+          array,
+          logseq.settings![keyCommonBatchBoardIncludeWord + settingKey] as string,
+          batch
+        )
+
       if (batch.length > 0)
-        await refreshPageBlocks(blocks, pageName, batch, type,sibling)
+        await refreshPageBlocks(blocks, pageName, batch, type, sibling)
     }
   } else
     // 見つからなかった場合
