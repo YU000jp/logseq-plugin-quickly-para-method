@@ -1,6 +1,6 @@
 # Logseq Plugin: *Quickly PARA Method* ⚓
 
-- Provide a workflow that helps organize pages, which tend to be large, using the PARA method.
+- Provide a workflow that helps organize graph, which tend to be large, using the PARA method.
 - **Mark as a page tag** to classify it into Projects, Areas of responsibility, Resources, and Archives pages.
 
 > [!WARNING]
