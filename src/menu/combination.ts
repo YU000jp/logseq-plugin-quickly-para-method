@@ -67,7 +67,8 @@ function eventListener(tags: string): () => void {
             })
 
           //ページが作成されなかった場合
-          if (createPage === null) return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+          if (createPage === null)
+            return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
 
           //ページが作成された場合
           const { preferredDateFormat } = await logseq.App.getUserConfigs() as { preferredDateFormat: AppUserConfigs["preferredDateFormat"] }
@@ -121,8 +122,10 @@ export const combinationNamespace = async (tags: string, namespaceName: string) 
         redirect: true // ページにリダイレクトする
       })
 
-    if (createPage) logseq.UI.showMsg(t("Create a new page"), "success")
-    else return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+    if (createPage)
+      logseq.UI.showMsg(t("Create a new page"), "success")
+    else
+      return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
 
   }
 }

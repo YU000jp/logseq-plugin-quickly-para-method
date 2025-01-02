@@ -2,30 +2,33 @@ import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from 'logseq-l10n'
 import { keyPageBarId, keyReloadButton, keySettingsButton, keyToggleButton, keyToolbar, mainPageTitle, mainPageTitleLower, toolbarIcon } from '../.'
 import { generateEmbed } from './embed/generateBlock'
-import { handleScrolling } from './scroll'
 
 let now = false
 // ページを開いたとき
 let isProcessingRootChanged = false
 
 export const handleRouteChange = async (path: string, template: string) => {
+
   if (template !== "/page/:name" //ページ以外は除外
     || isProcessingRootChanged) return
   isProcessingRootChanged = true
   setTimeout(() => isProcessingRootChanged = false, 100)
 
   const pageName = path.replace(/^\/page\//, "")
+
   // pageName が mainPageTitle/Projects などの場合
   const pageNameArray = pageName.split("%2F")
+
   const type = pageNameArray[1]
   // console.log("pageNameArray[0]", pageNameArray[0])
-  // mainPageTitle
+
+
   if (pageNameArray[0] === mainPageTitle && type !== undefined) {
+    // mainPageTitleの場合
     now = true
     // console.log("pageNameArray", pageNameArray)
     await updateMainContent(type, pageNameArray.join("/"))
-    // スクロールを縦ではなく横にする (ホイールイベント)
-    handleScrolling() // Note: 一部スタイルのみで動作させるが、イベントリスナー内で判定している
+
   } else
     if (now === true) {
       now = false
@@ -50,16 +53,7 @@ export const updateMainContent = async (type: string, pageName: string) => {
     await generateEmbed(type, pageName, blocks)
 }
 
-export const AddToolbarAndMenuButton = () => {
-  // ツールバーにボタンを追加
-  logseq.App.registerUIItem('toolbar', {
-    key: keyToolbar,
-    template: `
-    <div>
-      <a class="button icon" data-on-click="${keyToolbar}" style="font-size: 18px" title="${mainPageTitle} ${t("plugin")}">${toolbarIcon}</a>
-    </div>
-    `,
-  })
+export const AddMenuButton = () => {
   // ページバーにボタンを追加
   logseq.App.registerUIItem('pagebar', {
     key: keyPageBarId,

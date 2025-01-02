@@ -11,7 +11,9 @@ export const sortByMonth = async (blocks: BlockEntity[], insertContent: string):
   const firstBlock = blocks[0] as { uuid: BlockEntity["uuid"]; children: BlockEntity["children"]} 
   const children = firstBlock.children as BlockEntity[]
   //childrenのcontentが日付フォーマットと一致するか確認(先頭が 「### 」から始まる)
-  const monthString = logseq.settings!.sortByMonthLink ? `### [[${monthFormat}]]` : `### ${monthFormat}`
+  const monthString = logseq.settings!.sortByMonthLink ?
+    `### [[${monthFormat}]]`
+    : `### ${monthFormat}`
   if (children
     && children.length > 0) {
 

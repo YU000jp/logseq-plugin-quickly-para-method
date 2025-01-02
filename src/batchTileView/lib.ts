@@ -1,5 +1,5 @@
 
-import { keyLeftMenu, mainPageTitle, shortKey, toolbarIcon } from '..'
+import { keyLeftMenu, mainPageTitle, shortKey } from '..'
 
 
 export const addLeftMenuNavHeaderForEachPARA = () => {
@@ -32,7 +32,8 @@ export const addLeftMenuNavHeaderForEachPARA = () => {
   ]
 
   paraItems.forEach(item => {
-    if (logseq.settings!.inboxEnable === false && item.suffix === logseq.settings!.inboxName) return
+    if (logseq.settings!.inboxEnable === false
+      && item.suffix === logseq.settings!.inboxName) return
     addLeftMenuNavHeader(keyLeftMenu + "-" + item.suffix, item.icon, item.title, mainPageTitle)
   })
 }
@@ -78,10 +79,10 @@ export const clearEle = (selector: string) => {
   if (ele) ele.remove()
 }
 
-export const removeProvideStyle = (className: string) => {
-  const doc = parent.document.head.querySelector(
-    `style[data-injected-style^="${className}"]`
-  ) as HTMLStyleElement
-  if (doc) doc.remove()
-}
+//  const removeProvideStyle = (className: string) => {
+//   const doc = parent.document.head.querySelector(
+//     `style[data-injected-style^="${className}"]`
+//   ) as HTMLStyleElement
+//   if (doc) doc.remove()
+// }
 

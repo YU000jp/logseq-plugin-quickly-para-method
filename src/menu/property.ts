@@ -12,7 +12,8 @@ import { removePopup } from '../lib'
 export const runCommand = async (addPropPageName: string, addPropName: string) => {
 
   // 追加するプロパティが空の場合はキャンセルとする
-  if (addPropPageName === "") return logseq.UI.showMsg(t("Cancel"), "warning")
+  if (addPropPageName === "")
+    return logseq.UI.showMsg(t("Cancel"), "warning")
 
   // 現在のページを取得する
   const getCurrent = await logseq.Editor.getCurrentPage() as { name: PageEntity["name"]; properties: PageEntity["properties"], originalName: PageEntity["originalName"] } | null
@@ -24,7 +25,8 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
 
     // 現在のページのブロックツリーを取得する
     const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null
-    if (getCurrentTree === null) return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
+    if (getCurrentTree === null)
+      return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
 
     // ポップアップを削除
     removePopup()
@@ -53,11 +55,11 @@ export const updatePageProperty = async (addPropPageName: string, targetPageEnti
   }
 
   // ページにプロパティを追加する
-  if ((type !== "INBOX"
-    && logseq.settings!.booleanRecodeOnly === false) //タグをつけない設定がオフの場合
-    || (type === "INBOX"
-      && logseq.settings!.booleanInboxRecode === true) //INBOXかつタグをつける設定がオンの場合
-  ) await updatePageProperties(addPropPageName, "tags", targetPageEntity.properties, type, uuid)
+  if ((type !== "INBOX" //タグをつけない設定がオフの場合
+    && logseq.settings!.booleanRecodeOnly === false)
+    || (type === "INBOX" //INBOXかつタグをつける設定がオンの場合
+      && logseq.settings!.booleanInboxRecode === true))
+    await updatePageProperties(addPropPageName, "tags", targetPageEntity.properties, type, uuid)
 
   // ページに日付を記録する
   if ((type === "INBOX" // INBOXページ
@@ -73,11 +75,9 @@ export const updatePageProperty = async (addPropPageName: string, targetPageEnti
       if (success) message()
     }, 300)
 
-  } else {
+  } else
     // 成功した場合のメッセージを表示
     message()
-  }
-
 }
 
 /**
@@ -96,13 +96,11 @@ const updatePageProperties = (addPropPageName: string, targetProperty: string, p
   //properties[targetProperty]の中に配列もしくはundefinedがある
   if (properties) {
     if (properties[targetProperty]) {
-
       let tagArray = properties[targetProperty] as string[]
 
       // PARAの場合は、削除リストに一致するものを取り除く
-      if (type === "PARA") {
+      if (type === "PARA")
         tagArray = tagArray.filter((value) => !deleteArray.includes(value))
-      }
 
       // 重複を削除
       tagArray = [...new Set([...tagArray, addPropPageName])]
@@ -111,23 +109,14 @@ const updatePageProperties = (addPropPageName: string, targetProperty: string, p
       properties = {
         [targetProperty]: tagArray as string[]
       }
+    } else
+      properties[targetProperty] = [addPropPageName] as string[] // properties[targetProperty]が存在しない場合はpropertiesに追加する
 
-    } else {
-
-      // properties[targetProperty]が存在しない場合はpropertiesに追加する
-      properties[targetProperty] = [addPropPageName] as string[]
-
-    }
-
-  } else {
-
+  } else
     // propertiesが空の場合は、新規作成する
     properties = {
       [targetProperty]: [addPropPageName] as string[]
     }
-
-
-  }
 
   //ユーザーによる操作を停止する
   logseq.showMainUI()

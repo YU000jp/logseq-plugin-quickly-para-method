@@ -2,6 +2,7 @@ import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlu
 import { format, parse } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { openPageFromPageName } from './../lib'
+import { advancedQuery, queryCodeUpdatedAtFromPageName } from '../batchTileView/embed/advancedQuery'
 let flagNamespace: boolean = false // ページ名に階層が含まれる場合のフラグ
 
 // ツールバーからPARAメニューを開く
@@ -556,26 +557,21 @@ const tooltipCreateList = (
 
 
       // ページ名と更新日時を取得するクエリ
-      const query = `
-    [:find (pull ?p [:block/original-name :block/updated-at])
-            :in $ ?name
-            :where
-            [?t :block/name ?name]
-            [?p :block/tags ?t]]
-    `
-      let result = (await logseq.DB.datascriptQuery(query, `"${queryPageName}"`) as any | null)?.flat() as {
+
+      let result = await advancedQuery(queryCodeUpdatedAtFromPageName, `"${queryPageName}"`) as {
         "original-name": string
         "updated-at": string
       }[] | null
-      if (!result) return logseq.UI.showMsg("Cannot get the page name", "warning")
+      if (!result)
+        return logseq.UI.showMsg("Cannot get the page name", "warning")
 
       //resultの中に、nullが含まれている場合があるので、nullを除外する
       result = result.filter((item) => item !== null)
 
-      if (result.length === 0) {
+      if (result.length === 0)
         //このページタグに一致するページは見つかりませんでした。
         eleDiv.innerHTML = t("No pages found for this page tag.")
-      } else {
+      else {
 
         // ページ名を、日付順に並び替える
         eleDiv.title = t("Update order")

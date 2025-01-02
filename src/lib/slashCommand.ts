@@ -1,5 +1,5 @@
 import { BlockEntity, PageEntity } from "@logseq/libs/dist/LSPlugin.user"
-import { t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
+import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { getPageEntityFromBlockUuid } from "../lib"
 import { updatePageProperty } from '../menu/property'
 
@@ -29,16 +29,18 @@ export const run = async (uuid: string, addPropValue: string, propName: string) 
   const page = await getPageEntityFromBlockUuid(uuid) as { journal?: PageEntity["journal?"], originalName: PageEntity["originalName"], properties: PageEntity["properties"] } | null
   if (page) {
     //cancel same page
-    if (page.originalName === addPropValue) return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")
+    if (page.originalName === addPropValue)
+      return logseq.UI.showMsg(t("The current page does not need to be tagged."), "warning")
     //INBOXを覗いて日誌はキャンセル
     if (propName !== "INBOX"
-      && page['journal?'] === true) return logseq.UI.showMsg(t("Journals cannot be tagged."), "warning")
+      && page['journal?'] === true)
+      return logseq.UI.showMsg(t("Journals cannot be tagged."), "warning")
 
     const getCurrentTree = await logseq.Editor.getPageBlocksTree(page.originalName) as BlockEntity[] | null
     //ページプロパティに追加(更新をおこなう)
-    if (getCurrentTree) await updatePageProperty(addPropValue, page, propName, getCurrentTree[0].uuid)
-  } else {
+    if (getCurrentTree)
+      await updatePageProperty(addPropValue, page, propName, getCurrentTree[0].uuid)
+  } else
     logseq.UI.showMsg(t("The current page is not found."), "warning")
-  }
 }
 

@@ -1,7 +1,7 @@
 import '@logseq/libs'; //https://plugins-doc.logseq.com/
 import { LSPluginBaseInfo, PageEntity } from '@logseq/libs/dist/LSPlugin'
 import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
-import { AddToolbarAndMenuButton, handleRouteChange } from './batchTileView/handle'
+import { AddMenuButton, handleRouteChange } from './batchTileView/handle'
 import { addLeftMenuNavHeaderForEachPARA, clearEleAll } from './batchTileView/lib'
 import { copyPageTitleLink, createPageForPARA, removePopup, renamePageAndProperty } from './lib'
 import { slashCommandItems } from './lib/slashCommand'
@@ -62,8 +62,8 @@ const main = async () => {
   // Plugin settings
   logseq.useSettingsSchema(settingsTemplate())
 
-  // ツールバーとメニュー用のボタンを追加
-  AddToolbarAndMenuButton()
+  // メニュー用のボタンを追加
+  AddMenuButton()
 
   // メニューバーのヘッダーに追加
   if (logseq.settings!.addLeftMenu === true)
