@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.9.0...v1.9.1) (2025-01-02)
+
+
+### Bug Fixes
+
+* refactor ([9683dd6](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/9683dd6775ddcbee484f673777a2b8dc65461d46))
+* **remove:** INBOX feature ([368b1bf](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/368b1bf7d57ecfc733cce9db64592b17c5cc8642))
+* Revision of translations ([6f492c9](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/6f492c9012a5448bb7e70557010805aaa4a580a3))
+
 # [1.9.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.8.6...v1.9.0) (2024-12-30)
 
 
