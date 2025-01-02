@@ -25,7 +25,7 @@ export const sortByMonth = async (blocks: BlockEntity[], insertContent: string):
       if (subChildren
         && subChildren.length > 0
         && subChildren.find(subChild => subChild.content === insertContent)) {
-        logseq.UI.showMsg(t("Failed (Already recorded)"), "warning") // すでに記録されている場合は終了
+        logseq.UI.showMsg("Already mentioned.", "warning") // すでに記載されている
         return false
       } else {
         //そのブロックのサブ行に追記する
@@ -41,7 +41,7 @@ export const sortByMonth = async (blocks: BlockEntity[], insertContent: string):
   const newBlock = await logseq.Editor.insertBlock(firstBlock.uuid, monthString, { sibling: false }) as { uuid: BlockEntity["uuid"]}  | null // ブロックのサブ行に追記
   if (!newBlock) {
     //年のためエラー処理
-    logseq.UI.showMsg(t("Failed (Cannot create a new block in first block of the page)"), "error")
+    logseq.UI.showMsg("For some reason, it was not possible to create a new block in the first block on the page.", "error")
     return false
   }
   // ブロックのサブ行に追記

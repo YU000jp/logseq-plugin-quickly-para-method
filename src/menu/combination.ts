@@ -20,8 +20,8 @@ export const combinationNewPage = async (title: string, tags: string, inputValue
     key: "openQuickly",
     reset: true,
     template: `
-        <p>${t("New page")}: <input id="newPageTitle" type="text" style="width:420px"${inputValue ? ` value="${inputValue}"` : ""}/>
-        <button id="CreatePageButton">${t("Submit")}</button></p>
+        <p>${t("New page")}: <input id="newPageTitle" class="form-input" type="text" style="width:420px"${inputValue ? ` value="${inputValue}"` : ""}/>
+        <button id="CreatePageButton" class="form-button">${t("Submit")}</button></p>
         `,
     style: {
       width: "640px",
@@ -68,7 +68,7 @@ function eventListener(tags: string): () => void {
 
           //ページが作成されなかった場合
           if (createPage === null)
-            return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+            return logseq.UI.showMsg("Cannot create new page", "error")
 
           //ページが作成された場合
           const { preferredDateFormat } = await logseq.App.getUserConfigs() as { preferredDateFormat: AppUserConfigs["preferredDateFormat"] }
@@ -87,7 +87,7 @@ function eventListener(tags: string): () => void {
           logseq.Editor.openInRightSidebar(inputTitle)
 
           // メッセージを表示する
-          logseq.UI.showMsg(t("The Page already exists"), "warning")
+          logseq.UI.showMsg(t("Page already exists."), "warning")
         }
 
         //実行されたらポップアップを削除
@@ -109,7 +109,7 @@ export const combinationNamespace = async (tags: string, namespaceName: string) 
 
     ///ページタグをつける (反映処理も含まれる)
     updatePageProperty(namespaceName, page, "Free", page.uuid)
-    logseq.UI.showMsg(t("The Page already exists"), "warning")
+    logseq.UI.showMsg(t("Page already exists."), "warning")
 
   } else {
 
@@ -125,7 +125,7 @@ export const combinationNamespace = async (tags: string, namespaceName: string) 
     if (createPage)
       logseq.UI.showMsg(t("Create a new page"), "success")
     else
-      return logseq.UI.showMsg(t("Failed (Can not create a new page)"), "error")
+      return logseq.UI.showMsg("Cannot create new page", "error")
 
   }
 }

@@ -14,44 +14,67 @@ export const keySettingsPageStyle = "pageStyle"
 // https://logseq.github.io/plugins/types/SettingSchemaDesc.html
 export const settingsTemplate = (): SettingSchemaDesc[] => [
 
-  {//ページタグをつけるかどうか
-    key: "booleanRecodeOnly",
-    // ページタグをつけない
-    title: t("Just record without adding tags."),
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {
-    key: "switchPARArecodeDate",
-    // PARAページの場合、最初のブロックに現在の日付とそのリンクを記録します。
-    title: t("In the first block, record current date and its link. (PARA page)"),
-    type: "boolean",
-    default: true,
+  {// Common settings
+    key: "headingCommonSettings",
+    type: "heading",
+    default: null,
+    title: t("Common settings"),
     description: "",
   },
   {//月ごとの分類をおこなう
     key: "sortByMonth",
-    title: t("Sort by month > Enable"),
+    title: t("logging function") + " > " + t("Sort by month"),
     type: "boolean",
     default: true,
     description: "",
   },
   {//上の項目がオンの場合に、それをリンクにするかどうか
     key: "sortByMonthLink",
-    title: t("Sort by month > Link to the month page"),
+    title: " > " + t("Sort by month") + " > " + t("Link to the month page"),
     type: "boolean",
     default: true,
     description: "",
   },
   {//sortByMonthSeparator
-    key: "sortByMonthSeparator",
-    title: t("Sort by month > Separator"),
+    key: "sortByMonthSeparator", // 区切り文字
+    title: " > " + t("Sort by month") + " > " + t("Separator character"),
     type: "string",
     default: ">",
     description: "default: `>`",
   },
+  {
+    key: "slashCommandMenu",
+    // スラッシュコマンドを有効にするかどうか
+    title: t("Enable slash commands"),
+    type: "boolean",
+    default: true,
+    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` ⚠️" + t("To enable or disable it, restart Logseq or turn off the plugin."),
+  },
 
+
+  {// PARA settings
+    key: "headingPARASettings",
+    type: "heading",
+    default: null,
+    title: `PARA ${t("settings")}`,
+    description: "",
+  },
+  {
+    key: "booleanRecodeOnly",
+    //ページタグをつけない設定
+    title: t("Add only date to the first block"),
+    type: "boolean",
+    default: false,
+    description: "",
+  },
+  {
+    key: "switchPARArecodeDate",
+    title: t("logging function"),
+    type: "boolean",
+    default: true,
+    // ページの最初のブロックに日付とリンクを含めます
+    description: t("Add date and link to the first block of the page"),
+  },
   {
     key: "archivesDone",
     // アーカイブに記録する際に、DONEマーカーを追加します
@@ -61,57 +84,29 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     description: "",
   },
 
-  {
-    key: "slashCommandMenu",
-    title: t("Slash command > Enable items"),
-    type: "boolean",
-    default: true,
-    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` `/Inbox` " + t(" (⚠️To enable or disable it, restart Logseq or turn off the plugin)"),
-  },
 
+  {// Menu settings
+    key: "headingMenuSettings",
+    type: "heading",
+    default: null,
+    title: t("Menu") + " " + t("settings"),
+    description: "",
+  },
   {
     key: "pickList",
     type: "string",
     default: "Index\nReadLATER\n",
     title: t("Menu > Pick-list options"),
-    // メニューの選択肢を改行で区切って記述します。`#`は不要です。
-    description: t("Write the menu options separated by line breaks. `#` is not required."),
+    // メニューの選択肢を改行で区切って記述します。`#`は付けないでください。
+    description: t("Write the menu options separated by line breaks. Do not include `#`."),
     inputAs: "textarea",
   },
-  {
-    key: "inboxEnable",
-    type: "boolean",
-    default: false,
-    title: t("Inbox > Enable"),
-    description: t("Enable Inbox function"),
-  },
-  {//INBOX ページタグをつけるかどうか
-    key: "booleanInboxRecode",
-    title: t("Just record without adding tags.") + ` (${t("Inbox")})`,
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {
-    key: "switchRecodeDate",
-    // 最初のブロックに現在の日付とそのリンクを記録します。PARAページを除く
-    title: t("In the first block, record current date and its link. (Except PARA page)"),
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {// Inboxのページ名を変更する
-    // 変更された時、リネームを実行する
-    key: "inboxName",
-    type: "string",
-    default: t("Inbox"),
-    title: t("Change > Inbox page name"),
-    description: t("default: `Inbox`"),
-  },
+
+
   {
     key: "headingBatchBoard",
     type: "heading",
-    title: t("Batch board configuration"),
+    title: t("Board configuration"),
     default: null,
     // ページタグがついたページを、embedによって一括表示するボードです。
     // ページタイトルをクリックすると、ページが開きます。
@@ -153,4 +148,55 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     // ツールバーからもアクセスできます。
     description: t("Or from the toolbar"),
   },
+
+
+  {
+    key: "headingBatchBoardIncludeWord",
+    type: "heading",
+    default: null,
+    title: `${t("Board")} > ${t("Category by included word")}`,
+    description: `${t("Classify and sort by words included in the page title. Write separated by line breaks.")}`,
+  },
+  {// Projectsのbatchボードの分類機能
+    key: keyCommonBatchBoardIncludeWord + "Projects",
+    // 含まれる単語で、分類します
+    title: "Projects",
+    type: "string",
+    inputAs: "textarea",
+    default: "",
+    // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
+    description: "",
+  },
+  {// Areas of responsibilityのbatchボードの分類機能
+    key: keyCommonBatchBoardIncludeWord + "Areas",
+    // 含まれる単語で、分類します
+    title: "Areas of responsibility",
+    type: "string",
+    inputAs: "textarea",
+    default: "",
+    // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
+    description: "",
+  },
+  {// Resourcesのbatchボードの分類機能
+    key: keyCommonBatchBoardIncludeWord + "Resources",
+    // 含まれる単語で、分類します
+    title: "Resources",
+    type: "string",
+    inputAs: "textarea",
+    default: "",
+    // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
+    description: "",
+  },
+  {// Archivesのbatchボードの分類機能
+    key: keyCommonBatchBoardIncludeWord + "Archives",
+    // 含まれる単語で、分類します
+    title: "Archives",
+    type: "string",
+    inputAs: "textarea",
+    default: "",
+    // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
+    description: "",
+  },
 ]
+
+export const keyCommonBatchBoardIncludeWord = "BatchBoardIncludesWord"

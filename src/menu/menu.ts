@@ -1,8 +1,10 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { format, parse } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { openPageFromPageName } from './../lib'
 import { advancedQuery, queryCodeUpdatedAtFromPageName } from '../batchTileView/embed/advancedQuery'
+import { openPageFromPageName } from './../lib'
+import { pageTitleSlash } from './lib'
+
 let flagNamespace: boolean = false // ページ名に階層が含まれる場合のフラグ
 
 // ツールバーからPARAメニューを開く
@@ -550,7 +552,7 @@ const tooltipCreateList = (
 
 
       eleH2.innerHTML = `${titleIcon} ' ${pageName} ' <small>${t("List")}</small>`
-      eleH2.title = t("Update order") + " > " + t("Pages tagged with")
+      eleH2.title = t("in order of update") + " > " + t("Pages tagged with")
       const queryPageName = pageName.toLowerCase() // クエリーでは、ページ名を小文字にする必要がある
 
       //logseq.UI.showMsg(pageName, "info")
@@ -574,7 +576,7 @@ const tooltipCreateList = (
       else {
 
         // ページ名を、日付順に並び替える
-        eleDiv.title = t("Update order")
+        eleDiv.title = t("in order of update")
         result = result.sort((a, b) => {
           return a["updated-at"] > b["updated-at"] ? -1 : 1
         })
@@ -615,7 +617,7 @@ const tooltipCreateList = (
             const createdString = new Date(page['updated-at']).toLocaleDateString("default", { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" })
             const aEle = document.createElement("a") as HTMLAnchorElement
             aEle.dataset.pageName = pageName
-            aEle.title = `${pageName}\n\n${t("Updated at")}: ${createdString}`
+            aEle.title = `${pageName}\n\n${t("update date/time")}: ${createdString}`
             aEle.innerText = pageNameString
             aEle.id = `para-tooltip-page-tag--${pageName}`
             eleLi.append(aEle)
@@ -631,8 +633,8 @@ const tooltipCreateList = (
         //hr
         eleDiv.innerHTML += "<hr/>"
 
-        // 「このタグが付けられたページが一覧で表示されます。」というメッセージをいれる
-        eleDiv.innerHTML += `<p><small>${t("Pages tagged with that tag are displayed in a list.")}</small></p>`
+        // 「そのタグが付けられたページが一覧表示されています」というメッセージをいれる
+        eleDiv.innerHTML += `<p><small>${t("Pages with that tag appear in the list.")}</small></p>`
       }
     } //end of namespace以外
 
@@ -642,6 +644,4 @@ const tooltipCreateList = (
   }
 }
 
-// 「hls__」と「hls/」をPDF/に変換する
-// 「/」を「 / 」に変換する
-const pageTitleSlash = (pageName: string) => pageName.replace("hls__", "PDF/").replace("hls/", "PDF/").replaceAll("/", " / ")
+

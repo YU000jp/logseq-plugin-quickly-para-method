@@ -1,6 +1,6 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from 'logseq-l10n'
-import { keyPageBarId, keyReloadButton, keySettingsButton, keyToggleButton, keyToolbar, mainPageTitle, mainPageTitleLower, toolbarIcon } from '../.'
+import { keyPageBarId, keyReloadButton, keySettingsButton, keyToggleButton, mainPageTitle, mainPageTitleLower } from '../.'
 import { generateEmbed } from './embed/generateBlock'
 
 let now = false
@@ -58,10 +58,10 @@ export const AddMenuButton = () => {
   logseq.App.registerUIItem('pagebar', {
     key: keyPageBarId,
     template: `
-      <div id="${keyPageBarId}" title="${mainPageTitle} ${t("plugin")}">
-      <button id="${keyToggleButton}" data-on-click="${keyToggleButton}" title="${t("Change Style")}">🎨</button>
-      <button id="${keySettingsButton}" data-on-click="${keySettingsButton}" title="${t("Plugin Settings")}">⚙</button>
-      <button id="${keyReloadButton}" data-on-click="${keyReloadButton}" title="${t("Update page list.")}">◆ ${t("Reload")}</button>
+      <div id="${keyPageBarId}" title="${mainPageTitle} ${t("Plugin")}">
+      <button id="${keyToggleButton}" data-on-click="${keyToggleButton}" title="${t("Change style")}">🎨</button>
+      <button id="${keySettingsButton}" data-on-click="${keySettingsButton}" title="${t("Plugin settings")}">⚙</button>
+      <button id="${keyReloadButton}" data-on-click="${keyReloadButton}" title="${t("Update the list")}">◆ ${t("Reload")}</button>
       </div>
       <style>
       #${keyPageBarId} {

@@ -21,12 +21,12 @@ export const runCommand = async (addPropPageName: string, addPropName: string) =
     // 現在のページと同じ名前のプロパティを追加しようとした場合はキャンセルとする
     if (getCurrent.name === addPropPageName
       || getCurrent.originalName === addPropPageName)
-      return logseq.UI.showMsg(t("No need to tag the current page."), "warning")
+      return logseq.UI.showMsg(t("No need to tag the current page"), "warning")
 
     // 現在のページのブロックツリーを取得する
     const getCurrentTree = await logseq.Editor.getCurrentPageBlocksTree() as BlockEntity[] | null
     if (getCurrentTree === null)
-      return logseq.UI.showMsg(t("Failed (Can not get the current page)"), "warning")
+      return logseq.UI.showMsg("Can not get the current page", "warning")
 
     // ポップアップを削除
     removePopup()
@@ -69,12 +69,11 @@ export const updatePageProperty = async (addPropPageName: string, targetPageEnti
       && logseq.settings?.switchPARArecodeDate === true)) { // 設定が有効
 
     const { preferredDateFormat } = await logseq.App.getUserConfigs() as AppUserConfigs
-
     setTimeout(async () => {
       const success: boolean = await RecodeDateToPageTop(preferredDateFormat, addPropPageName, " [[" + targetPageEntity.originalName + "]]")
-      if (success) message()
+      if (success)
+        message()
     }, 300)
-
   } else
     // 成功した場合のメッセージを表示
     message()

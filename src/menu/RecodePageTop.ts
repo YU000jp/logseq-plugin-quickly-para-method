@@ -44,7 +44,7 @@ export const RecodeDateToPageTop = async (userDateFormat: string, targetPageName
     return true
   } else {
     if (flagRepeat) {
-      logseq.UI.showMsg("Failed (Can not get the current page)", "warning") // 無限ループを防ぐ
+      logseq.UI.showMsg("Can not get the current page", "warning") // 無限ループを防ぐ
       return false
     }
 

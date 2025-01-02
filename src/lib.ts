@@ -50,7 +50,8 @@ export const createPageForPARA = async (name: string, icon: string, para: boolea
   if (getPage === null) {
     if (para === true) logseq.Editor.createPage(name, { icon }, { createFirstBlock: true, }) //PARAページの作成、タグをつける
     else logseq.Editor.createPage(name, { icon, }, { createFirstBlock: true, })
-    logseq.UI.showMsg(t("Created page") + "\n\n" + name, "success", { timeout: 1900 })
+    // ページが作成されました。
+    logseq.UI.showMsg(t("Page created.") + "\n\n" + name, "success", { timeout: 1900 })
   }
 }
 

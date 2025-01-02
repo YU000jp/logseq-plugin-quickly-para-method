@@ -10,27 +10,26 @@ import { openMenuFromToolbar } from './menu/menu'
 import { runCommand } from './menu/property'
 import { keySettingsPageStyle, settingsTemplate, styleList } from './settings'
 import CSSMain from './style.css?inline'
+import af from "./translations/af.json"
+import de from "./translations/de.json"
+import es from "./translations/es.json"
+import fr from "./translations/fr.json"
+import id from "./translations/id.json"
+import it from "./translations/it.json"
 import ja from "./translations/ja.json"
+import ko from "./translations/ko.json"
+import nbNO from "./translations/nb-NO.json"
+import nl from "./translations/nl.json"
+import pl from "./translations/pl.json"
+import ptBR from "./translations/pt-BR.json"
+import ptPT from "./translations/pt-PT.json"
+import ru from "./translations/ru.json"
+import sk from "./translations/sk.json"
+import tr from "./translations/tr.json"
+import uk from "./translations/uk.json"
+import zhCN from "./translations/zh-CN.json"
+import zhHant from "./translations/zh-Hant.json"
 import { update20231023ChangeSplit } from './update'
-// import af from "./translations/af.json"
-// import de from "./translations/de.json"
-// import es from "./translations/es.json"
-// import fr from "./translations/fr.json"
-// import id from "./translations/id.json"
-// import it from "./translations/it.json"
-// import ja from "./translations/ja.json"
-// import ko from "./translations/ko.json"
-// import nbNO from "./translations/nb-NO.json"
-// import nl from "./translations/nl.json"
-// import pl from "./translations/pl.json"
-// import ptBR from "./translations/pt-BR.json"
-// import ptPT from "./translations/pt-PT.json"
-// import ru from "./translations/ru.json"
-// import sk from "./translations/sk.json"
-// import tr from "./translations/tr.json"
-// import uk from "./translations/uk.json"
-// import zhCN from "./translations/zh-CN.json"
-// import zhHant from "./translations/zh-Hant.json"
 
 
 
@@ -39,25 +38,21 @@ export const mainPageTitleLower = mainPageTitle.toLowerCase()
 export const shortKey = "qpm"
 export const keyToolbar = "Quickly-PARA-Method"
 export const keyPageBarId = `${shortKey}--pagebar`
-export const toolbarIcon = "📝"
 export const keyToggleButton = `${shortKey}--changeStyleToggle`
 export const keySettingsButton = `${shortKey}--pluginSettings`
 export const keyReloadButton = `${shortKey}--reload`
-export const keyAllDeleteButton = `${shortKey}--allDelete`
 export const keyLeftMenu = `${shortKey}--nav-header`
 
 
 /* main */
 const main = async () => {
 
-  // // l10nのセットアップ
-  // await l10nSetup({
-  //   builtinTranslations: {//Full translations
-  //     ja, af, de, es, fr, id, it, ko, "nb-NO": nbNO, nl, pl, "pt-BR": ptBR, "pt-PT": ptPT, ru, sk, tr, uk, "zh-CN": zhCN, "zh-Hant": zhHant
-  //   }
-  // })
-  // i18n
-  await l10nSetup({ builtinTranslations: { ja } })
+  // l10nのセットアップ
+  await l10nSetup({
+    builtinTranslations: {//Full translations
+      ja, af, de, es, fr, id, it, ko, "nb-NO": nbNO, nl, pl, "pt-BR": ptBR, "pt-PT": ptPT, ru, sk, tr, uk, "zh-CN": zhCN, "zh-Hant": zhHant
+    }
+  })
 
   // Plugin settings
   logseq.useSettingsSchema(settingsTemplate())
@@ -201,7 +196,7 @@ const model = (popup: string) => logseq.provideModel({
     if (namespaceName && pageName)
       combinationNamespace(pageName, namespaceName)
     else
-      logseq.UI.showMsg(t("Failed (Can not get the current page)"), "error")
+      logseq.UI.showMsg("Can not get the current page", "error")
   },
 
   // 同じ階層レベルに新規プロジェクト (作成ダイアログを開く)
