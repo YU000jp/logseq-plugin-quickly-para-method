@@ -161,7 +161,7 @@ const generateContentForMainPageContent = async (
   if (logseq.settings!.showLinkedReferences as boolean === true) {
     batch.push({
       content: `# ${t("Linked References")}`,
-      children: [{ content: `{{query [[${type}]]}}` }]
+      children: [{ content: `{{query (and [[${type}]] (not (page [[${type}]])) (not (page [[Quickly-PARA-Method-Plugin/${type}]])))}}` }]
     })
   }
 
