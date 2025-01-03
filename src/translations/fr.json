@@ -78,5 +78,11 @@
   "settings": "Paramètres",
   "update date/time": "Date/heure de mise à jour",
   "No need to tag the current page": "Pas besoin de baliser la page actuelle",
-  "Board configuration": "Configuration de la carte"
+  "Board configuration": "Configuration de la carte",
+  "All": "Tout",
+  "Page content": "Contenu de la page",
+  "Linked References": "Références liées",
+  "Show page content": "Afficher le contenu de la page",
+  "Reloading will reflect this.": "Le rechargement en tiendra compte.",
+  "Show linked references": "Afficher les références liées"
 }

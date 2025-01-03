@@ -78,5 +78,11 @@
   "settings": "設定",
   "update date/time": "更新日時",
   "No need to tag the current page": " 現在のページにタグを付ける必要はありません",
-  "Board configuration": "掲示板の設定"
+  "Board configuration": "掲示板の設定",
+  "All": "すべて",
+  "Page content": "ページコンテンツ",
+  "Linked References": "リンクされたブロック",
+  "Show page content": "ページコンテンツを表示",
+  "Reloading will reflect this.": "リロードするとこれが反映されます。",
+  "Show linked references":  "リンクされたブロックを表示"
 }

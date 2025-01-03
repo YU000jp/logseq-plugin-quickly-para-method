@@ -78,5 +78,11 @@
   "settings": "Instellingen",
   "update date/time": "Datum/tijd bijwerken",
   "No need to tag the current page": "Het is niet nodig om de huidige pagina te taggen",
-  "Board configuration": "Configuratie van het bord"
+  "Board configuration": "Configuratie van het bord",
+  "All": "Alle",
+  "Page content": "Pagina inhoud",
+  "Linked References": "Gelinkte referenties",
+  "Show page content": "Pagina-inhoud weergeven",
+  "Reloading will reflect this.": "Herladen zal dit weerspiegelen.",
+  "Show linked references": "Gekoppelde referenties weergeven"
 }

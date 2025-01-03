@@ -78,5 +78,11 @@
   "settings": "Einstellungen",
   "update date/time": "Datum/Uhrzeit aktualisieren",
   "No need to tag the current page": "Es ist nicht erforderlich, die aktuelle Seite zu markieren",
-  "Board configuration": "Konfiguration der Platine"
+  "Board configuration": "Konfiguration der Platine",
+  "All": "Alle",
+  "Page content": "Seiteninhalt",
+  "Linked References": "Verknüpfte Referenzen",
+  "Show page content": "Seiteninhalt anzeigen",
+  "Reloading will reflect this.": "Das Nachladen wird dies widerspiegeln.",
+  "Show linked references": "Verknüpfte Referenzen anzeigen"
 }

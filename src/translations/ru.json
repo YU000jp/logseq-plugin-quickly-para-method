@@ -78,5 +78,11 @@
   "settings": "Параметры",
   "update date/time": "Обновление даты/времени",
   "No need to tag the current page": "Нет необходимости помечать текущую страницу тегами",
-  "Board configuration": "Конфигурация платы"
+  "Board configuration": "Конфигурация платы",
+  "All": "Все",
+  "Page content": "Содержание страницы",
+  "Linked References": "Связанные ссылки",
+  "Show page content": "Показать содержимое страницы",
+  "Reloading will reflect this.": "Перезарядка отразит это.",
+  "Show linked references": "Показать ссылки на ссылки"
 }

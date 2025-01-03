@@ -78,5 +78,11 @@
   "settings": "Instellings",
   "update date/time": "Dateer datum/tyd op",
   "No need to tag the current page": "Dit is nie nodig om die huidige bladsy te merk nie",
-  "Board configuration": "Bord konfigurasie"
+  "Board configuration": "Bord konfigurasie",
+  "All": "Alle",
+  "Page content": "Bladsy inhoud",
+  "Linked References": "Gekoppelde verwysings",
+  "Show page content": "Wys bladsyinhoud",
+  "Reloading will reflect this.": "Herlaai sal dit weerspieël.",
+  "Show linked references": "Wys gekoppelde verwysings"
 }

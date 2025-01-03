@@ -1,245 +1,239 @@
-
 body>div {
-  &#root>div>main {
-    & article>div[data-id="logseq-plugin-quickly-para-method"] {
-      & div.heading-item {
-        margin-top: 3em;
-        border-top-width: 1px;
-        padding-top: 1em;
-      }
+      &#root>div>main {
+            & article>div[data-id="logseq-plugin-quickly-para-method"] {
+                  & div.heading-item {
+                        margin-top: 3em;
+                        border-top-width: 1px;
+                        padding-top: 1em;
+                  }
 
-      & label.form-control {
-        &>input[type="text"].form-input {
-          width: 200px;
-          font-size: 1.3em;
-        }
-
-        &>textarea.form-input {
-          width: 350px;
-          height: 9em;
-        }
-      }
-    }
-  }
-
-  &#logseq-plugin-quickly-para-method--openQuickly {
-    &>div {
-      &.draggable-handle>div.th h3 {
-        font-size: .9em;
-      }
-
-      &.ls-ui-float-content>div {
-        padding-top: 1em;
-        padding-bottom: .5em;
-
-        & span.tabler-icons {
-          font-family: "tabler-icons";
-        }
-
-        &>p {
-          & span.tabler-icons {
-            font-size: 1.5em;
-          }
-        }
-
-        & h2 {
-          margin-left: -0.8em;
-          margin-top: 1em;
-          margin-bottom: 1em;
-        }
-
-        & h3 {
-          margin-left: -0.5em;
-          margin-top: 1em;
-          margin-bottom: 1em;
-        }
-
-        &>ul {
-          &:not(#para-menu-combination)>li.para-away>label+span>button {
-            font-size: 1.5em;
-          }
-
-          &#para-menu-combination>li.para-away>label+span>button {
-            font-size: 1.35em;
-          }
-
-          &>li.para-away {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-right: 1em;
-            margin-top: .8em;
-
-            &>label {
-
-              &>span {
-
-                &>div[data-namespace]>div>ul {
-                  font-size: .92em;
-                }
-
-                &:hover {
-                  text-decoration: underline;
-                }
-
-                &>span.tabler-icons {
-                  font-size: 1.5em;
-                }
-
-                &:not(.not-cursor-pointer) {
-                  cursor: pointer;
-                }
-
-                & select#pickListSelect {
-                  border-radius: 4px;
-                  border: 1px solid var(--ls-secondary-text-color);
-                  background-color: var(--ls-secondary-background-color);
-                  color: var(--ls-primary-text-color);
-                  margin-top: .3em;
-                  font-family: "tabler-icons";
-                }
-
-                &:first-child {
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: wrap;
-                  word-break: break-all;
-                }
-
-                &>input[type=checkbox] {
-                  display: none;
-
-                  /* ツールチップ */
-                  &+div {
-                    overflow: auto;
-                    width: 350px;
-                    min-height: 200px;
-                    max-height: 620px;
-                    color: var(--ls-primary-text-color);
-                    background-color: var(--ls-primary-background-color);
-                    padding: 1.8em;
-                    position: absolute;
-                    z-index: 1;
-                    border-radius: 0.2em;
-                    outline: 6px solid var(--ls-guideline-color);
-                    outline-offset: 3px;
-                    cursor: zoom-out;
-                    font-size: .96em;
-
-                    &:not(#paraTooltipNamespace, #paraTooltipA) {
-                      transform: translate(-3%, -50%);
-                    }
-
-                    &#paraTooltipNamespace {
-                      transform: translate(-3%, -25%);
-                    }
-
-                    &#paraTooltipA {
-                      transform: translate(-3%, -57%);
-                    }
-
-                    & h2 {
-                      font-size: 1.2em;
-                      margin-left: -.8em;
-                      margin-bottom: 1.6em;
-                    }
-
-                    &>div {
-                      margin-top: 1em;
-                      margin-bottom: 1em;
-
-                      & a {
-                        text-decoration: none;
-
-                        &:hover {
-                          text-decoration: underline;
+                  & label.form-control {
+                        &>input[type="text"].form-input {
+                              width: 200px;
+                              font-size: 1.3em;
                         }
-                      }
 
-                      & ul {
-                        list-style: decimal;
-
-                        &>li {
-                          margin-bottom: .6em;
+                        &>textarea.form-input {
+                              width: 350px;
+                              height: 9em;
                         }
-                      }
-                    }
                   }
-
-                  &:not(:checked)+div {
-                    display: none;
-                  }
-
-                  &:checked+div {
-                    transition: .2s;
-                    display: block;
-                  }
-                }
-              }
-
-              &+span {
-                margin-left: .5em;
-                display: flex;
-                flex-wrap: nowrap;
-
-                & button {
-
-                  &:hover {
-                    text-decoration: underline;
-                  }
-                }
-              }
             }
-          }
-
-        }
-
-
-        &>input {
-          background-color: var(--ls-primary-background-color);
-          color: var(--ls-primary-text-color);
-          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
-        }
-
-        & button {
-          border: 1px solid var(--ls-secondary-background-color);
-          box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
-          text-decoration: unset;
-
-          &:hover {
-            background-color: var(--ls-secondary-background-color);
-            color: var(--ls-secondary-text-color);
-            text-decoration: underline;
-          }
-        }
-
-        &>h2 {
-          font-size: 1.15em;
-          margin-left: -.8em;
-          margin-bottom: .5em;
-        }
-
-        &>h3 {
-          font-size: 1.04em;
-          margin-left: -.6em;
-        }
       }
-    }
-  }
 
-  &[data-ref="quickly-para-method"]:hover {
-    outline: 6px solid var(--ls-quaternary-background-color);
-    outline-offset: 6px;
-  }
+      &#logseq-plugin-quickly-para-method--openQuickly {
+            &>div {
+                  &.draggable-handle>div.th h3 {
+                        font-size: .9em;
+                  }
+
+                  &.ls-ui-float-content>div {
+                        padding-top: 1em;
+                        padding-bottom: .5em;
+
+                        & span.tabler-icons {
+                              font-family: "tabler-icons";
+                        }
+
+                        &>p span.tabler-icons {
+                              font-size: 1.5em;
+                        }
+
+                        & h2 {
+                              margin-left: -0.8em;
+                              margin-top: 1em;
+                              margin-bottom: 1em;
+                        }
+
+                        & h3 {
+                              margin-left: -0.5em;
+                              margin-top: 1em;
+                              margin-bottom: 1em;
+                        }
+
+                        &>ul {
+                              &:not(#para-menu-combination)>li.para-away>label+span>button {
+                                    font-size: 1.5em;
+                              }
+
+                              &#para-menu-combination>li.para-away>label+span>button {
+                                    font-size: 1.35em;
+                              }
+
+                              &>li.para-away {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    padding-right: 1em;
+                                    margin-top: .8em;
+
+                                    &>label {
+
+                                          &>span {
+
+                                                &>div[data-namespace]>div>ul {
+                                                      font-size: .92em;
+                                                }
+
+                                                &:hover {
+                                                      text-decoration: underline;
+                                                }
+
+                                                &:not(.not-cursor-pointer) {
+                                                      cursor: pointer;
+                                                }
+
+                                                &>span.tabler-icons {
+                                                      font-size: 1.5em;
+                                                }
+
+                                                & select#pickListSelect {
+                                                      border-radius: 4px;
+                                                      border: 1px solid var(--ls-secondary-text-color);
+                                                      background-color: var(--ls-secondary-background-color);
+                                                      color: var(--ls-primary-text-color);
+                                                      margin-top: .3em;
+                                                      font-family: "tabler-icons";
+                                                }
+
+                                                &:first-child {
+                                                      overflow: hidden;
+                                                      text-overflow: ellipsis;
+                                                      white-space: wrap;
+                                                      word-break: break-all;
+                                                }
+
+                                                &>input[type=checkbox] {
+                                                      display: none;
+
+                                                      &:not(:checked)+div {
+                                                            display: none;
+                                                      }
+
+                                                      &:checked+div {
+                                                            transition: .2s;
+                                                            display: block;
+                                                      }
+
+                                                      /* ツールチップ */
+                                                      &+div {
+                                                            overflow: auto;
+                                                            width: 350px;
+                                                            min-height: 200px;
+                                                            max-height: 620px;
+                                                            color: var(--ls-primary-text-color);
+                                                            background-color: var(--ls-primary-background-color);
+                                                            padding: 1.8em;
+                                                            position: absolute;
+                                                            z-index: 1;
+                                                            border-radius: 0.2em;
+                                                            outline: 6px solid var(--ls-guideline-color);
+                                                            outline-offset: 3px;
+                                                            cursor: zoom-out;
+                                                            font-size: .96em;
+
+                                                            &:not(#paraTooltipNamespace, #paraTooltipA) {
+                                                                  transform: translate(-3%, -50%);
+                                                            }
+
+                                                            &#paraTooltipNamespace {
+                                                                  transform: translate(-3%, -25%);
+                                                            }
+
+                                                            &#paraTooltipA {
+                                                                  transform: translate(-3%, -57%);
+                                                            }
+
+                                                            & h2 {
+                                                                  font-size: 1.2em;
+                                                                  margin-left: -.8em;
+                                                                  margin-bottom: 1.6em;
+                                                            }
+
+                                                            &>div {
+                                                                  margin-top: 1em;
+                                                                  margin-bottom: 1em;
+
+                                                                  & a {
+                                                                        text-decoration: none;
+
+                                                                        &:hover {
+                                                                              text-decoration: underline;
+                                                                        }
+                                                                  }
+
+                                                                  & ul {
+                                                                        list-style: decimal;
+
+                                                                        &>li {
+                                                                              margin-bottom: .6em;
+                                                                        }
+                                                                  }
+                                                            }
+                                                      }
+                                                }
+                                          }
+
+                                          &+span {
+                                                margin-left: .5em;
+                                                display: flex;
+                                                flex-wrap: nowrap;
+
+                                                & button:hover {
+                                                      text-decoration: underline;
+                                                }
+                                          }
+                                    }
+                              }
+
+                        }
+
+
+                        &>input {
+                              background-color: var(--ls-primary-background-color);
+                              color: var(--ls-primary-text-color);
+                              box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+                        }
+
+                        & button {
+                              border: 1px solid var(--ls-secondary-background-color);
+                              box-shadow: 1px 2px 5px var(--ls-secondary-background-color);
+                              text-decoration: unset;
+
+                              &:hover {
+                                    background-color: var(--ls-secondary-background-color);
+                                    color: var(--ls-secondary-text-color);
+                                    text-decoration: underline;
+                              }
+                        }
+
+                        &>h2 {
+                              font-size: 1.15em;
+                              margin-left: -.8em;
+                              margin-bottom: .5em;
+                        }
+
+                        &>h3 {
+                              font-size: 1.04em;
+                              margin-left: -.6em;
+                        }
+                  }
+            }
+      }
+
+      &[data-ref="quickly-para-method"]:hover {
+            outline: 6px solid var(--ls-quaternary-background-color);
+            outline-offset: 6px;
+      }
 }
 
 
 
 
-/* ここから batch board */
+/* ここから Board */
 
 
-#left-sidebar li[title^="Quickly-PARA-Method-Plugin"i] {
+#left-sidebar li[title^="Quickly-PARA-Method-Plugin" i] {
       display: none;
 }
 
@@ -272,75 +266,80 @@ body[data-page="page"] {
                   }
             }
 
-            & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div.ls-block>div.block-children-container>div.block-children>div.ls-block {
-                  overscroll-behavior-y: contain;
-                  outline: 2px solid var(--ls-border-color);
-                  outline-offset: 1px;
-                  overflow: auto;
-                  background-color: var(--ls-primary-background-color);
-
-                  &:is(:focus-within, :hover) {
-                        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-                  }
-
-                  & div.ls-block[data-refs-self*='".thisweek"'] {
-                        position: unset !important;
-                  }
-
-                  &>div.block-main-container {
-
-                        &>div.block-control-wrap {
-                              display: none;
+            & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div {
+                  &>div.ls-block {
+                        &:first-child {
+                              margin-top: 3em;
+                              min-height: 900px;
+                              min-width: 970px;
                         }
 
-                        &>div.block-content-wrapper {
-                              width: 100%;
+                        &:nth-child(2) {
+                              float: left;
+                        }
 
-                              &>div>div>div.block-content {
-                                    pointer-events: none;
+                        &:nth-child(2),
+                        &:nth-child(3) {
+                              margin-top: 3em;
+                              min-height: 600px;
+                              max-height: 1000px;
+                              width: fit-content;
+                              min-width: 970px;
+                              overflow: auto;
+                              display: inline-block;
+                        }
 
-                                    &>div.block-content-inner>div>span.inline {
-                                          &>div:is(.embed-page, .dsl-query) {
-                                                width: fit-content;
-                                                min-width: 100%;
-                                                min-height: 300px;
-                                                pointer-events: all;
+                        &:first-child>div.block-children-container>div.block-children>div.ls-block>div.block-children-container>div.block-children>div.ls-block {
+                              overscroll-behavior-y: contain;
+                              outline: 2px solid var(--ls-border-color);
+                              outline-offset: 1px;
+                              overflow: auto;
+                              background-color: var(--ls-primary-background-color);
 
-                                                &:not(:has(>section+div.blocks-container)) {
-                                                      background: repeating-linear-gradient(45deg, var(--ls-secondary-background-color), transparent 100px);
-                                                }
+                              &:is(:focus-within, :hover) {
+                                    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+                              }
 
-                                                &>section.embed-header {
-                                                      position: sticky;
-                                                      top: 0;
-                                                      background-color: var(--ls-tertiary-background-color);
-                                                      z-index: 1;
-                                                      width: fit-content;
-                                                }
+                              & div.ls-block[data-refs-self*='".thisweek"'] {
+                                    position: unset !important;
+                              }
 
-                                                &>div.blocks-container {
-                                                      font-size: .94em;
-                                                }
+                              &>div.block-main-container {
+                                    width: 100%;
 
-                                          }
+                                    &>div.block-control-wrap {
+                                          display: none;
+                                    }
 
-                                          &>div.dsl-query>div>div>div>div.custom-query {
-                                                opacity: 0.9;
-                                                font-size: 0.8em;
-                                                overflow: auto;
-                                                width: max-content;
-                                                pointer-events: all;
+                                    &>div.block-content-wrapper {
+                                          width: 100%;
 
-                                                &>div.th {
-                                                      display: none;
-                                                }
+                                          &>div>div>div.block-content {
+                                                pointer-events: none;
 
-                                                &>div.cp__query-builder {
-                                                      user-select: none;
-                                                      pointer-events: none;
+                                                &>div.block-content-inner>div>span.inline {
+                                                      &>div:is(.embed-page, .dsl-query) {
+                                                            width: fit-content;
+                                                            min-width: 100%;
+                                                            min-height: 300px;
+                                                            pointer-events: all;
 
-                                                      &>div.cp__query-builder-filter>div.ui__dropdown-trigger {
-                                                            display: none;
+                                                            &:not(:has(>section+div.blocks-container)) {
+                                                                  background: repeating-linear-gradient(45deg, var(--ls-secondary-background-color), transparent 100px);
+                                                            }
+
+                                                            &>section.embed-header {
+                                                                  position: sticky;
+                                                                  top: 0;
+                                                                  background-color: var(--ls-tertiary-background-color);
+                                                                  z-index: 1;
+                                                                  width: fit-content;
+                                                                  padding-right: 1em;
+                                                            }
+
+                                                            &>div.blocks-container {
+                                                                  font-size: .94em;
+                                                            }
                                                       }
                                                 }
                                           }
@@ -356,58 +355,6 @@ body[data-page="page"] {
             content: "Expansion";
       }
 
-      /* Wide */
-      &.qpm-Wide>div#root>div>main div#main-content-container {
-
-            /* ページコンテンツ幅を最大化 */
-            &>div.cp__sidebar-main-content:has([id^="quickly-para-method-plugin/"]) {
-                  max-width: 90vw;
-                  height: 90vh;
-                  /* ここでoverflowは使ってはいけない。横スクロールされなくなる */
-            }
-
-            & div.page {
-
-                  & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div.ls-block>div.block-children-container>div.block-children {
-                        display: flex;
-                        margin-right: 5vw;
-                        min-height: 60vh;
-                        max-height: 86vh;
-
-                        &>div.ls-block {
-                              min-width: 500px;
-                              max-width: 900px;
-                              flex: 1;
-
-                              &:not(:focus-within, :hover) {
-                                    opacity: 0.8;
-                              }
-
-                              &:is(:focus-within, :hover) {
-                                    min-width: 900px;
-                                    opacity: 1;
-                              }
-
-                              &:not(:has(div.embed-page>div.blocks-container)) {
-                                    overflow: hidden;
-                                    white-space: nowrap;
-                                    text-overflow: ellipsis;
-                                    min-width: fit-content;
-                              }
-                        }
-                  }
-
-                  &:has([id^="quickly-para-method-plugin/"]) h1.page-title {
-                        color: chocolate;
-                        /* 動作確認用 */
-
-                        &::after {
-                              content: "Wide";
-                        }
-                  }
-            }
-      }
-
       /* Gallery */
       &.qpm-Gallery>div#root>div>main div#main-content-container {
 
@@ -419,41 +366,34 @@ body[data-page="page"] {
 
             & div.page {
 
-                  & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div>div.block-children-container>div.block-children {
+                  & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div.ls-block:first-child>div.block-children-container>div.block-children>div.ls-block>div.block-children-container>div.block-children {
                         display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
                         margin-right: 5vw;
                         max-height: 80vh;
 
                         &>div.ls-block {
-                              width: 500px;
+                              min-width: 500px;
+                              max-width: 900px;
+                              min-height: 400px;
+                              max-height: 900px;
                               flex: 1;
-                              height: 40vh;
 
                               &:not(:focus-within, :hover) {
                                     opacity: 0.8;
                               }
 
                               &:is(:focus-within, :hover) {
-                                    width: 800px;
-                                    height: 50vh;
-                                    margin-bottom: -10vh;
-                                    position: relative;
-                                    z-index: 2;
+                                    min-width: 900px;
                                     opacity: 1;
+                                    z-index: 1;
                               }
 
-                              /* 縦の長さを合わせる場合 */
-                              &>div.block-main-container {
-                                    height: 100%;
-
-                                    &>div.block-content-wrapper>div.flex {
-                                          height: 100%;
-
-                                          &>div>div.block-content>div.block-content-inner>div>span>div.embed-page {
-                                                height: 100%;
-                                          }
-                                    }
+                              &:not(:has(div.embed-page>div.blocks-container)) {
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                    min-width: fit-content;
                               }
                         }
                   }
@@ -480,7 +420,7 @@ body[data-page="page"] {
 
             & div.page {
 
-                  & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div>div.block-children-container>div.block-children {
+                  & [id^="quickly-para-method-plugin/"]>div.content>div.blocks-container>div>div>div.ls-block:first-child>div.block-children-container>div.block-children>div.ls-block>div.block-children-container>div.block-children {
                         display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
                         margin-right: 2vw;
@@ -506,7 +446,6 @@ body[data-page="page"] {
                                     opacity: 1;
                               }
 
-                              /* 縦の長さを合わせる場合 */
                               &>div.block-main-container {
                                     height: 100%;
 

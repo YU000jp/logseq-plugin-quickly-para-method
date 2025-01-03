@@ -78,5 +78,11 @@
   "settings": "Pengaturan",
   "update date/time": "Perbarui tanggal/waktu",
   "No need to tag the current page": "Tidak perlu menandai halaman saat ini",
-  "Board configuration": "Konfigurasi papan"
+  "Board configuration": "Konfigurasi papan",
+  "All": "Semua",
+  "Page content": "Konten halaman",
+  "Linked References": "Referensi Tertaut",
+  "Show page content": "Tampilkan konten halaman",
+  "Reloading will reflect this.": "Memuat ulang akan mencerminkan hal ini.",
+  "Show linked references": "Tampilkan referensi yang ditautkan"
 }

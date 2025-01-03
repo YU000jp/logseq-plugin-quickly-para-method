@@ -78,5 +78,11 @@
   "settings": "Параметри",
   "update date/time": "Оновити дату/час",
   "No need to tag the current page": "Не потрібно позначати поточну сторінку тегами",
-  "Board configuration": "Конфігурація плати"
+  "Board configuration": "Конфігурація плати",
+  "All": "Увесь",
+  "Page content": "Зміст сторінки",
+  "Linked References": "Пов'язані посилання",
+  "Show page content": "Показати вміст сторінки",
+  "Reloading will reflect this.": "Перезавантаження відобразить це.",
+  "Show linked references": "Показувати посилання на посилання"
 }

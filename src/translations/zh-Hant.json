@@ -78,5 +78,11 @@
   "settings": "設置",
   "update date/time": "更新日期/時間",
   "No need to tag the current page": "無需標記當前頁面",
-  "Board configuration": "板配置"
+  "Board configuration": "板配置",
+  "All": "都",
+  "Page content": "頁面內容",
+  "Linked References": "連結的引用",
+  "Show page content": "顯示頁面內容",
+  "Reloading will reflect this.": "重新載入將反映這一點。",
+  "Show linked references": "顯示連結的引用"
 }

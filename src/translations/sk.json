@@ -78,5 +78,11 @@
   "settings": "Nastavenia",
   "update date/time": "Dátum/čas aktualizácie",
   "No need to tag the current page": "Nie je potrebné označovať aktuálnu stránku",
-  "Board configuration": "Konfigurácia dosky"
+  "Board configuration": "Konfigurácia dosky",
+  "All": "Všetko",
+  "Page content": "Obsah stránky",
+  "Linked References": "Prepojené odkazy",
+  "Show page content": "Zobraziť obsah stránky",
+  "Reloading will reflect this.": "Opätovné načítanie to bude odrážať.",
+  "Show linked references": "Zobraziť prepojené referencie"
 }

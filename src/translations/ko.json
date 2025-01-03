@@ -78,5 +78,11 @@
   "settings": "설정",
   "update date/time": "날짜/시간 업데이트",
   "No need to tag the current page": "현재 페이지에 태그를 지정할 필요가 없습니다.",
-  "Board configuration": "보드 구성"
+  "Board configuration": "보드 구성",
+  "All": "모두",
+  "Page content": "페이지 콘텐츠",
+  "Linked References": "연결된 참조",
+  "Show page content": "페이지 내용 표시",
+  "Reloading will reflect this.": "재장전하면 이에 반영됩니다.",
+  "Show linked references": "연결된 참조 표시"
 }

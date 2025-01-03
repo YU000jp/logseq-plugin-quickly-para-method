@@ -78,5 +78,11 @@
   "settings": "Innstillinger",
   "update date/time": "Oppdater dato/klokkeslett",
   "No need to tag the current page": "Du trenger ikke å merke gjeldende side",
-  "Board configuration": "Konfigurasjon av tavle"
+  "Board configuration": "Konfigurasjon av tavle",
+  "All": "Alt",
+  "Page content": "Sidens innhold",
+  "Linked References": "Koblede referanser",
+  "Show page content": "Vis sideinnhold",
+  "Reloading will reflect this.": "Omlasting vil gjenspeile dette.",
+  "Show linked references": "Vis lenkede referanser"
 }

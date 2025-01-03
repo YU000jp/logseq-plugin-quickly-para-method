@@ -4,7 +4,6 @@ import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 export const styleList = [
   "Tile",
   "Gallery",
-  "Wide",
   "Expansion",
 ]
 
@@ -121,24 +120,6 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     ${t("To archive, open each page individually and change the page tag.")}
     `,
   },
-  { // メインページのスタイル
-    key: keySettingsPageStyle,
-    title: t("Page style"),
-    type: "enum",
-    enumChoices: styleList,
-    default: "Gallery",
-    // Tile: コンテンツ最小限のスタイル
-    // Gallery: 上下左右に配置するスタイル
-    // Wide: 画面を横に広く使うスタイル
-    // Expansion: 下側に展開するスタイル
-    description: `
-    
-    ${t("The Tile style displays content in a minimalist manner.")}
-    ${t("The Gallery style arranges the blocks up, down, left, and right.")}
-    ${t("The Wide style uses the screen horizontally.")}
-    ${t("The Expansion style is a style that expands on the underside.")}
-    `,
-  },
   {
     key: "addLeftMenu",
     type: "boolean",
@@ -146,10 +127,24 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     // 左メニューバーにボタンを追加して、このプラグインにアクセスできるようにします。
     title: t("Add a button to the left menu bar to access this plugin"),
     // ツールバーからもアクセスできます。
-    description: t("Or from the toolbar"),
+    description: "",
   },
+  { // ページコンテンツを表示するかどうか
+    key: "showPageContent",
+    title: " > " + t("Show page content"),
+    type: "boolean",
+    default: true,
+    // リロードすると反映されます。
+    description: t("Reloading will reflect this."),
+  },
+  {
+    key: "showLinkedReferences",
+    title: " > " + t("Show linked references"),
+    type: "boolean",
+    default: true,
+    description: t("Reloading will reflect this."),
 
-
+  },
   {
     key: "headingBatchBoardIncludeWord",
     type: "heading",
@@ -196,6 +191,22 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: "",
     // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
     description: "",
+  },
+  { // メインページのスタイル
+    key: keySettingsPageStyle,
+    title: t("Page style"),
+    type: "enum",
+    enumChoices: styleList,
+    default: "Gallery",
+    // Tile: コンテンツ最小限のスタイル
+    // Gallery: 上下左右に配置するスタイル
+    // Expansion: 下側に展開するスタイル
+    description: `
+    
+    ${t("The Tile style displays content in a minimalist manner.")}
+    ${t("The Gallery style arranges the blocks up, down, left, and right.")}
+    ${t("The Expansion style is a style that expands on the underside.")}
+    `,
   },
 ]
 

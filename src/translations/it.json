@@ -78,5 +78,11 @@
   "settings": "Impostazioni",
   "update date/time": "Aggiorna data/ora",
   "No need to tag the current page": "Non c'è bisogno di taggare la pagina corrente",
-  "Board configuration": "Configurazione della scheda"
+  "Board configuration": "Configurazione della scheda",
+  "All": "Tutto",
+  "Page content": "Contenuto della pagina",
+  "Linked References": "Riferimenti collegati",
+  "Show page content": "Mostra il contenuto della pagina",
+  "Reloading will reflect this.": "La ricarica rifletterà questo.",
+  "Show linked references": "Mostra riferimenti collegati"
 }

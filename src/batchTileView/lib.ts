@@ -42,8 +42,12 @@ const addLeftMenuNavHeader = (divId: string, icon: string, title: string, baseNa
 
       const anchor = document.createElement("a")
       anchor.className = "item group flex items-center text-sm font-medium rounded-md"
-      anchor.addEventListener("click", () => logseq.App.pushState('page', { name: (baseName + "/" + title) }) // ページを開く
-      )
+
+      // ページを開く
+      setTimeout(() => {
+        anchor.addEventListener("click", () => logseq.App.pushState('page', { name: (baseName + "/" + title) }))
+      }, 400)
+      
       div.appendChild(anchor)
 
       const spanIcon = document.createElement("span")
@@ -68,6 +72,12 @@ export const clearEleAll = (selector: string) => {
 export const clearEle = (selector: string) => {
   const ele = parent.document.getElementById(selector) as HTMLElement | null
   if (ele) ele.remove()
+}
+
+export const hideMainContent = (selector: string) => {
+  const ele = parent.document.querySelector(selector) as HTMLElement
+  if (ele)
+    ele.style.display = "none"
 }
 
 //  const removeProvideStyle = (className: string) => {

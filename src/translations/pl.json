@@ -78,5 +78,11 @@
   "settings": "Ustawienia",
   "update date/time": "Aktualizuj datę/godzinę",
   "No need to tag the current page": "Nie ma potrzeby oznaczania bieżącej strony tagami",
-  "Board configuration": "Konfiguracja płyty głównej"
+  "Board configuration": "Konfiguracja płyty głównej",
+  "All": "Cały",
+  "Page content": "Zawartość strony",
+  "Linked References": "Połączone odniesienia",
+  "Show page content": "Pokaż zawartość strony",
+  "Reloading will reflect this.": "Przeładowanie to odzwierciedli.",
+  "Show linked references": "Pokaż połączone odniesienia"
 }

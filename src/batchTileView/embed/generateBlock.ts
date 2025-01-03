@@ -2,13 +2,20 @@ import { BlockEntity, IBatchBlock, PageEntity } from "@logseq/libs/dist/LSPlugin
 import { t } from "logseq-l10n"
 import { advancedQuery, queryCodeContainsTag } from "./advancedQuery"
 import { keyCommonBatchBoardIncludeWord } from "../../settings"
+import { hideMainContent } from "../lib"
 
 
+
+let processingGenerateEmbed = false
 export const generateEmbed = async (
   type: string,
   pageName: string,
   blocks: { uuid: BlockEntity["uuid"] }[]
 ) => {
+
+  if (processingGenerateEmbed) return
+  processingGenerateEmbed = true
+  setTimeout(() => processingGenerateEmbed = false, 900)
 
   await logseq.Editor.exitEditingMode()
 
@@ -33,8 +40,7 @@ export const generateEmbed = async (
     ) {
       logseq.updateSettings({ [type]: array })// 今回分を保存
 
-      let sibling = false
-      const batch: IBatchBlock[] = []
+      const boardBatch: IBatchBlock[] = []
       const typeMapping = {
         "Projects": "Projects",
         "Areas of Responsibility": "Areas",
@@ -43,42 +49,44 @@ export const generateEmbed = async (
       }
       const settingKey = typeMapping[type as keyof typeof typeMapping]
       if (settingKey)
-        sibling = eachCategoryCreateBatchEmbed(
+        eachCategoryCreateBatchEmbed(
           array,
           logseq.settings![keyCommonBatchBoardIncludeWord + settingKey] as string,
-          batch
+          boardBatch
         )
 
-      if (batch.length > 0)
-        await refreshPageBlocks(blocks, pageName, batch, type, sibling)
+      if (boardBatch.length > 0)
+        await refreshPageBlocks(blocks, pageName, boardBatch, type)
     }
   } else
     // 見つからなかった場合
-    await removeBlocksAndNotify(blocks, pageName)
+    await removeBlocksAndNotify(blocks, pageName, type)
 
 
   // ブロックの編集モードを終了
   await logseq.Editor.exitEditingMode()
 
   logseq.hideMainUI({ restoreEditingCursor: false })
+  processingGenerateEmbed = false
 }
 
 
 
 //カテゴリ分けごとにEmbedを生成 (カテゴリに含まれない場合は、その他に分類)
-const eachCategoryCreateBatchEmbed = (array: string[], config: string, batch: IBatchBlock[]): boolean => {
+const eachCategoryCreateBatchEmbed = (array: string[], config: string, boardBatch: IBatchBlock[]) => {
 
-  if (config === "") {
-    for (const v of array)
-      batch.push({ content: `{{embed [[${v}]]}}` })
-    return false
-  } else {
+  if (config === "")
+    boardBatch.push({
+      content: `# ${t("All")}`,
+      children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+    })
+  else {
     const categories = config.split("\n")
 
     for (const category of categories) {
       const categoryArray = array.filter((v) => v.includes(category))
       if (categoryArray.length > 0) {
-        batch.push({
+        boardBatch.push({
           content: `## ${category}`, // embedを使用
           children: categoryArray.map((v) => ({ content: `{{embed [[${v}]]}}` }))
         })
@@ -88,11 +96,10 @@ const eachCategoryCreateBatchEmbed = (array: string[], config: string, batch: IB
     }
     // その他のカテゴリーに分類されなかったページを追加
     if (array.length > 0)
-      batch.push({
+      boardBatch.push({
         content: `## ${t("Others")}`, // 分類なし
         children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
       })
-    return true
   }
 }
 
@@ -102,37 +109,70 @@ const refreshPageBlocks = async (
   pageName: string,
   batch: IBatchBlock[],
   type: string,
-  sibling: boolean,
 ) => {
 
-  // 全てのブロックを削除
-  for (const block of blocks)
-    await logseq.Editor.removeBlock(block.uuid)
+  // 一時的にDOMエレメントを非表示にする
+  hideMainContent('#main-content-container div[id^="quickly-para-method-plugin/"] ')
 
-  // 300ms待機
-  await new Promise((resolve) => setTimeout(resolve, 300))
+  // 全てのブロックを削除
+  await clearBlocks(blocks)
+
+  // 600ms待機
+  await new Promise((resolve) => setTimeout(resolve, 600))
 
   // メインページの最初のブロックを作成
-  const newBlockEntity = await logseq.Editor.appendBlockInPage(pageName, "") as { uuid: BlockEntity["uuid"] } | null
-  if (newBlockEntity) {
-    await logseq.Editor.insertBatchBlock(newBlockEntity.uuid, batch, { before: false, sibling })
-
-    // 先頭行
-    await logseq.Editor.updateBlock(newBlockEntity.uuid, `# [[${type}]]`)
-    // await logseq.Editor.removeBlock(newBlockEntity.uuid)
-  }
+  const newBlock = await logseq.Editor.appendBlockInPage(pageName, "") as { uuid: BlockEntity["uuid"] } | null
+  //下にくるブロックが先
+  if (newBlock)
+    await generateContentForMainPageContent(newBlock, type, batch)
 }
 
 
 // 全てのブロックを削除
 const removeBlocksAndNotify = async (
   blocks: { uuid: BlockEntity["uuid"] }[],
-  pageName: string
+  pageName: string,
+  type: string,
 ) => {
+  await refreshPageBlocks(blocks, pageName, [{ content: t("No page found") }], type)
+}
+
+
+const generateContentForMainPageContent = async (
+  newBlock: { uuid: BlockEntity["uuid"] },
+  type: string,
+  boardBatch: IBatchBlock[]
+) => {
+
+  const batch: IBatchBlock[] = []
+  // batchの先頭に追加
+  batch.unshift({
+    content: `# ${t("Board")}`,
+    children: boardBatch,
+  })
+
+  // batchの最後尾に追加
+  if (logseq.settings!.showPageContent as boolean === true) {
+    batch.push({
+      content: `# ${t("Page content")}`,
+      children: [{ content: `{{embed [[${type}]]}}` }]
+    })
+  }
+  if (logseq.settings!.showLinkedReferences as boolean === true) {
+    batch.push({
+      content: `# ${t("Linked References")}`,
+      children: [{ content: `{{query [[${type}]]}}` }]
+    })
+  }
+
+  // バッチを挿入
+  await logseq.Editor.insertBatchBlock(newBlock.uuid, batch, { before: true, sibling: true })
+  // ブロックを削除
+  await logseq.Editor.removeBlock(newBlock.uuid)
+}
+
+
+const clearBlocks = async (blocks: { uuid: BlockEntity["uuid"] }[]) => {
   for (const block of blocks)
     await logseq.Editor.removeBlock(block.uuid)
-  //300ms待機
-  await new Promise((resolve) => setTimeout(resolve, 300))
-  // メインページの最初のブロックを作成
-  await logseq.Editor.appendBlockInPage(pageName, t("No page found")) as { uuid: BlockEntity["uuid"] } | null
 }

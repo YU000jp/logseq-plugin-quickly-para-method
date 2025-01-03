@@ -78,5 +78,11 @@
   "settings": "Ayarlar",
   "update date/time": "Güncelleme tarihi/saati",
   "No need to tag the current page": "Geçerli sayfayı etiketlemeye gerek yok",
-  "Board configuration": "Kart yapılandırması"
+  "Board configuration": "Kart yapılandırması",
+  "All": "Tüm",
+  "Page content": "Sayfa içeriği",
+  "Linked References": "Bağlantılı Referanslar",
+  "Show page content": "Sayfa içeriğini göster",
+  "Reloading will reflect this.": "Yeniden yükleme bunu yansıtacaktır.",
+  "Show linked references": "Bağlantılı başvuruları göster"
 }
