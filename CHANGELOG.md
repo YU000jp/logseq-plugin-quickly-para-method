@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.9.1...v1.10.0) (2025-01-03)
+
+
+### Features
+
+* Update Board feature ([189bb3e](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/189bb3e254c39ee1d6f0d0eb97fc83f589d658ae))
+
 ## [1.9.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.9.0...v1.9.1) (2025-01-02)
 
 
