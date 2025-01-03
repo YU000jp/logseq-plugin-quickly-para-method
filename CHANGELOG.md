@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.10.0...v1.10.1) (2025-01-03)
+
+
+### Bug Fixes
+
+* Exclude the current page and others in the query. ([8444a82](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/8444a820fe55f923f2fae7adea4ee0a6ce274607))
+
 # [1.10.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.9.1...v1.10.0) (2025-01-03)
 
 
