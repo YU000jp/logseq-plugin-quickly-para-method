@@ -84,5 +84,10 @@
   "Linked References": "Gekoppelde verwysings",
   "Show page content": "Wys bladsyinhoud",
   "Reloading will reflect this.": "Herlaai sal dit weerspieël.",
-  "Show linked references": "Wys gekoppelde verwysings"
+  "Show linked references": "Wys gekoppelde verwysings",
+  "Classify and sort by words included in the page title.": "Klassifiseer en sorteer volgens woorde wat in die bladsytitel ingesluit is.",
+  "Classify and sort by page-tag.": "Klassifiseer en sorteer volgens bladsy-merker.",
+  "Write separated by line breaks.": "Skryf geskei deur reëlbreuke.",
+  "Matching target": "Ooreenstemmende teiken",
+  "Add the date to the first block but not the page tag": "Voeg die datum by die eerste blok, maar nie die bladsymerker nie"
 }

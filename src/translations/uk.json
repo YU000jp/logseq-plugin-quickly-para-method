@@ -84,5 +84,10 @@
   "Linked References": "Пов'язані посилання",
   "Show page content": "Показати вміст сторінки",
   "Reloading will reflect this.": "Перезавантаження відобразить це.",
-  "Show linked references": "Показувати посилання на посилання"
+  "Show linked references": "Показувати посилання на посилання",
+  "Classify and sort by words included in the page title.": "Класифікуйте та сортуйте за словами, що входять до заголовку сторінки.",
+  "Classify and sort by page-tag.": "Класифікація та сортування за сторінкою-тегом.",
+  "Write separated by line breaks.": "Пишіть через розрив рядків.",
+  "Matching target": "Узгодження мети",
+  "Add the date to the first block but not the page tag": "Додайте дату до першого блоку, але не тег сторінки"
 }

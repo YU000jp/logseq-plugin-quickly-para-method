@@ -84,5 +84,10 @@
   "Linked References": "Bağlantılı Referanslar",
   "Show page content": "Sayfa içeriğini göster",
   "Reloading will reflect this.": "Yeniden yükleme bunu yansıtacaktır.",
-  "Show linked references": "Bağlantılı başvuruları göster"
+  "Show linked references": "Bağlantılı başvuruları göster",
+  "Classify and sort by words included in the page title.": "Sayfa başlığında yer alan kelimelere göre sınıflandırın ve sıralayın.",
+  "Classify and sort by page-tag.": "Sayfa etiketine göre sınıflandırın ve sıralayın.",
+  "Write separated by line breaks.": "Satır sonlarıyla ayırarak yazın.",
+  "Matching target": "Eşleşen hedef",
+  "Add the date to the first block but not the page tag": "Tarihi ilk bloğa ekleyin, ancak sayfa etiketine eklemeyin"
 }

@@ -84,5 +84,10 @@
   "Linked References": "Referências vinculadas",
   "Show page content": "Mostrar conteúdo da página",
   "Reloading will reflect this.": "O recarregamento refletirá isso.",
-  "Show linked references": "Mostrar referências vinculadas"
+  "Show linked references": "Mostrar referências vinculadas",
+  "Classify and sort by words included in the page title.": "Classifique e classifique por palavras incluídas no título da página.",
+  "Classify and sort by page-tag.": "Classifique e classifique por tag de página.",
+  "Write separated by line breaks.": "Escreva separado por quebras de linha.",
+  "Matching target": "Correspondência do objetivo",
+  "Add the date to the first block but not the page tag": "Adicionar a data ao primeiro bloco, mas não a etiqueta da página"
 }

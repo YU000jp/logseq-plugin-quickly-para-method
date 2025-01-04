@@ -1,7 +1,7 @@
 
-export const advancedQuery = async (query: string, array?: any): Promise<any | null> => {
+export const advancedQuery = async (query: string, ...input: Array<string>): Promise<any | null> => {
   try {
-    return (await logseq.DB.datascriptQuery(query, array) as any)?.flat()
+    return (await logseq.DB.datascriptQuery(query, ...input) as any)?.flat()
   } catch (err: any) {
     console.warn(err)
   }
@@ -24,3 +24,15 @@ export const queryCodeUpdatedAtFromPageName = `
           [?t :block/name ?name]
           [?p :block/tags ?t]]
   `
+
+export const queryCodeContainsDoubleTags = `
+[:find (pull ?b [:block/name])
+:in $ ?tag1 ?tag2
+:where
+    [?b :block/original-name ?name]
+    [?b :block/properties ?props]
+    [(get ?props :tags) ?tags]
+    [(contains? ?tags ?tag1)]
+    [(contains? ?tags ?tag2)]]
+`
+

@@ -84,5 +84,10 @@
   "Linked References": "Połączone odniesienia",
   "Show page content": "Pokaż zawartość strony",
   "Reloading will reflect this.": "Przeładowanie to odzwierciedli.",
-  "Show linked references": "Pokaż połączone odniesienia"
+  "Show linked references": "Pokaż połączone odniesienia",
+  "Classify and sort by words included in the page title.": "Klasyfikuj i sortuj według słów zawartych w tytule strony.",
+  "Classify and sort by page-tag.": "Klasyfikuj i sortuj według tagu strony.",
+  "Write separated by line breaks.": "Zapis oddzielony podziałami wierszy.",
+  "Matching target": "Pasujący element docelowy",
+  "Add the date to the first block but not the page tag": "Dodaj datę do pierwszego bloku, ale nie do tagu strony"
 }

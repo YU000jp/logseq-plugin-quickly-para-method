@@ -84,5 +84,10 @@
   "Linked References": "Références liées",
   "Show page content": "Afficher le contenu de la page",
   "Reloading will reflect this.": "Le rechargement en tiendra compte.",
-  "Show linked references": "Afficher les références liées"
+  "Show linked references": "Afficher les références liées",
+  "Classify and sort by words included in the page title.": "Classez et triez par mots inclus dans le titre de la page.",
+  "Classify and sort by page-tag.": "Classez et triez par page-tag.",
+  "Write separated by line breaks.": "Écrivez séparés par des sauts de ligne.",
+  "Matching target": "Cible correspondante",
+  "Add the date to the first block but not the page tag": "Ajouter la date au premier bloc mais pas à la balise de page"
 }

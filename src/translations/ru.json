@@ -84,5 +84,10 @@
   "Linked References": "Связанные ссылки",
   "Show page content": "Показать содержимое страницы",
   "Reloading will reflect this.": "Перезарядка отразит это.",
-  "Show linked references": "Показать ссылки на ссылки"
+  "Show linked references": "Показать ссылки на ссылки",
+  "Classify and sort by words included in the page title.": "Классифицируйте и сортируйте по словам, включенным в заголовок страницы.",
+  "Classify and sort by page-tag.": "Классифицируйте и сортируйте по тегу страницы.",
+  "Write separated by line breaks.": "Запись разделена переносами строк.",
+  "Matching target": "Сопоставление цели",
+  "Add the date to the first block but not the page tag": "Добавьте дату в первый блок, но не в тег страницы"
 }

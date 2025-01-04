@@ -84,5 +84,10 @@
   "Linked References": "연결된 참조",
   "Show page content": "페이지 내용 표시",
   "Reloading will reflect this.": "재장전하면 이에 반영됩니다.",
-  "Show linked references": "연결된 참조 표시"
+  "Show linked references": "연결된 참조 표시",
+  "Classify and sort by words included in the page title.": "페이지 제목에 포함된 단어를 기준으로 분류하고 정렬합니다.",
+  "Classify and sort by page-tag.": "페이지 태그별로 분류하고 정렬합니다.",
+  "Write separated by line breaks.": "줄 바꿈으로 구분하여 씁니다.",
+  "Matching target": "매칭 대상",
+  "Add the date to the first block but not the page tag": "첫 번째 블록에 날짜를 추가하되 페이지 태그는 추가하지 않습니다."
 }

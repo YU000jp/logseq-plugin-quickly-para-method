@@ -84,5 +84,10 @@
   "Linked References": "Koblede referanser",
   "Show page content": "Vis sideinnhold",
   "Reloading will reflect this.": "Omlasting vil gjenspeile dette.",
-  "Show linked references": "Vis lenkede referanser"
+  "Show linked references": "Vis lenkede referanser",
+  "Classify and sort by words included in the page title.": "Klassifiser og sorter etter ord som er inkludert i sidetittelen.",
+  "Classify and sort by page-tag.": "Klassifiser og sorter etter side-tag.",
+  "Write separated by line breaks.": "Skriv atskilt med linjeskift.",
+  "Matching target": "Matchende mål",
+  "Add the date to the first block but not the page tag": "Legg til datoen i den første blokken, men ikke i sidetaggen"
 }

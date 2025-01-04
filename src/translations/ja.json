@@ -2,7 +2,7 @@
   "A board that displays pages with page tags in bulk by embed.": "ページタグのついたページを埋め込みで一括表示する掲示板。",
   "Add a button to the left menu bar to access this plugin": "このプラグインにアクセスするためのボタンを左側のメニューバーに追加します",
   "Add date and link to the first block of the page": "ページの最初のブロックに日付とリンクを追加する",
-  "Add only date to the first block": "最初のブロックに日付のみを追加する",
+  "Add only date to the first block": "最初のブロックに日付を追加する",
   "Added date to the top of the page": "ページ上部に日付を追加",
   "Archives > Add DONE marker": "アーカイブ > DONEマーカーを追加",
   "Board": "掲示板",
@@ -84,5 +84,10 @@
   "Linked References": "リンクされたブロック",
   "Show page content": "ページコンテンツを表示",
   "Reloading will reflect this.": "リロードするとこれが反映されます。",
-  "Show linked references":  "リンクされたブロックを表示"
+  "Show linked references": "リンクされたブロックを表示",
+  "Classify and sort by words included in the page title.": "ページタイトルに含まれる単語で分類および並べ替えます。",
+  "Classify and sort by page-tag.": "ページタグで分類および並べ替えます。",
+  "Write separated by line breaks.": "改行で区切って書きます。",
+  "Matching target":  "一致するターゲット",
+  "Add the date to the first block but not the page tag" : "最初のブロックに日付を追加しますが、ページタグは追加しません"
 }

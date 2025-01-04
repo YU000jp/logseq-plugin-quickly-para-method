@@ -84,5 +84,10 @@
   "Linked References": "Prepojené odkazy",
   "Show page content": "Zobraziť obsah stránky",
   "Reloading will reflect this.": "Opätovné načítanie to bude odrážať.",
-  "Show linked references": "Zobraziť prepojené referencie"
+  "Show linked references": "Zobraziť prepojené referencie",
+  "Classify and sort by words included in the page title.": "Klasifikujte a zoraďte podľa slov uvedených v názve stránky.",
+  "Classify and sort by page-tag.": "Klasifikujte a zoraďte podľa značky stránky.",
+  "Write separated by line breaks.": "Píšte oddelené zlommi riadkov.",
+  "Matching target": "Zodpovedajúci cieľ",
+  "Add the date to the first block but not the page tag": "Pridajte dátum do prvého bloku, ale nie do značky stránky"
 }

@@ -84,5 +84,10 @@
   "Linked References": "連結的引用",
   "Show page content": "顯示頁面內容",
   "Reloading will reflect this.": "重新載入將反映這一點。",
-  "Show linked references": "顯示連結的引用"
+  "Show linked references": "顯示連結的引用",
+  "Classify and sort by words included in the page title.": "按頁面標題中包含的單詞進行分類和排序。",
+  "Classify and sort by page-tag.": "按頁面標記分類和排序。",
+  "Write separated by line breaks.": "寫入以換行符分隔。",
+  "Matching target": "匹配目標",
+  "Add the date to the first block but not the page tag": "將日期添加到第一個塊，但不向page標籤添加"
 }

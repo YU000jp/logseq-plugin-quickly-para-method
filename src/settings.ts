@@ -20,6 +20,31 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     title: t("Common settings"),
     description: "",
   },
+  {
+    key: "slashCommandMenu",
+    // スラッシュコマンドを有効にするかどうか
+    title: t("Enable slash commands"),
+    type: "boolean",
+    default: true,
+    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` ⚠️" + t("To enable or disable it, restart Logseq or turn off the plugin."),
+  },
+
+
+  {// PARA settings
+    key: "headingPARASettings",
+    type: "heading",
+    default: null,
+    title: `PARA ${t("settings")}`,
+    description: "",
+  },
+  {
+    key: "switchPARArecodeDate",
+    title: t("logging function"),
+    type: "boolean",
+    default: true,
+    // ページの最初のブロックに日付とリンクを含めます
+    description: t("Add date and link to the first block of the page"),
+  },
   {//月ごとの分類をおこなう
     key: "sortByMonth",
     title: t("logging function") + " > " + t("Sort by month"),
@@ -42,45 +67,20 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     description: "default: `>`",
   },
   {
-    key: "slashCommandMenu",
-    // スラッシュコマンドを有効にするかどうか
-    title: t("Enable slash commands"),
-    type: "boolean",
-    default: true,
-    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` ⚠️" + t("To enable or disable it, restart Logseq or turn off the plugin."),
-  },
-
-
-  {// PARA settings
-    key: "headingPARASettings",
-    type: "heading",
-    default: null,
-    title: `PARA ${t("settings")}`,
-    description: "",
-  },
-  {
-    key: "booleanRecodeOnly",
-    //ページタグをつけない設定
-    title: t("Add only date to the first block"),
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {
-    key: "switchPARArecodeDate",
-    title: t("logging function"),
-    type: "boolean",
-    default: true,
-    // ページの最初のブロックに日付とリンクを含めます
-    description: t("Add date and link to the first block of the page"),
-  },
-  {
     key: "archivesDone",
     // アーカイブに記録する際に、DONEマーカーを追加します
     title: t("Archives > Add DONE marker"),
     type: "boolean",
     default: false,
     description: "",
+  },
+  {
+    key: "booleanRecodeOnly",
+    //ページタグをつけない設定
+    title: t("Add the date to the first block but not the page tag"),
+    type: "boolean",
+    default: false,
+    description: "⚠️ default: false",
   },
 
 
@@ -129,6 +129,22 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     // ツールバーからもアクセスできます。
     description: "",
   },
+  { // メインページのスタイル
+    key: keySettingsPageStyle,
+    title: t("Page style"),
+    type: "enum",
+    enumChoices: styleList,
+    default: "Gallery",
+    // Tile: コンテンツ最小限のスタイル
+    // Gallery: 上下左右に配置するスタイル
+    // Expansion: 下側に展開するスタイル
+    description: `
+    
+    ${t("The Tile style displays content in a minimalist manner.")}
+    ${t("The Gallery style arranges the blocks up, down, left, and right.")}
+    ${t("The Expansion style is a style that expands on the underside.")}
+    `,
+  },
   { // ページコンテンツを表示するかどうか
     key: "showPageContent",
     title: " > " + t("Show page content"),
@@ -145,12 +161,28 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     description: t("Reloading will reflect this."),
 
   },
+
+  
   {
     key: "headingBatchBoardIncludeWord",
     type: "heading",
     default: null,
     title: `${t("Board")} > ${t("Category by included word")}`,
-    description: `${t("Classify and sort by words included in the page title. Write separated by line breaks.")}`,
+    description: `
+    Page-title: ${t("Classify and sort by words included in the page title.")}
+    Page-tag: ${t("Classify and sort by page-tag.")}
+    
+    ${t("Write separated by line breaks.")}
+    ${t("Reloading will reflect this.")}
+    `,
+  },
+  {// ページタイトルか、ページタグどちらにマッチングするか
+    key: "batchBoardCategoryMatching",
+    title: `> ${t("Matching target")}`,
+    type: "enum",
+    enumChoices: ["Page-title", "Page-tag"],
+    default: "Page-title",
+    description: "",
   },
   {// Projectsのbatchボードの分類機能
     key: keyCommonBatchBoardIncludeWord + "Projects",
@@ -191,22 +223,6 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: "",
     // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
     description: "",
-  },
-  { // メインページのスタイル
-    key: keySettingsPageStyle,
-    title: t("Page style"),
-    type: "enum",
-    enumChoices: styleList,
-    default: "Gallery",
-    // Tile: コンテンツ最小限のスタイル
-    // Gallery: 上下左右に配置するスタイル
-    // Expansion: 下側に展開するスタイル
-    description: `
-    
-    ${t("The Tile style displays content in a minimalist manner.")}
-    ${t("The Gallery style arranges the blocks up, down, left, and right.")}
-    ${t("The Expansion style is a style that expands on the underside.")}
-    `,
   },
 ]
 

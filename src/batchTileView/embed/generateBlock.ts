@@ -1,8 +1,8 @@
 import { BlockEntity, IBatchBlock, PageEntity } from "@logseq/libs/dist/LSPlugin"
 import { t } from "logseq-l10n"
-import { advancedQuery, queryCodeContainsTag } from "./advancedQuery"
 import { keyCommonBatchBoardIncludeWord } from "../../settings"
 import { hideMainContent } from "../lib"
+import { advancedQuery, queryCodeContainsDoubleTags, queryCodeContainsTag } from "./advancedQuery"
 
 
 
@@ -49,10 +49,11 @@ export const generateEmbed = async (
       }
       const settingKey = typeMapping[type as keyof typeof typeMapping]
       if (settingKey)
-        eachCategoryCreateBatchEmbed(
+        await eachCategoryCreateBatchEmbed(
           array,
           logseq.settings![keyCommonBatchBoardIncludeWord + settingKey] as string,
-          boardBatch
+          boardBatch,
+          type,
         )
 
       if (boardBatch.length > 0)
@@ -73,34 +74,77 @@ export const generateEmbed = async (
 
 
 //カテゴリ分けごとにEmbedを生成 (カテゴリに含まれない場合は、その他に分類)
-const eachCategoryCreateBatchEmbed = (array: string[], config: string, boardBatch: IBatchBlock[]) => {
+const eachCategoryCreateBatchEmbed = async (
+  array: string[],
+  config: string,
+  boardBatch: IBatchBlock[],
+  type: string,
+) => {
 
-  if (config === "")
-    boardBatch.push({
-      content: `# ${t("All")}`,
-      children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
-    })
-  else {
-    const categories = config.split("\n")
+  // カテゴリごとに分類 (ページタイトルでマッチング)
+  if (logseq.settings!.batchBoardCategoryMatching as string === "Page-title") {
 
-    for (const category of categories) {
-      const categoryArray = array.filter((v) => v.includes(category))
-      if (categoryArray.length > 0) {
-        boardBatch.push({
-          content: `## ${category}`, // embedを使用
-          children: categoryArray.map((v) => ({ content: `{{embed [[${v}]]}}` }))
-        })
-        // 該当するページを配列から削除
-        array = array.filter(item => !categoryArray.includes(item))
-      }
-    }
-    // その他のカテゴリーに分類されなかったページを追加
-    if (array.length > 0)
+    if (config === "")
       boardBatch.push({
-        content: `## ${t("Others")}`, // 分類なし
+        content: `# ${t("All")}`,
         children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
       })
-  }
+    else {
+      const categories = config.split("\n")
+
+      for (const category of categories) {
+        const categoryArray = array.filter((v) => v.includes(category))
+        if (categoryArray.length > 0) {
+          boardBatch.push({
+            content: `## ${category}`, // embedを使用
+            children: categoryArray.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+          })
+          // 該当するページを配列から削除
+          array = array.filter(item => !categoryArray.includes(item))
+        }
+      }
+      // その他のカテゴリーに分類されなかったページを追加
+      if (array.length > 0)
+        boardBatch.push({
+          content: `## ${t("Others")}`, // 分類なし
+          children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+        })
+    }
+
+
+  } else // カテゴリごとに分類 (ページタグでマッチング)
+    if (logseq.settings!.batchBoardCategoryMatching as string === "Page-tag") {
+      if (config === "")
+        boardBatch.push({
+          content: `# ${t("All")}`,
+          children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+        })
+      else {
+        // カテゴリーにページタグが一致するページがあるかないかのフラグ
+        let flagMatchPages = false
+
+        for (const category of config.split("\n")) {
+          const pageEntities = await advancedQuery(queryCodeContainsDoubleTags, `"${type}"`, `"${category}"`) as { name: PageEntity["name"] }[] | null
+          if (pageEntities && pageEntities.length > 0) {
+            const categoryArray = pageEntities.map((v) => v.name).sort()
+            boardBatch.push({
+              content: `## ${category}`, // embedを使用
+              children: categoryArray.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+            })
+            // 該当するページを配列から削除
+            array = array.filter(item => !categoryArray.includes(item))
+            if (flagMatchPages === false)
+              flagMatchPages = true
+          }
+        }
+        // その他のカテゴリーに分類されなかったページを追加
+        if (array.length > 0)
+          boardBatch.push({
+            content: `## ${flagMatchPages === false ? t("All") : t("Others")}`, // 分類なし
+            children: array.map((v) => ({ content: `{{embed [[${v}]]}}` }))
+          })
+      }
+    }
 }
 
 

@@ -84,5 +84,10 @@
   "Linked References": "Gelinkte referenties",
   "Show page content": "Pagina-inhoud weergeven",
   "Reloading will reflect this.": "Herladen zal dit weerspiegelen.",
-  "Show linked references": "Gekoppelde referenties weergeven"
+  "Show linked references": "Gekoppelde referenties weergeven",
+  "Classify and sort by words included in the page title.": "Classificeer en sorteer op woorden die in de paginatitel zijn opgenomen.",
+  "Classify and sort by page-tag.": "Classificeer en sorteer op pagina-tag.",
+  "Write separated by line breaks.": "Schrijven gescheiden door regeleinden.",
+  "Matching target": "Overeenkomend doel",
+  "Add the date to the first block but not the page tag": "Voeg de datum toe aan het eerste blok, maar niet de paginatag"
 }

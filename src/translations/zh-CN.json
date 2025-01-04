@@ -84,5 +84,10 @@
   "Linked References": "链接的引用",
   "Show page content": "显示页面内容",
   "Reloading will reflect this.": "重新加载将反映这一点。",
-  "Show linked references": "显示链接的引用"
+  "Show linked references": "显示链接的引用",
+  "Classify and sort by words included in the page title.": "按页面标题中包含的单词进行分类和排序。",
+  "Classify and sort by page-tag.": "按页面标记分类和排序。",
+  "Write separated by line breaks.": "写入以换行符分隔。",
+  "Matching target": "匹配目标",
+  "Add the date to the first block but not the page tag": "将日期添加到第一个块，但不向 page 标签添加"
 }

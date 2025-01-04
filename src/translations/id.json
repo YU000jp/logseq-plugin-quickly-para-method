@@ -84,5 +84,10 @@
   "Linked References": "Referensi Tertaut",
   "Show page content": "Tampilkan konten halaman",
   "Reloading will reflect this.": "Memuat ulang akan mencerminkan hal ini.",
-  "Show linked references": "Tampilkan referensi yang ditautkan"
+  "Show linked references": "Tampilkan referensi yang ditautkan",
+  "Classify and sort by words included in the page title.": "Klasifikasikan dan urutkan berdasarkan kata-kata yang disertakan dalam judul halaman.",
+  "Classify and sort by page-tag.": "Klasifikasikan dan urutkan berdasarkan page-tag.",
+  "Write separated by line breaks.": "Tulis dipisahkan oleh jeda baris.",
+  "Matching target": "Pencocokan target",
+  "Add the date to the first block but not the page tag": "Tambahkan tanggal ke blok pertama tetapi bukan tag halaman"
 }
