@@ -13,95 +13,6 @@ export const keySettingsPageStyle = "pageStyle"
 // https://logseq.github.io/plugins/types/SettingSchemaDesc.html
 export const settingsTemplate = (): SettingSchemaDesc[] => [
 
-  {// Common settings
-    key: "headingCommonSettings",
-    type: "heading",
-    default: null,
-    title: t("Common settings"),
-    description: "",
-  },
-  {
-    key: "slashCommandMenu",
-    // スラッシュコマンドを有効にするかどうか
-    title: t("Enable slash commands"),
-    type: "boolean",
-    default: true,
-    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` ⚠️" + t("To enable or disable it, restart Logseq or turn off the plugin."),
-  },
-
-
-  {// PARA settings
-    key: "headingPARASettings",
-    type: "heading",
-    default: null,
-    title: `PARA ${t("settings")}`,
-    description: "",
-  },
-  {
-    key: "switchPARArecodeDate",
-    title: t("logging function"),
-    type: "boolean",
-    default: true,
-    // ページの最初のブロックに日付とリンクを含めます
-    description: t("Add date and link to the first block of the page"),
-  },
-  {//月ごとの分類をおこなう
-    key: "sortByMonth",
-    title: t("logging function") + " > " + t("Sort by month"),
-    type: "boolean",
-    default: true,
-    description: "",
-  },
-  {//上の項目がオンの場合に、それをリンクにするかどうか
-    key: "sortByMonthLink",
-    title: " > " + t("Sort by month") + " > " + t("Link to the month page"),
-    type: "boolean",
-    default: true,
-    description: "",
-  },
-  {//sortByMonthSeparator
-    key: "sortByMonthSeparator", // 区切り文字
-    title: " > " + t("Sort by month") + " > " + t("Separator character"),
-    type: "string",
-    default: ">",
-    description: "default: `>`",
-  },
-  {
-    key: "archivesDone",
-    // アーカイブに記録する際に、DONEマーカーを追加します
-    title: t("Archives > Add DONE marker"),
-    type: "boolean",
-    default: false,
-    description: "",
-  },
-  {
-    key: "booleanRecodeOnly",
-    //ページタグをつけない設定
-    title: t("Add the date to the first block but not the page tag"),
-    type: "boolean",
-    default: false,
-    description: "⚠️ default: false",
-  },
-
-
-  {// Menu settings
-    key: "headingMenuSettings",
-    type: "heading",
-    default: null,
-    title: t("Menu") + " " + t("settings"),
-    description: "",
-  },
-  {
-    key: "pickList",
-    type: "string",
-    default: "Index\nReadLATER\n",
-    title: t("Menu > Pick-list options"),
-    // メニューの選択肢を改行で区切って記述します。`#`は付けないでください。
-    description: t("Write the menu options separated by line breaks. Do not include `#`."),
-    inputAs: "textarea",
-  },
-
-
   {
     key: "headingBatchBoard",
     type: "heading",
@@ -223,6 +134,95 @@ export const settingsTemplate = (): SettingSchemaDesc[] => [
     default: "",
     // ページタイトルに含まれる単語で、分類し、並び替えます。改行で区切って記述します。
     description: "",
+  },
+
+
+  {// PARA settings
+    key: "headingPARASettings",
+    type: "heading",
+    default: null,
+    title: `PARA ${t("settings")}`,
+    description: "",
+  },
+  {
+    key: "switchPARArecodeDate",
+    title: t("logging function"),
+    type: "boolean",
+    default: true,
+    // ページの最初のブロックに日付とリンクを含めます
+    description: t("Add date and link to the first block of the page"),
+  },
+  {//月ごとの分類をおこなう
+    key: "sortByMonth",
+    title: t("logging function") + " > " + t("Sort by month"),
+    type: "boolean",
+    default: true,
+    description: "",
+  },
+  {//上の項目がオンの場合に、それをリンクにするかどうか
+    key: "sortByMonthLink",
+    title: " > " + t("Sort by month") + " > " + t("Link to the month page"),
+    type: "boolean",
+    default: true,
+    description: "",
+  },
+  {//sortByMonthSeparator
+    key: "sortByMonthSeparator", // 区切り文字
+    title: " > " + t("Sort by month") + " > " + t("Separator character"),
+    type: "string",
+    default: ">",
+    description: "default: `>`",
+  },
+  {
+    key: "archivesDone",
+    // アーカイブに記録する際に、DONEマーカーを追加します
+    title: t("Archives > Add DONE marker"),
+    type: "boolean",
+    default: false,
+    description: "",
+  },
+  {
+    key: "booleanRecodeOnly",
+    //ページタグをつけない設定
+    title: t("Add the date to the first block but not the page tag"),
+    type: "boolean",
+    default: false,
+    description: "⚠️ default: false",
+  },
+
+
+  {// Menu settings
+    key: "headingMenuSettings",
+    type: "heading",
+    default: null,
+    title: t("Menu") + " " + t("settings"),
+    description: "",
+  },
+  {
+    key: "pickList",
+    type: "string",
+    default: "Index\nReadLATER\n",
+    title: t("Menu > Pick-list options"),
+    // メニューの選択肢を改行で区切って記述します。`#`は付けないでください。
+    description: t("Write the menu options separated by line breaks. Do not include `#`."),
+    inputAs: "textarea",
+  },
+
+
+  {// Common settings
+    key: "headingCommonSettings",
+    type: "heading",
+    default: null,
+    title: t("Common settings"),
+    description: "",
+  },
+  {
+    key: "slashCommandMenu",
+    // スラッシュコマンドを有効にするかどうか
+    title: t("Enable slash commands"),
+    type: "boolean",
+    default: true,
+    description: "`/Projects` `/Areas of responsibility` `/Resources` `/Archives` ⚠️" + t("To enable or disable it, restart Logseq or turn off the plugin."),
   },
 ]
 
