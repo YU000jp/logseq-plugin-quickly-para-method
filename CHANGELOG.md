@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.11.0...v1.11.1) (2025-01-18)
+
+
+### Bug Fixes
+
+* **bug:** Case sensitivity matters - Areas of responsibility [#31](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/31) ([450b5b5](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/450b5b51dfeecfa55a793001f749244ed32d9042))
+
 # [1.11.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.10.1...v1.11.0) (2025-01-04)
 
 
