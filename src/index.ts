@@ -3,7 +3,7 @@ import { LSPluginBaseInfo, PageEntity } from '@logseq/libs/dist/LSPlugin'
 import { setup as l10nSetup, t } from "logseq-l10n"; //https://github.com/sethyuan/logseq-l10n
 import { AddMenuButton, handleRouteChange } from './batchTileView/handle'
 import { addLeftMenuNavHeaderForEachPARA, clearEleAll } from './batchTileView/lib'
-import { copyPageTitleLink, createPageForPARA, removePopup, renamePageAndProperty } from './lib'
+import { copyPageTitleLink, createPageForPARA, removePopup } from './lib'
 import { slashCommandItems } from './lib/slashCommand'
 import { combinationNamespace, combinationNewPage } from './menu/combination'
 import { openMenuFromToolbar } from './menu/menu'
@@ -67,10 +67,13 @@ const main = async () => {
   // 初期化
   if (!logseq.settings) {
     //各ページを作成
-    createPageForPARA("Projects", "✈️", true)
-    createPageForPARA("Areas of responsibility", "🏠", true)
-    createPageForPARA("Resources", "🌍", true)
-    createPageForPARA("Archives", "🧹", true)
+    for (const page of [
+      { name: "Projects", icon: "✈️" },
+      { name: "Areas of responsibility", icon: "🏠" },
+      { name: "Resources", icon: "🌍" },
+      { name: "Archives", icon: "🧹" }
+    ])
+      createPageForPARA(page.name, page.icon, true)
 
     //設定画面を開く
     setTimeout(() => logseq.showSettingsUI(), 300)
@@ -142,139 +145,108 @@ const main = async () => {
 }/* end_main */
 
 
+
+// Model
+
+// ボタン処理中フラグ
 let processingButton = false
-const model = (popup: string) => logseq.provideModel({
 
-  // ツールバー
-  openPARA: () => {
-    if (!parent.document.getElementById(popup))
-      openMenuFromToolbar()
-  },
+const model = (popup: string) =>
+  logseq.provideModel({
+    openPARA: () => {// ツールバー
+      if (!parent.document.getElementById(popup))
+        openMenuFromToolbar()
+    },
+    Projects: () => runCommand("Projects", "PARA"),
+    AreasOfResponsibility: () => runCommand("Areas of responsibility", "PARA"),
+    Resources: () => runCommand("Resources", "PARA"),
+    Archives: () => runCommand("Archives", "PARA"),
+    pickListTagSubmitButton: () => {// ピックリストの送信ボタン
 
-  // Projectsのコマンド呼び出し
-  Projects: () => runCommand("Projects", "PARA"),
+      const selectionListValue: string = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value//<select id="pickListSelect">で選択された値を取得
+      if (selectionListValue !== "")
+        runCommand(selectionListValue, "Select")
+    },
+    namespaceNewPage: (e) => {// namespaceの新規ページ作成
+      removePopup() // ポップアップを閉じる
 
-  // Areas of responsibilityのコマンド呼び出し
-  AreasOfResponsibility: () => runCommand("Areas of responsibility", "PARA"),
+      const pageName: string = e.dataset.old // ページ名
+      const namespaceName: string = e.dataset.namespace // namespace名
+      if (namespaceName && pageName)
+        combinationNamespace(pageName, namespaceName)
+      else
+        logseq.UI.showMsg("Can not get the current page", "error")
+    },
+    NewProject: (e) => {// 同じ階層レベルに新規プロジェクト (作成ダイアログを開く)
+      removePopup() // ポップアップを閉じる
 
-  // Resourcesのコマンド呼び出し
-  Resources: () => runCommand("Resources", "PARA"),
+      // 新規ページを作成し、同じ階層レベルに記録する
+      combinationNewPage(
+        `✈️ [Projects] > ${t("New page")}`,
+        "Projects",
+        e.dataset.sameLevel ? e.dataset.sameLevel : "")
+    },
+    NewPage: (e) => {// 新規ページ (作成ダイアログを開く)
+      removePopup() // ポップアップを閉じる
 
-  // Archivesのコマンド呼び出し
-  Archives: () => runCommand("Archives", "PARA"),
+      const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
+      // 新規ページを作成し、同じ階層レベルに記録する
+      combinationNewPage(
+        `📄 ${t("New page")}`,
+        "",
+        sameLevel)
+    },
+    PARAsettingButton: () => logseq.showSettingsUI(),// 設定ボタン
+    copyPageTitleLink: () => copyPageTitleLink(),// ページ名のリンクをコピー
+    [keyToolbar]: async () => {// ツールバーボタンが押されたら
+      if (processingButton) return
+      processingButton = true
+      setTimeout(() => processingButton = false, 100)
+      if (await logseq.Editor.getPage(mainPageTitle, { includeChildren: false }) as PageEntity | null)
+        logseq.App.pushState('page', { name: mainPageTitle })// ページを開く
+      else {
+        await logseq.Editor.createPage(mainPageTitle, { public: false }, { redirect: true, createFirstBlock: true, journal: false })
+        setTimeout(() => {
+          const runButton = parent.document.getElementById(keyReloadButton) as HTMLElement | null
+          if (runButton)
+            runButton.click()
+        }, 300)
+      }
+      logseq.UI.showMsg(`${mainPageTitle}`, "info", { timeout: 2200 })
+    },
+    [keyToggleButton]: () => {// トグルボタンが押されたら
+      if (processingButton) return
+      processingButton = true
+      setTimeout(() => processingButton = false, 100)
 
-  // ピックリストの送信ボタン
-  pickListTagSubmitButton: () => {
+      // スタイルを順番に切り替える
+      logseq.updateSettings({
+        [keySettingsPageStyle]: styleList[(styleList.indexOf(logseq.settings![keySettingsPageStyle] as string) + 1) % styleList.length]
+      })
+    },
+    [keySettingsButton]: () => {// 設定ボタンが押されたら
+      if (processingButton) return
+      processingButton = true
+      setTimeout(() => processingButton = false, 100)
 
-    //<select id="pickListSelect">で選択された値を取得
-    const selectionListValue: string = (parent.document.getElementById('pickListSelect') as HTMLSelectElement)!.value
-    if (selectionListValue !== "")
-      runCommand(selectionListValue, "Select")
+      logseq.showSettingsUI()
+    },
+    [keyReloadButton]: async () => {// リロードボタンが押されたら
+      if (processingButton) return
+      processingButton = true
+      setTimeout(() => processingButton = false, 100)
 
-  },
-
-  // namespaceの新規ページ作成
-  namespaceNewPage: (e) => {
-    removePopup() // ポップアップを閉じる
-
-    const pageName: string = e.dataset.old // ページ名
-    const namespaceName: string = e.dataset.namespace // namespace名
-    if (namespaceName && pageName)
-      combinationNamespace(pageName, namespaceName)
-    else
-      logseq.UI.showMsg("Can not get the current page", "error")
-  },
-
-  // 同じ階層レベルに新規プロジェクト (作成ダイアログを開く)
-  NewProject: (e) => {
-    removePopup() // ポップアップを閉じる
-
-    // 新規ページを作成し、同じ階層レベルに記録する
-    combinationNewPage(
-      `✈️ [Projects] > ${t("New page")}`,
-      "Projects",
-      e.dataset.sameLevel ? e.dataset.sameLevel : "")
-  },
-
-  // 新規ページ (作成ダイアログを開く)
-  NewPage: (e) => {
-    removePopup() // ポップアップを閉じる
-
-    const sameLevel: string = e.dataset.sameLevel // 同じ階層レベルのページ名
-    // 新規ページを作成し、同じ階層レベルに記録する
-    combinationNewPage(
-      `📄 ${t("New page")}`,
-      "",
-      sameLevel)
-  },
-
-  // 設定ボタン
-  PARAsettingButton: () => logseq.showSettingsUI(),
-
-  // ページ名のリンクをコピー
-  copyPageTitleLink: () => copyPageTitleLink(),
-
-
-  // ツールバーボタンが押されたら
-  [keyToolbar]: async () => {
-    if (processingButton) return
-    processingButton = true
-    setTimeout(() => processingButton = false, 100)
-
-    const pageEntity = await logseq.Editor.getPage(mainPageTitle, { includeChildren: false }) as PageEntity | null
-    if (pageEntity) {
-      logseq.App.pushState('page', { name: mainPageTitle })// ページを開く
-    } else {
-      await logseq.Editor.createPage(mainPageTitle, { public: false }, { redirect: true, createFirstBlock: true, journal: false })
-      setTimeout(() => {
-        const runButton = parent.document.getElementById(keyReloadButton) as HTMLElement | null
-        if (runButton)
-          runButton.click()
-      }, 300)
-    }
-    logseq.UI.showMsg(`${mainPageTitle}`, "info", { timeout: 2200 })
-  },
-
-  // トグルボタンが押されたら
-  [keyToggleButton]: () => {
-    if (processingButton) return
-    processingButton = true
-    setTimeout(() => processingButton = false, 100)
-
-    // スタイルを順番に切り替える
-    logseq.updateSettings({
-      [keySettingsPageStyle]: styleList[(styleList.indexOf(logseq.settings![keySettingsPageStyle] as string) + 1) % styleList.length]
-    })
-  },
-
-  // 設定ボタンが押されたら
-  [keySettingsButton]: () => {
-    if (processingButton) return
-    processingButton = true
-    setTimeout(() => processingButton = false, 100)
-
-    logseq.showSettingsUI()
-  },
-
-  // リロードボタンが押されたら
-  [keyReloadButton]: async () => {
-    if (processingButton) return
-    processingButton = true
-    setTimeout(() => processingButton = false, 100)
-
-    const currentPage = await logseq.Editor.getCurrentPage() as { originalName: PageEntity["originalName"] } | null
-    if (currentPage) {
-      // currentPage.nameがQuickly-PARA-Method-Plugin/Projectsの場合に、スラッシュの右側Projectsの部分を取得
-      const type = currentPage.originalName.split("/")[1]
-      // console.log("currentPage.name", currentPage.originalName)
-      // console.log("type", type)
-      logseq.updateSettings({ [type]: undefined })
-      logseq.App.pushState('page', { name: (mainPageTitle + "/" + type) })// ページを開く
-    }
-  },
-
-
-})/* end_model */
+      const currentPage = await logseq.Editor.getCurrentPage() as { originalName: PageEntity["originalName"] } | null
+      if (currentPage) {
+        // currentPage.nameがQuickly-PARA-Method-Plugin/Projectsの場合に、スラッシュの右側Projectsの部分を取得
+        const type = currentPage.originalName.split("/")[1]
+        // console.log("currentPage.name", currentPage.originalName)
+        // console.log("type", type)
+        logseq.updateSettings({ [type]: undefined })
+        logseq.App.pushState('page', { name: (mainPageTitle + "/" + type) })// ページを開く
+      }
+    },
+  })/* end_model */
 
 
 logseq.ready(main).catch(console.error)
