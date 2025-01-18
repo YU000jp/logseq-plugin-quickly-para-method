@@ -43,7 +43,7 @@ export const generateEmbed = async (
       const boardBatch: IBatchBlock[] = []
       const typeMapping = {
         "Projects": "Projects",
-        "Areas of Responsibility": "Areas",
+        "Areas of responsibility": "Areas",
         "Resources": "Resources",
         "Archives": "Archives"
       }

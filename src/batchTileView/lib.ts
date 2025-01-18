@@ -12,7 +12,7 @@ export const addLeftMenuNavHeaderForEachPARA = () => {
     {
       icon: "🏠",
       suffix: "areas",
-      title: "Areas of Responsibility"
+      title: "Areas of responsibility"
     },
     {
       icon: "🌍",
