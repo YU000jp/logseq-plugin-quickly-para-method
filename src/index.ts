@@ -29,7 +29,7 @@ import tr from "./translations/tr.json"
 import uk from "./translations/uk.json"
 import zhCN from "./translations/zh-CN.json"
 import zhHant from "./translations/zh-Hant.json"
-import { update20231023ChangeSplit } from './update'
+import { update20231023ChangeSplit, update20250118Change } from './update'
 
 
 
@@ -81,6 +81,9 @@ const main = async () => {
 
   //Update 2023/10/23 必ず残す!!
   update20231023ChangeSplit()
+
+  // バグ修正用 Areas of Responsibility -> Areas of responsibility
+  update20250118Change()
 
   // external button on toolbar
   logseq.App.registerUIItem('toolbar', {
