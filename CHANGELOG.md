@@ -1,3 +1,15 @@
+# [1.12.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.11.2...v1.12.0) (2025-06-08)
+
+
+### Features
+
+* Not Support Logseq DB model [#34](https://github.com/YU000jp/logseq-plugin-quickly-para-method/issues/34) ([d1f5add](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/d1f5add04cf98a474fd5032c3a5d6646cc82ae81))
+
+
+### Performance Improvements
+
+* **ref:** The board feature ([508828b](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/508828bd89faff20627e7db6b674acdba8ab4bc1))
+
 ## [1.11.2](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.11.1...v1.11.2) (2025-01-18)
 
 
