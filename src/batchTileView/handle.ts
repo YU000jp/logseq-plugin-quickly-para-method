@@ -1,6 +1,7 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from 'logseq-l10n'
 import { keyPageBarId, keyReloadButton, keySettingsButton, keyToggleButton, mainPageTitle, mainPageTitleLower } from '../.'
+import { booleanDbGraph } from '../logseqDbGraphCheck'
 import { generateEmbed } from './embed/generateBlock'
 
 let now = false
@@ -9,7 +10,8 @@ let isProcessingRootChanged = false
 
 export const handleRouteChange = async (path: string, template: string) => {
 
-  if (template !== "/page/:name" //ページ以外は除外
+  if (booleanDbGraph() // DBグラフでは動作しない
+    || template !== "/page/:name" //ページ以外は除外
     || isProcessingRootChanged) return
   isProcessingRootChanged = true
   setTimeout(() => isProcessingRootChanged = false, 100)

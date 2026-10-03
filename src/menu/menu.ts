@@ -2,6 +2,7 @@ import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlu
 import { format, parse } from 'date-fns'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { advancedQuery, queryCodeUpdatedAtFromPageName } from '../batchTileView/embed/advancedQuery'
+import { guardDbGraph } from '../logseqDbGraphCheck'
 import { openPageFromPageName } from './../lib'
 import { pageTitleSlash } from './lib'
 
@@ -9,6 +10,7 @@ let flagNamespace: boolean = false // ページ名に階層が含まれる場合
 
 // ツールバーからPARAメニューを開く
 export const openMenuFromToolbar = async () => {
+  if (guardDbGraph()) return
   let template = "" // テンプレート(HTML)用
   let title = "" // タイトル用
   let namespace = "" // namespace用

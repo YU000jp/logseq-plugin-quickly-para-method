@@ -1,5 +1,5 @@
 import '@logseq/libs' //https://plugins-doc.logseq.com/
-import { AppInfo, LSPluginBaseInfo, PageEntity } from '@logseq/libs/dist/LSPlugin'
+import { LSPluginBaseInfo, PageEntity } from '@logseq/libs/dist/LSPlugin'
 import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { AddMenuButton, handleRouteChange } from './batchTileView/handle'
 import { addLeftMenuNavHeaderForEachPARA, clearEleAll } from './batchTileView/lib'
@@ -30,6 +30,7 @@ import uk from "./translations/uk.json"
 import zhCN from "./translations/zh-CN.json"
 import zhHant from "./translations/zh-Hant.json"
 import { update20231023ChangeSplit, update20250118Change } from './update'
+import { detectDbGraphOnGraphChanged, detectDbGraphOnStartup, fetchLogseqVersion, guardDbGraph, showDbGraphIncompatibilityMsg } from './logseqDbGraphCheck'
 
 
 
@@ -43,26 +44,37 @@ export const keySettingsButton = `${shortKey}--pluginSettings`
 export const keyReloadButton = `${shortKey}--reload`
 export const keyLeftMenu = `${shortKey}--nav-header`
 
-let logseqVersion: string = "" //バージョンチェック用
-let logseqVersionMd: boolean = false //バージョンチェック用
-// export const getLogseqVersion = () => logseqVersion //バージョンチェック用
-export const booleanLogseqVersionMd = () => logseqVersionMd //バージョンチェック用
+let pluginInitialized = false // 遅延初期化用フラグ
 
 /* main */
 const main = async () => {
 
-  // バージョンチェック
-  logseqVersionMd = await checkLogseqVersion()
-  // console.log("logseq version: ", logseqVersion)
-  // console.log("logseq version is MD model: ", logseqVersionMd)
-  // 100ms待つ
-  await new Promise(resolve => setTimeout(resolve, 100))
+  // グラフ切替時の再検出(ゲートより先に登録し、DBグラフで起動後にファイルグラフへ切り替えた場合に遅延初期化できるようにする)
+  logseq.App.onCurrentGraphChanged(async () => {
+    const isDb = await detectDbGraphOnGraphChanged()
+    if (isDb === true)
+      showDbGraphIncompatibilityMsg()
+    else if (pluginInitialized === false)
+      await initializePlugin()
+  })
 
-  if (logseqVersionMd === false) {
-    // Logseq ver 0.10.*以下にしか対応していない
-    logseq.UI.showMsg("The ’Quickly-PARA-Method’ plugin only supports Logseq ver 0.10.* and below.", "warning", { timeout: 5000 })
+  // バージョン取得(診断用。グラフ種別の判定には使わない)
+  await fetchLogseqVersion()
+
+  // グラフ種別チェック。ファイルグラフのみ対応(DBグラフではpage-tagsプロパティをMD構文で書き込めないため)
+  if (await detectDbGraphOnStartup() === true) {
+    showDbGraphIncompatibilityMsg()
     return
   }
+
+  await initializePlugin()
+}
+
+const initializePlugin = async () => {
+  pluginInitialized = true
+
+  // 100ms待つ
+  await new Promise(resolve => setTimeout(resolve, 100))
 
   // l10nのセットアップ
   await l10nSetup({
@@ -174,6 +186,7 @@ let processingButton = false
 const model = (popup: string) =>
   logseq.provideModel({
     openPARA: () => {// ツールバー
+      if (guardDbGraph()) return
       if (!parent.document.getElementById(popup))
         openMenuFromToolbar()
     },
@@ -219,7 +232,7 @@ const model = (popup: string) =>
     PARAsettingButton: () => logseq.showSettingsUI(),// 設定ボタン
     copyPageTitleLink: () => copyPageTitleLink(),// ページ名のリンクをコピー
     [keyToolbar]: async () => {// ツールバーボタンが押されたら
-      if (processingButton) return
+      if (processingButton || guardDbGraph()) return
       processingButton = true
       setTimeout(() => processingButton = false, 100)
       if (await logseq.Editor.getPage(mainPageTitle, { includeChildren: false }) as PageEntity | null)
@@ -252,7 +265,7 @@ const model = (popup: string) =>
       logseq.showSettingsUI()
     },
     [keyReloadButton]: async () => {// リロードボタンが押されたら
-      if (processingButton) return
+      if (processingButton || guardDbGraph()) return
       processingButton = true
       setTimeout(() => processingButton = false, 100)
 
@@ -267,24 +280,5 @@ const model = (popup: string) =>
       }
     },
   })/* end_model */
-
-// MDモデルかどうかのチェック DBモデルはfalse
-const checkLogseqVersion = async (): Promise<boolean> => {
-  const logseqInfo = (await logseq.App.getInfo("version")) as AppInfo | any
-  //  0.11.0もしくは0.11.0-alpha+nightly.20250427のような形式なので、先頭の3つの数値(1桁、2桁、2桁)を正規表現で取得する
-  const version = logseqInfo.match(/(\d+)\.(\d+)\.(\d+)/)
-  if (version) {
-    logseqVersion = version[0] //バージョンを取得
-    // console.log("logseq version: ", logseqVersion)
-
-    // もし バージョンが0.10.*系やそれ以下ならば、logseqVersionMdをtrueにする
-    if (logseqVersion.match(/0\.([0-9]|10)\.\d+/)) {
-      logseqVersionMd = true
-      // console.log("logseq version is 0.10.* or lower")
-      return true
-    } else logseqVersionMd = false
-  } else logseqVersion = "0.0.0"
-  return false
-}
 
 logseq.ready(main).catch(console.error)

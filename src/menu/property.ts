@@ -1,6 +1,7 @@
 import { AppUserConfigs, BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from '../menu/RecodePageTop'
+import { guardDbGraph } from '../logseqDbGraphCheck'
 import { removePopup } from '../lib'
 
 
@@ -10,6 +11,8 @@ import { removePopup } from '../lib'
  * @param addPropName 追加するプロパティ名
  */
 export const runCommand = async (addPropPageName: string, addPropName: string) => {
+
+  if (guardDbGraph()) return
 
   // 追加するプロパティが空の場合はキャンセルとする
   if (addPropPageName === "")

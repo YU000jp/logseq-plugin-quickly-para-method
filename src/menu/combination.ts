@@ -2,6 +2,7 @@ import { AppUserConfigs, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { removePopup } from '../lib'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { RecodeDateToPageTop } from '../menu/RecodePageTop'
+import { guardDbGraph } from '../logseqDbGraphCheck'
 import { updatePageProperty } from '../menu/property'
 
 /**
@@ -13,6 +14,7 @@ import { updatePageProperty } from '../menu/property'
  * @param flagNotRecode - ページを記録しない場合はtrue
  */
 export const combinationNewPage = async (title: string, tags: string, inputValue: string) => {
+  if (guardDbGraph()) return
   logseq.provideUI({
     attrs: {
       title,
@@ -101,6 +103,8 @@ function eventListener(tags: string): () => void {
 
 
 export const combinationNamespace = async (tags: string, namespaceName: string) => {
+
+  if (guardDbGraph()) return
 
   //ページが存在しないことを確認する
   const page = await logseq.Editor.getPage(namespaceName) as { properties: PageEntity["properties"], originalName: PageEntity["originalName"], uuid: PageEntity["uuid"] } | null
