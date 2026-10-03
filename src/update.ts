@@ -1,4 +1,5 @@
 import { t } from "logseq-l10n"
+import { booleanDbGraph } from './logseqDbGraphCheck'
 
 export const update20231023ChangeSplit = () => {
   if (!logseq.settings!.breakingChanges20231023) {
@@ -16,6 +17,7 @@ export const update20231023ChangeSplit = () => {
 }
 
 export const update20250118Change = () => {
+  if (booleanDbGraph()) return // DBグラフでは動作しない
   const keyword = "breakingChanges20250118"
   if (!logseq.settings![keyword]) {
     logseq.Editor.deletePage("Quickly-PARA-Method-Plugin/Areas of Responsibility")
@@ -23,8 +25,9 @@ export const update20250118Change = () => {
       logseq.updateSettings({ [keyword]: true })
       , 10)
     logseq.UI.showMsg("Fixed a bug regarding The board functionality. Some caches have been removed. You may need to reload on the board.\n\nQuickly PARA Method plugin", "info", { timeout: 5000 })
-    setTimeout(() =>
-      logseq.Editor.createPage("Quickly-PARA-Method-Plugin/Areas of responsibility", { public: false }, { redirect: false, createFirstBlock: true, journal: false })
-      , 1000)
+    setTimeout(() => {
+      if (!booleanDbGraph()) // 実行時にDBグラフへ切り替わっていたら作成しない
+        logseq.Editor.createPage("Quickly-PARA-Method-Plugin/Areas of responsibility", { public: false }, { redirect: false, createFirstBlock: true, journal: false })
+    }, 1000)
   }
 }

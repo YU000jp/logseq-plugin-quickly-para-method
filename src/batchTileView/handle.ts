@@ -8,6 +8,9 @@ let now = false
 // ページを開いたとき
 let isProcessingRootChanged = false
 
+// ボード表示状態をリセットする(グラフ切替時に呼ぶ。別グラフのページを後片付けしないため)
+export const resetBoardState = () => { now = false }
+
 export const handleRouteChange = async (path: string, template: string) => {
 
   if (booleanDbGraph() // DBグラフでは動作しない
@@ -36,7 +39,9 @@ export const handleRouteChange = async (path: string, template: string) => {
       now = false
       // 必ずHomeに移動してしまうバグがあるためdeletePage()は使えないので、ブロックのみを削除
       const blockEntities = await logseq.Editor.getPageBlocksTree(mainPageTitle) as { uuid: BlockEntity["uuid"], children: BlockEntity["children"] }[] | null
-      if (blockEntities) {
+      if (blockEntities
+        && blockEntities[0]
+        && booleanDbGraph() === false) { // 取得中にDBグラフへ切り替わっていたら操作しない
         await logseq.Editor.updateBlock(blockEntities[0].uuid, "", {})
         if (blockEntities[0]) {
           const children = blockEntities[0].children as { uuid: BlockEntity["uuid"] }[] | undefined
