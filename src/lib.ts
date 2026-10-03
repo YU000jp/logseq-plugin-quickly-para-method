@@ -1,5 +1,6 @@
 import { BlockEntity, PageEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
+import { guardDbGraph } from './logseqDbGraphCheck'
 
 
 // UuidからPageEntityを取得 (右サイドバー or メインコンテンツ)
@@ -18,6 +19,7 @@ export const removePopup = () => {
 
 // ページ名リンクをコピー
 export const copyPageTitleLink = async () => {
+  if (guardDbGraph()) return
   const page = await logseq.Editor.getCurrentPage() as { originalName: PageEntity["originalName"] } | null
   if (page) {
     const text: string = `[[${page.originalName}]]`

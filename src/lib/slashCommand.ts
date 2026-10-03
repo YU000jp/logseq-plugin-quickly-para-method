@@ -1,6 +1,7 @@
 import { BlockEntity, PageEntity } from "@logseq/libs/dist/LSPlugin.user"
 import { t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
 import { getPageEntityFromBlockUuid } from "../lib"
+import { guardDbGraph } from '../logseqDbGraphCheck'
 import { updatePageProperty } from '../menu/property'
 
 export const slashCommandItems = () => {
@@ -21,6 +22,7 @@ export const slashCommandItems = () => {
 }
 
 export const run = async (uuid: string, addPropValue: string, propName: string) => {
+  if (guardDbGraph()) return
   //右サイドバーに開いたブロックからスラッシュコマンドを実行した場合の処理
   const page = await getPageEntityFromBlockUuid(uuid) as { journal?: PageEntity["journal?"], originalName: PageEntity["originalName"], properties: PageEntity["properties"] } | null
   if (page) {

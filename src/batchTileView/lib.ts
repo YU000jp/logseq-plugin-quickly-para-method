@@ -1,8 +1,10 @@
 
 import { keyLeftMenu, mainPageTitle, shortKey } from '..'
+import { booleanDbGraph } from '../logseqDbGraphCheck'
 
 
 export const addLeftMenuNavHeaderForEachPARA = () => {
+  if (booleanDbGraph()) return // DBグラフでは動作しない
   const paraItems = [
     {
       icon: "✈️",
