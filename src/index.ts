@@ -1,7 +1,7 @@
 import '@logseq/libs' //https://plugins-doc.logseq.com/
 import { LSPluginBaseInfo, PageEntity } from '@logseq/libs/dist/LSPlugin'
 import { setup as l10nSetup, t } from "logseq-l10n" //https://github.com/sethyuan/logseq-l10n
-import { AddMenuButton, handleRouteChange } from './batchTileView/handle'
+import { AddMenuButton, handleRouteChange, resetBoardState } from './batchTileView/handle'
 import { addLeftMenuNavHeaderForEachPARA, clearEleAll } from './batchTileView/lib'
 import { copyPageTitleLink, createPageForPARA, removePopup } from './lib'
 import { slashCommandItems } from './lib/slashCommand'
@@ -30,7 +30,7 @@ import uk from "./translations/uk.json"
 import zhCN from "./translations/zh-CN.json"
 import zhHant from "./translations/zh-Hant.json"
 import { update20231023ChangeSplit, update20250118Change } from './update'
-import { detectDbGraphOnGraphChanged, detectDbGraphOnStartup, fetchLogseqVersion, guardDbGraph, showDbGraphIncompatibilityMsg } from './logseqDbGraphCheck'
+import { booleanDbGraph, detectDbGraphOnGraphChanged, detectDbGraphOnStartup, fetchLogseqVersion, guardDbGraph, showDbGraphIncompatibilityMsg } from './logseqDbGraphCheck'
 
 
 
@@ -51,6 +51,7 @@ const main = async () => {
 
   // グラフ切替時の再検出(ゲートより先に登録し、DBグラフで起動後にファイルグラフへ切り替えた場合に遅延初期化できるようにする)
   logseq.App.onCurrentGraphChanged(async () => {
+    resetBoardState() // ボード表示状態はグラフごとのためリセット
     const isDb = await detectDbGraphOnGraphChanged()
     if (isDb === true)
       showDbGraphIncompatibilityMsg()
@@ -58,8 +59,8 @@ const main = async () => {
       await initializePlugin()
   })
 
-  // バージョン取得(診断用。グラフ種別の判定には使わない)
-  await fetchLogseqVersion()
+  // バージョン取得(診断用のため待たない)
+  void fetchLogseqVersion()
 
   // グラフ種別チェック。ファイルグラフのみ対応(DBグラフではpage-tagsプロパティをMD構文で書き込めないため)
   if (await detectDbGraphOnStartup() === true) {
@@ -82,6 +83,9 @@ const initializePlugin = async () => {
       ja, af, de, es, fr, id, it, ko, "nb-NO": nbNO, nl, pl, "pt-BR": ptBR, "pt-PT": ptPT, ru, sk, tr, uk, "zh-CN": zhCN, "zh-Hant": zhHant
     }
   })
+
+  // 初期化の待機中にDBグラフへ切り替わった場合は中止
+  if (booleanDbGraph() === true) return
 
   // Plugin settings
   logseq.useSettingsSchema(settingsTemplate())

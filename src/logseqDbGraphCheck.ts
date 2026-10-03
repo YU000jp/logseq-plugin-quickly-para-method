@@ -2,7 +2,7 @@ import '@logseq/libs'
 
 let logseqVersion: string = "" // アプリのバージョン(診断用)
 let logseqDbGraph: boolean = false // 現在のグラフがDBグラフかどうか
-let graphCheckSeq = 0 // グラフ切替連打時に古い検出結果で上書きしないためのシーケンス番号
+let graphCheckSeq = 0 // グラフ切替連打時に古い検出結果で上書きしないためのシーケンス番号(起動時・切替時で共有)
 
 export const booleanDbGraph = () => logseqDbGraph // グラフ種別チェック用
 export const getLogseqVersion = () => logseqVersion // バージョンチェック用
@@ -20,18 +20,23 @@ export const guardDbGraph = (): boolean => {
   return false
 }
 
-// バージョン文字列の取得(診断用のみ。グラフ種別の判定には使わない)
+// バージョン文字列の取得(診断用のみ。グラフ種別の判定には使わず、失敗しても起動を妨げない)
 export const fetchLogseqVersion = async (): Promise<void> => {
-  const info = (await logseq.App.getInfo("version")) as string | null
-  const m = typeof info === "string" ? info.match(/(\d+)\.(\d+)\.(\d+)/) : null
-  logseqVersion = m ? m[0] : "0.0.0"
+  try {
+    const info = (await logseq.App.getInfo("version")) as string | null
+    const m = typeof info === "string" ? info.match(/(\d+)\.(\d+)\.(\d+)/) : null
+    logseqVersion = m ? m[0] : "0.0.0"
+  } catch { /* 診断用のみ */ }
 }
 
 // グラフ種別判定(公式API。0.10.x系ホストには未実装 → null)
 // 戻り値: true=DBグラフ / false=ファイルグラフ / null=検出失敗
 const checkLogseqDbGraph = async (): Promise<boolean | null> => {
   try {
-    const value = await (logseq.App as any).checkCurrentIsDbGraph()
+    const value = await Promise.race([
+      (logseq.App as any).checkCurrentIsDbGraph() as Promise<unknown>,
+      new Promise<null>(resolve => setTimeout(() => resolve(null), 1500)), // 応答しないホスト対策
+    ])
     return typeof value === "boolean" ? value : null
   } catch {
     return null // API非搭載ホスト = DBグラフを開けない旧アプリ
@@ -39,8 +44,13 @@ const checkLogseqDbGraph = async (): Promise<boolean | null> => {
 }
 
 // 起動時の検出: 失敗(null) = 旧アプリ → ファイルグラフ扱い
-export const detectDbGraphOnStartup = async (): Promise<boolean> =>
-  (logseqDbGraph = (await checkLogseqDbGraph()) ?? false)
+// 検出中にグラフ切替が起きた場合は、切替側の新しい検出結果に委ねてこの結果は破棄する
+export const detectDbGraphOnStartup = async (): Promise<boolean> => {
+  const seq = ++graphCheckSeq
+  const isDb = await checkLogseqDbGraph()
+  if (seq !== graphCheckSeq) return logseqDbGraph
+  return (logseqDbGraph = isDb ?? false)
+}
 
 // グラフ切替時の再検出: 検出失敗(null)時は前のフラグを維持。最新の呼び出しのみ反映
 export const detectDbGraphOnGraphChanged = async (): Promise<boolean> => {

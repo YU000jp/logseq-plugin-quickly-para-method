@@ -50,7 +50,8 @@ function eventListener(tags: string): () => void {
     if (button) {
       let processing: Boolean = false
       button.addEventListener("click", async () => {
-        if (processing) return
+        if (processing
+          || guardDbGraph()) return // ダイアログを開いた後にDBグラフへ切り替わった場合は中止
         const inputTitle = (parent.document.getElementById("newPageTitle") as HTMLInputElement).value as string | null
         if (!inputTitle) return
         processing = true
