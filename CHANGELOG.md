@@ -1,3 +1,11 @@
+## [1.12.1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.12.0...v1.12.1) (2026-10-04)
+
+
+### Bug Fixes
+
+* Devin Review指摘に対応し、グラフ切替競合時のDBグラフへの誤書き込みを防止 ([70f0cb4](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/70f0cb4bfa417b6ed03c1e7ca5f69283a7d5c2ac))
+* 起動ゲートをバージョン判定からcheckCurrentIsDbGraphに置き換え、ファイルグラフ全般で動作するよう修正 ([be418b1](https://github.com/YU000jp/logseq-plugin-quickly-para-method/commit/be418b155f1548de1be8c945c8aeabfe64914e53))
+
 # [1.12.0](https://github.com/YU000jp/logseq-plugin-quickly-para-method/compare/v1.11.2...v1.12.0) (2025-06-08)
 
 
